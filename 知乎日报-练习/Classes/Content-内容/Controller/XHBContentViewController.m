@@ -7,6 +7,10 @@
 //
 
 #import "XHBContentViewController.h"
+#import "XHBRootViewController.h"
+
+#define screenWidth [[UIScreen mainScreen] bounds].size.width
+#define screenHeight [[UIScreen mainScreen] bounds].size.height
 
 @interface XHBContentViewController ()
 
@@ -14,20 +18,34 @@
 
 @implementation XHBContentViewController
 
+#pragma mark - viewController 生命周期
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    /* 设置导航栏按钮 */
-    UIButton *catalogButton = [UIButton buttonWithType:UIButtonTypeCustom]; //自定义按钮
-    
-    [catalogButton setBackgroundImage:[UIImage imageNamed:@"Home_Icon"] forState:UIControlStateNormal];
-    
+    /* 创建导航栏按钮 */
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Home_Icon" highImageName:@"Home_Icon_Highlight" target:self action:@selector(catalogClick)];
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - 动作事件方法
+- (void)catalogClick
+{
+    XHBLogFunc; /* 打印方法名 */
+    
+    if (self.navigationController.view.frame.origin.x == 0) { //如果左边视图的位置x坐标为0
+        [UIView animateWithDuration:1.0 animations:^{
+            self.navigationController.view.frame = CGRectMake(200, 0, screenWidth, screenHeight);
+        }];
+    }else {
+        [UIView animateWithDuration:1.0 animations:^{
+            self.navigationController.view.frame = CGRectMake(0, 0, screenWidth, screenHeight);
+        }];
+    }
 }
 
 #pragma mark - UISplitViewControllerDelegate 协议

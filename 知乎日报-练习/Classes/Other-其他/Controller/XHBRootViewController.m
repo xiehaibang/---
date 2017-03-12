@@ -16,7 +16,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    /* 添加子控制器和子视图 */
+    [self addChildViewController:self.leftViewController];
+    [self.view addSubview:self.leftViewController.view];
+    
+    [self addChildViewController:self.midViewController];
+    [self.view addSubview:self.midViewController.view];
+    
 }
 
 - (void)didReceiveMemoryWarning {
