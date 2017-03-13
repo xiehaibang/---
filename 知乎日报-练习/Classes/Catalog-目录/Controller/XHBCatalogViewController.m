@@ -7,6 +7,7 @@
 //
 
 #import "XHBCatalogViewController.h"
+#import "XHBCatalogTableViewCell.h"
 
 @interface XHBCatalogViewController () <UITableViewDelegate, UITableViewDataSource>
 /* 目录表格 */
@@ -14,14 +15,19 @@
 
 @end
 
-int i = 1;
+/* 将catalogCell的标识符设为常量 */
+static NSString * const XHBCatalogId = @"catalog";
 
 @implementation XHBCatalogViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
+    /* 为队列里的cell注册类 */
+    NSString *className = NSStringFromClass([XHBCatalogTableViewCell class]);
+    UINib *nib = [UINib nibWithNibName:className bundle:nil];
+    [self.tableView registerNib:nib forCellReuseIdentifier:XHBCatalogId];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,10 +45,8 @@ int i = 1;
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
-    
-    cell.textLabel.text = [NSString stringWithFormat:@"test%d", i++];
-    
+    XHBCatalogTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:XHBCatalogId forIndexPath:indexPath];
+
     return cell;
 }
 
@@ -52,15 +56,5 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

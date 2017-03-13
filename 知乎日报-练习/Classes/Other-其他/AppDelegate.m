@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "XHBSplitViewController.h"
 #import "XHBCatalogViewController.h"
 #import "XHBContentViewController.h"
 #import "XHBNavigationController.h"
@@ -25,9 +24,6 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-//    /* 创建splitViewController */
-//    XHBSplitViewController *svc = [[XHBSplitViewController alloc] init];
-    
     /* 创建左边目录模块 */
     XHBCatalogViewController *catalogViewController = [[XHBCatalogViewController alloc] init];
     
@@ -35,29 +31,20 @@
     XHBContentViewController *contentViewController = [[XHBContentViewController alloc] init];
     
     /* 将左边的目录模块加入导航控制器 */
-    XHBNavigationController *masterNav = [[XHBNavigationController alloc] initWithRootViewController:catalogViewController];
+    XHBNavigationController *catalogNav = [[XHBNavigationController alloc] initWithRootViewController:catalogViewController];
     
     /* 将右边的内容模块加入导航控制器 */
-    XHBNavigationController *detailNav = [[XHBNavigationController alloc] initWithRootViewController:contentViewController];
+    XHBNavigationController *contentNav = [[XHBNavigationController alloc] initWithRootViewController:contentViewController];
     
     /* 创建root视图控制器 */
     XHBRootViewController *rootViewController = [[XHBRootViewController alloc] init];
     
     /* 将目录模块和内容模块分别加入左边和中间的视图 */
-    rootViewController.leftViewController = masterNav;
-    rootViewController.midViewController = detailNav;
+    rootViewController.leftViewController = catalogNav;
+    rootViewController.midViewController = contentNav;
     
     /* 设置rootViewController为根视图控制器 */
     self.window.rootViewController = rootViewController;
-    
-//    /* 将右边模块设置为splitViewController的委托 */
-//    svc.delegate = contentViewController;
-//    
-//    /* 将左边模块和右边模块添加到splitViewController里 */
-//    svc.viewControllers = @[masterNav, detailNav];
-//    
-//    /* 设置splitViewController为根控制器 */
-//    self.window.rootViewController = svc;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

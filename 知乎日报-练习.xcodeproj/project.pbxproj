@@ -18,9 +18,10 @@
 		1768EA081E73FCA8000E7520 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1768E9F91E73FCA8000E7520 /* AppDelegate.m */; };
 		1768EA091E73FCA8000E7520 /* XHBNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1768E9FD1E73FCA8000E7520 /* XHBNavigationController.m */; };
 		1768EA0A1E73FCA8000E7520 /* XHBRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1768E9FF1E73FCA8000E7520 /* XHBRootViewController.m */; };
-		1768EA0B1E73FCA8000E7520 /* XHBSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1768EA011E73FCA8000E7520 /* XHBSplitViewController.m */; };
 		1768EA0C1E73FCA8000E7520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1768EA021E73FCA8000E7520 /* main.m */; };
 		17769C591E753844006CC28A /* UIBarButtonItem+XHBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 17769C581E753844006CC28A /* UIBarButtonItem+XHBExtension.m */; };
+		17769C5D1E75594A006CC28A /* XHBCatalogTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 17769C5B1E75594A006CC28A /* XHBCatalogTableViewCell.m */; };
+		17769C5E1E75594A006CC28A /* XHBCatalogTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17769C5C1E75594A006CC28A /* XHBCatalogTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,12 +64,13 @@
 		1768E9FD1E73FCA8000E7520 /* XHBNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNavigationController.m; sourceTree = "<group>"; };
 		1768E9FE1E73FCA8000E7520 /* XHBRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBRootViewController.h; sourceTree = "<group>"; };
 		1768E9FF1E73FCA8000E7520 /* XHBRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBRootViewController.m; sourceTree = "<group>"; };
-		1768EA001E73FCA8000E7520 /* XHBSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBSplitViewController.h; sourceTree = "<group>"; };
-		1768EA011E73FCA8000E7520 /* XHBSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBSplitViewController.m; sourceTree = "<group>"; };
 		1768EA021E73FCA8000E7520 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1768EA031E73FCA8000E7520 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		17769C571E753844006CC28A /* UIBarButtonItem+XHBExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+XHBExtension.h"; sourceTree = "<group>"; };
 		17769C581E753844006CC28A /* UIBarButtonItem+XHBExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+XHBExtension.m"; sourceTree = "<group>"; };
+		17769C5A1E75594A006CC28A /* XHBCatalogTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBCatalogTableViewCell.h; sourceTree = "<group>"; };
+		17769C5B1E75594A006CC28A /* XHBCatalogTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBCatalogTableViewCell.m; sourceTree = "<group>"; };
+		17769C5C1E75594A006CC28A /* XHBCatalogTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBCatalogTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +195,9 @@
 		1768E9EF1E73FCA8000E7520 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				17769C5A1E75594A006CC28A /* XHBCatalogTableViewCell.h */,
+				17769C5B1E75594A006CC28A /* XHBCatalogTableViewCell.m */,
+				17769C5C1E75594A006CC28A /* XHBCatalogTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -260,8 +265,6 @@
 				1768E9FD1E73FCA8000E7520 /* XHBNavigationController.m */,
 				1768E9FE1E73FCA8000E7520 /* XHBRootViewController.h */,
 				1768E9FF1E73FCA8000E7520 /* XHBRootViewController.m */,
-				1768EA001E73FCA8000E7520 /* XHBSplitViewController.h */,
-				1768EA011E73FCA8000E7520 /* XHBSplitViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 			files = (
 				175617211E6C0BA9002C7BF2 /* LaunchScreen.storyboard in Resources */,
 				1768EA071E73FCA8000E7520 /* XHBContentViewController.xib in Resources */,
+				17769C5E1E75594A006CC28A /* XHBCatalogTableViewCell.xib in Resources */,
 				1756171E1E6C0BA9002C7BF2 /* Assets.xcassets in Resources */,
 				1768EA051E73FCA8000E7520 /* XHBCatalogViewController.xib in Resources */,
 			);
@@ -405,9 +409,9 @@
 			files = (
 				1768EA081E73FCA8000E7520 /* AppDelegate.m in Sources */,
 				17769C591E753844006CC28A /* UIBarButtonItem+XHBExtension.m in Sources */,
-				1768EA0B1E73FCA8000E7520 /* XHBSplitViewController.m in Sources */,
 				1768EA061E73FCA8000E7520 /* XHBContentViewController.m in Sources */,
 				1768EA091E73FCA8000E7520 /* XHBNavigationController.m in Sources */,
+				17769C5D1E75594A006CC28A /* XHBCatalogTableViewCell.m in Sources */,
 				1768EA041E73FCA8000E7520 /* XHBCatalogViewController.m in Sources */,
 				1768EA0C1E73FCA8000E7520 /* main.m in Sources */,
 				1768EA0A1E73FCA8000E7520 /* XHBRootViewController.m in Sources */,

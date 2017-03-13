@@ -9,6 +9,7 @@
 #import "XHBContentViewController.h"
 #import "XHBRootViewController.h"
 
+/* 将屏幕的宽与高定义为宏 */
 #define screenWidth [[UIScreen mainScreen] bounds].size.width
 #define screenHeight [[UIScreen mainScreen] bounds].size.height
 
@@ -35,11 +36,9 @@
 #pragma mark - 动作事件方法
 - (void)catalogClick
 {
-    XHBLogFunc; /* 打印方法名 */
-    
     if (self.navigationController.view.frame.origin.x == 0) { //如果左边视图的位置x坐标为0
         [UIView animateWithDuration:1.0 animations:^{
-            self.navigationController.view.frame = CGRectMake(200, 0, screenWidth, screenHeight);
+            self.navigationController.view.frame = CGRectMake(280, 0, screenWidth, screenHeight);
         }];
     }else {
         [UIView animateWithDuration:1.0 animations:^{
@@ -47,44 +46,5 @@
         }];
     }
 }
-
-#pragma mark - UISplitViewControllerDelegate 协议
-- (void)splitViewController:(UISplitViewController *)svc
-    willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode
-{
-//    UIViewController *masterViewController = svc.viewControllers[0];
-//    UIViewController *detailViewController = svc.viewControllers[1];
-//    
-//    if ([detailViewController isKindOfClass:[UINavigationController class]]) {
-//        UINavigationController *nav = (UINavigationController *)detailViewController;
-//        
-//        if ([nav.topViewController isKindOfClass:[XHBContentViewController class]]) {
-//            <#statements#>
-//        }
-//    }
-    
-    NSLog(@"%ld", (long)displayMode);
-    
-    self.navigationItem.leftBarButtonItem.title = @"目录";
-    self.navigationItem.leftItemsSupplementBackButton = true;
-}
-
-- (BOOL)splitViewController:(UISplitViewController *)splitViewController
-collapseSecondaryViewController:(UIViewController *)secondaryViewController
-  ontoPrimaryViewController:(UIViewController *)primaryViewController
-{
-    return NO;
-}
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
