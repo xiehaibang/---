@@ -14,6 +14,16 @@
 
 @implementation XHBNavigationController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    /* 将UINavigationBar的背景图片设置为无图片 */
+    [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    
+    /* 设置UInavigationBar下面的细线为无图片 */
+    self.navigationBar.shadowImage = [UIImage new];
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

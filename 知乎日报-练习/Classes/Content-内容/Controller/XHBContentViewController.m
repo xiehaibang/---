@@ -38,7 +38,7 @@
 {
     if (self.navigationController.view.frame.origin.x == 0) { //如果左边视图的位置x坐标为0
         [UIView animateWithDuration:1.0 animations:^{
-            self.navigationController.view.frame = CGRectMake(280, 0, screenWidth, screenHeight);
+            self.navigationController.view.frame = CGRectMake(230, 0, screenWidth, screenHeight);
         }];
     }else {
         [UIView animateWithDuration:1.0 animations:^{

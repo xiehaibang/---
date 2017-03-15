@@ -26,13 +26,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yal-p7-F2u">
-                        <rect key="frame" x="311" y="30" width="19" height="18"/>
+                        <rect key="frame" x="301" y="30" width="19" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="1"/>
                         <state key="normal" title="Button" image="Menu_Follow"/>
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="Yal-p7-F2u" secondAttribute="trailing" constant="10" id="PPc-8G-cea"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Yal-p7-F2u" secondAttribute="trailing" constant="20" id="PPc-8G-cea"/>
                     <constraint firstItem="0MP-fR-5SE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="UMg-zn-So2"/>
                     <constraint firstItem="Yal-p7-F2u" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vM9-fx-lEv"/>
                     <constraint firstItem="0MP-fR-5SE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="yIc-si-4nt"/>

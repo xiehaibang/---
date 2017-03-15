@@ -24,8 +24,8 @@
     [self addChildViewController:self.midViewController];
     [self.view addSubview:self.midViewController.view];
     
-    /* 设置leftViewController的大小 */
-    self.leftViewController.view.frame = CGRectMake(0, 0, 280, [[UIScreen mainScreen] bounds].size.height);
+    /* 设置leftViewController的大小，和midViewController移动的距离一样大 */
+    self.leftViewController.view.frame = CGRectMake(0, 0, 230, [[UIScreen mainScreen] bounds].size.height);
     
 }
 

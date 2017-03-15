@@ -20,8 +20,47 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GOQ-67-LgO" userLabel="菜单">
+                    <rect key="frame" x="0.0" y="64" width="375" height="64"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jRj-hW-DCK" userLabel="收藏">
+                            <rect key="frame" x="10" y="12" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="5J2-aY-DiZ"/>
+                                <constraint firstAttribute="height" constant="40" id="j48-fy-CGq"/>
+                            </constraints>
+                            <state key="normal" image="Menu_Icon_Collect"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kZO-Jh-E1j" userLabel="消息">
+                            <rect key="frame" x="85" y="12" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="LH5-wt-Chv"/>
+                                <constraint firstAttribute="width" constant="40" id="ybm-49-Xxg"/>
+                            </constraints>
+                            <state key="normal" image="Menu_Icon_Message"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nKz-Ld-AO6" userLabel="设置">
+                            <rect key="frame" x="160" y="12" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="dmI-x9-EO0"/>
+                                <constraint firstAttribute="height" constant="40" id="foE-Tx-9Qi"/>
+                            </constraints>
+                            <state key="normal" image="Menu_Icon_Setting"/>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="nKz-Ld-AO6" firstAttribute="leading" secondItem="kZO-Jh-E1j" secondAttribute="trailing" constant="35" id="2oU-Wk-8hP"/>
+                        <constraint firstItem="jRj-hW-DCK" firstAttribute="leading" secondItem="GOQ-67-LgO" secondAttribute="leading" constant="10" id="45q-Id-IDW"/>
+                        <constraint firstAttribute="height" constant="64" id="4t9-N1-Prk"/>
+                        <constraint firstItem="kZO-Jh-E1j" firstAttribute="centerY" secondItem="GOQ-67-LgO" secondAttribute="centerY" id="Qvb-jH-Jub"/>
+                        <constraint firstItem="jRj-hW-DCK" firstAttribute="centerY" secondItem="GOQ-67-LgO" secondAttribute="centerY" id="RIc-R3-NDx"/>
+                        <constraint firstItem="nKz-Ld-AO6" firstAttribute="centerY" secondItem="GOQ-67-LgO" secondAttribute="centerY" id="oHd-b5-joS"/>
+                        <constraint firstItem="kZO-Jh-E1j" firstAttribute="leading" secondItem="jRj-hW-DCK" secondAttribute="trailing" constant="35" id="pwC-eF-SH5"/>
+                    </constraints>
+                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dYl-s6-Vid">
-                    <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                    <rect key="frame" x="0.0" y="128" width="375" height="539"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="dRe-QT-fpF"/>
@@ -29,14 +68,23 @@
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="dYl-s6-Vid" firstAttribute="top" secondItem="GOQ-67-LgO" secondAttribute="bottom" id="D12-ke-uny"/>
                 <constraint firstItem="dYl-s6-Vid" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="LfF-be-6zs"/>
+                <constraint firstItem="GOQ-67-LgO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="MPY-Jc-vjJ"/>
                 <constraint firstAttribute="bottom" secondItem="dYl-s6-Vid" secondAttribute="bottom" id="McF-4A-9zg"/>
+                <constraint firstItem="dYl-s6-Vid" firstAttribute="top" secondItem="GOQ-67-LgO" secondAttribute="bottom" id="Qgc-7d-mke"/>
                 <constraint firstAttribute="trailing" secondItem="dYl-s6-Vid" secondAttribute="trailing" id="Qwh-sk-1Ym"/>
-                <constraint firstItem="dYl-s6-Vid" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="qf6-XI-NhF"/>
+                <constraint firstItem="GOQ-67-LgO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Sjn-pR-adO"/>
+                <constraint firstAttribute="trailing" secondItem="GOQ-67-LgO" secondAttribute="trailing" id="wSR-fG-nTh"/>
             </constraints>
-            <point key="canvasLocation" x="-81.5" y="-170.5"/>
+            <point key="canvasLocation" x="-151.5" y="-356.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="Menu_Icon_Collect" width="20" height="20"/>
+        <image name="Menu_Icon_Message" width="20" height="20"/>
+        <image name="Menu_Icon_Setting" width="20" height="20"/>
+    </resources>
 </document>
