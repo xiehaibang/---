@@ -22,15 +22,18 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0MP-fR-5SE">
                         <rect key="frame" x="18" y="28.5" width="42" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.61568627450980395" blue="0.63137254901960782" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yal-p7-F2u">
-                        <rect key="frame" x="301" y="30" width="19" height="18"/>
+                        <rect key="frame" x="305" y="30" width="15" height="18"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="1"/>
-                        <state key="normal" title="Button" image="Menu_Follow"/>
+                        <state key="normal" image="Menu_Follow"/>
+                        <state key="highlighted" image="Dark_Menu_Follow"/>
                     </button>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="Yal-p7-F2u" secondAttribute="trailing" constant="20" id="PPc-8G-cea"/>
                     <constraint firstItem="0MP-fR-5SE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="UMg-zn-So2"/>
@@ -38,10 +41,12 @@
                     <constraint firstItem="0MP-fR-5SE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="yIc-si-4nt"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <point key="canvasLocation" x="39" y="69"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="Dark_Menu_Follow" width="15" height="18"/>
         <image name="Menu_Follow" width="15" height="18"/>
     </resources>
 </document>

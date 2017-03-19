@@ -12,7 +12,16 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    
+    /* 设置cell的字体颜色 */
+//    self.textLabel.textColor = XHBColor(153, 157, 161);
+    
+    /* 设置cell被选中时的背景颜色 */
+    UIColor *customColor = XHBColor(27, 35, 41);
+    self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
+    self.selectedBackgroundView.backgroundColor = customColor;
+    
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

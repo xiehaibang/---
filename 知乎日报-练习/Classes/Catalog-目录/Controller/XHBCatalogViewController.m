@@ -28,6 +28,7 @@ static NSString * const XHBCatalogId = @"catalog";
     UINib *nib = [UINib nibWithNibName:className bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:XHBCatalogId];
     
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,7 +55,13 @@ static NSString * const XHBCatalogId = @"catalog";
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+//    /* 拿到被选中的cell */
+//    XHBCatalogTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+//    
+//    /* 修改cell被选中时的颜色 */
+//    UIColor *customColor = [UIColor colorWithRed:27/255.0 green:35/255.0 blue:41/255.0 alpha:1.0];
+//    cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
+//    cell.selectedBackgroundView.backgroundColor = customColor;
 }
 
 @end

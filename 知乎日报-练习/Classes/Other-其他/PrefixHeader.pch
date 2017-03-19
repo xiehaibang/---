@@ -15,4 +15,7 @@
 /* 打印方法名 */
 #define XHBLogFunc NSLog(@"%s", __func__)
 
+/* 颜色设置 */
+#define XHBColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+
 #endif /* PrefixHeader_pch */
