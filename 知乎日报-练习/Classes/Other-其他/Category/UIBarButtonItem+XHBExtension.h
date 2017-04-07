@@ -12,4 +12,6 @@
 
 + (instancetype) initWithImageName:(NSString *)imageName highImageName:(NSString *)highImageName target:(id)target action:(SEL)action;
 
++ (instancetype) initWithImageName:(NSString *)imageName title:(NSString *)title target:(id)target action:(SEL)action;
+
 @end

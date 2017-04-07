@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17399A6F1E82697E00DBF296 /* XHBCatalogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17399A6E1E82697E00DBF296 /* XHBCatalogViewController.xib */; };
 		1756171E1E6C0BA9002C7BF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1756171D1E6C0BA9002C7BF2 /* Assets.xcassets */; };
 		175617211E6C0BA9002C7BF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1756171F1E6C0BA9002C7BF2 /* LaunchScreen.storyboard */; };
 		1756172C1E6C0BA9002C7BF2 /* _______Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1756172B1E6C0BA9002C7BF2 /* _______Tests.m */; };
 		175617371E6C0BA9002C7BF2 /* _______UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 175617361E6C0BA9002C7BF2 /* _______UITests.m */; };
 		1768EA041E73FCA8000E7520 /* XHBCatalogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1768E9EC1E73FCA8000E7520 /* XHBCatalogViewController.m */; };
-		1768EA051E73FCA8000E7520 /* XHBCatalogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1768E9ED1E73FCA8000E7520 /* XHBCatalogViewController.xib */; };
 		1768EA061E73FCA8000E7520 /* XHBContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1768E9F31E73FCA8000E7520 /* XHBContentViewController.m */; };
 		1768EA071E73FCA8000E7520 /* XHBContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1768E9F41E73FCA8000E7520 /* XHBContentViewController.xib */; };
 		1768EA081E73FCA8000E7520 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1768E9F91E73FCA8000E7520 /* AppDelegate.m */; };
@@ -22,6 +22,7 @@
 		17769C591E753844006CC28A /* UIBarButtonItem+XHBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 17769C581E753844006CC28A /* UIBarButtonItem+XHBExtension.m */; };
 		17769C5D1E75594A006CC28A /* XHBCatalogTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 17769C5B1E75594A006CC28A /* XHBCatalogTableViewCell.m */; };
 		17769C5E1E75594A006CC28A /* XHBCatalogTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17769C5C1E75594A006CC28A /* XHBCatalogTableViewCell.xib */; };
+		5A9BC05AA5AF9F7B76E7D1F6 /* Pods________.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A85BB835C13A4286867FB30C /* Pods________.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,19 +43,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		17399A6E1E82697E00DBF296 /* XHBCatalogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBCatalogViewController.xib; sourceTree = "<group>"; };
 		1756170E1E6C0BA9002C7BF2 /* 知乎日报-练习.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "知乎日报-练习.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1756171D1E6C0BA9002C7BF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		175617201E6C0BA9002C7BF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		175617221E6C0BA9002C7BF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		175617271E6C0BA9002C7BF2 /* 知乎日报-练习Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "知乎日报-练习Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1756172B1E6C0BA9002C7BF2 /* _______Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "_______Tests.m"; sourceTree = "<group>"; };
+		1756172B1E6C0BA9002C7BF2 /* _______Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _______Tests.m; sourceTree = "<group>"; };
 		1756172D1E6C0BA9002C7BF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		175617321E6C0BA9002C7BF2 /* 知乎日报-练习UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "知乎日报-练习UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		175617361E6C0BA9002C7BF2 /* _______UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "_______UITests.m"; sourceTree = "<group>"; };
+		175617361E6C0BA9002C7BF2 /* _______UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _______UITests.m; sourceTree = "<group>"; };
 		175617381E6C0BA9002C7BF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1768E9EB1E73FCA8000E7520 /* XHBCatalogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBCatalogViewController.h; sourceTree = "<group>"; };
 		1768E9EC1E73FCA8000E7520 /* XHBCatalogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBCatalogViewController.m; sourceTree = "<group>"; };
-		1768E9ED1E73FCA8000E7520 /* XHBCatalogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBCatalogViewController.xib; sourceTree = "<group>"; };
 		1768E9F21E73FCA8000E7520 /* XHBContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBContentViewController.h; sourceTree = "<group>"; };
 		1768E9F31E73FCA8000E7520 /* XHBContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBContentViewController.m; sourceTree = "<group>"; };
 		1768E9F41E73FCA8000E7520 /* XHBContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBContentViewController.xib; sourceTree = "<group>"; };
@@ -71,6 +72,9 @@
 		17769C5A1E75594A006CC28A /* XHBCatalogTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBCatalogTableViewCell.h; sourceTree = "<group>"; };
 		17769C5B1E75594A006CC28A /* XHBCatalogTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBCatalogTableViewCell.m; sourceTree = "<group>"; };
 		17769C5C1E75594A006CC28A /* XHBCatalogTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBCatalogTableViewCell.xib; sourceTree = "<group>"; };
+		3E840FE32AD827A0B044F7D0 /* Pods-知乎日报-练习.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-知乎日报-练习.release.xcconfig"; path = "Pods/Target Support Files/Pods-知乎日报-练习/Pods-知乎日报-练习.release.xcconfig"; sourceTree = "<group>"; };
+		45BAE40B74C24449811DA1FA /* Pods-知乎日报-练习.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-知乎日报-练习.debug.xcconfig"; path = "Pods/Target Support Files/Pods-知乎日报-练习/Pods-知乎日报-练习.debug.xcconfig"; sourceTree = "<group>"; };
+		A85BB835C13A4286867FB30C /* Pods________.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods________.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A9BC05AA5AF9F7B76E7D1F6 /* Pods________.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +110,8 @@
 				1756172A1E6C0BA9002C7BF2 /* 知乎日报-练习Tests */,
 				175617351E6C0BA9002C7BF2 /* 知乎日报-练习UITests */,
 				1756170F1E6C0BA9002C7BF2 /* Products */,
+				31A238FF2589135AE6B8A63D /* Pods */,
+				4D6927A3ADF84D560B466D17 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -180,7 +187,7 @@
 			children = (
 				1768E9EB1E73FCA8000E7520 /* XHBCatalogViewController.h */,
 				1768E9EC1E73FCA8000E7520 /* XHBCatalogViewController.m */,
-				1768E9ED1E73FCA8000E7520 /* XHBCatalogViewController.xib */,
+				17399A6E1E82697E00DBF296 /* XHBCatalogViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -269,6 +276,23 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		31A238FF2589135AE6B8A63D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				45BAE40B74C24449811DA1FA /* Pods-知乎日报-练习.debug.xcconfig */,
+				3E840FE32AD827A0B044F7D0 /* Pods-知乎日报-练习.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		4D6927A3ADF84D560B466D17 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A85BB835C13A4286867FB30C /* Pods________.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -276,9 +300,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1756173B1E6C0BA9002C7BF2 /* Build configuration list for PBXNativeTarget "知乎日报-练习" */;
 			buildPhases = (
+				12A058F9EC5834CB11E3175D /* [CP] Check Pods Manifest.lock */,
 				1756170A1E6C0BA9002C7BF2 /* Sources */,
 				1756170B1E6C0BA9002C7BF2 /* Frameworks */,
 				1756170C1E6C0BA9002C7BF2 /* Resources */,
+				7502457173D0EA97ADDDE38D /* [CP] Embed Pods Frameworks */,
+				361AFF2B8D0CDBB236827FCE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -381,8 +408,8 @@
 				175617211E6C0BA9002C7BF2 /* LaunchScreen.storyboard in Resources */,
 				1768EA071E73FCA8000E7520 /* XHBContentViewController.xib in Resources */,
 				17769C5E1E75594A006CC28A /* XHBCatalogTableViewCell.xib in Resources */,
+				17399A6F1E82697E00DBF296 /* XHBCatalogViewController.xib in Resources */,
 				1756171E1E6C0BA9002C7BF2 /* Assets.xcassets in Resources */,
-				1768EA051E73FCA8000E7520 /* XHBCatalogViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +428,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		12A058F9EC5834CB11E3175D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		361AFF2B8D0CDBB236827FCE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-知乎日报-练习/Pods-知乎日报-练习-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7502457173D0EA97ADDDE38D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-知乎日报-练习/Pods-知乎日报-练习-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1756170A1E6C0BA9002C7BF2 /* Sources */ = {
@@ -551,6 +626,7 @@
 		};
 		1756173C1E6C0BA9002C7BF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 45BAE40B74C24449811DA1FA /* Pods-知乎日报-练习.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = XF5LMZ7DL8;
@@ -566,6 +642,7 @@
 		};
 		1756173D1E6C0BA9002C7BF2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E840FE32AD827A0B044F7D0 /* Pods-知乎日报-练习.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = XF5LMZ7DL8;
