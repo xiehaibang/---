@@ -10,4 +10,7 @@
 
 @interface XHBCatalogViewController : UIViewController
 
+/* 加载新闻类别 */
+- (void)loadCatalog;
+
 @end

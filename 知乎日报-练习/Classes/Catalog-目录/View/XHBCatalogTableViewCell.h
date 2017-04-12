@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "XHBNewCatalog.h"
+
 @interface XHBCatalogTableViewCell : UITableViewCell
+
+/* 主题日报对象 */
+@property (strong, nonatomic) XHBNewCatalog *categoryItem;
 
 @end

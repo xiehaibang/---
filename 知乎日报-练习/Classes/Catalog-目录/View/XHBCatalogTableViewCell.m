@@ -30,4 +30,12 @@
     // Configure the view for the selected state
 }
 
+#pragma mark - 存取方法
+- (void)setCategoryItem:(XHBNewCatalog *)categoryItem
+{
+    _categoryItem = categoryItem;
+    
+    self.textLabel.text = categoryItem.name;
+}
+
 @end

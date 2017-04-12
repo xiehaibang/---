@@ -8,6 +8,7 @@
 
 #import "XHBContentViewController.h"
 #import "XHBRootViewController.h"
+#import "XHBCatalogViewController.h"
 
 /* 将屏幕的宽与高定义为宏 */
 #define screenWidth [[UIScreen mainScreen] bounds].size.width
@@ -36,6 +37,7 @@
 #pragma mark - 动作事件方法
 - (void)catalogClick
 {
+    /* 移动类别视图 */
     if (self.navigationController.view.frame.origin.x == 0) { //如果左边视图的位置x坐标为0
         [UIView animateWithDuration:1.0 animations:^{
             self.navigationController.view.frame = CGRectMake(230, 0, screenWidth, screenHeight);
@@ -45,6 +47,11 @@
             self.navigationController.view.frame = CGRectMake(0, 0, screenWidth, screenHeight);
         }];
     }
+    
+//    XHBCatalogViewController *catalog = [[XHBCatalogViewController alloc] init];
+//    
+//    /* 加载新闻类别 */
+//    [catalog loadCatalog];
 }
 
 @end

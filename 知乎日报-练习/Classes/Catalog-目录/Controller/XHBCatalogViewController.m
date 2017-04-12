@@ -8,16 +8,30 @@
 
 #import "XHBCatalogViewController.h"
 #import "XHBCatalogTableViewCell.h"
+#import "XHBNewCatalog.h"
+
+#import <SVProgressHUD/SVProgressHUD.h>
+#import <AFNetworking/AFNetworking.h>
+#import <MJExtension/MJExtension.h>
 
 @interface XHBCatalogViewController () <UITableViewDelegate, UITableViewDataSource>
 /* 目录表格 */
 @property (weak, nonatomic) IBOutlet UITableView *catalogTableView;
+
+/* 菜单栏 */
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
+
+/* AFN 请求管理者 */
+@property (strong, nonatomic) AFHTTPSessionManager *manage;
+
+/* 日报列表的数组 */
+@property (strong, nonatomic) NSArray *categories;
 
 @end
 
 /* 将catalogCell的标识符设为常量 */
 static NSString * const XHBCatalogId = @"catalog";
+
 
 @implementation XHBCatalogViewController
 
@@ -25,7 +39,11 @@ static NSString * const XHBCatalogId = @"catalog";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    /* 视图初始化 */
     [self setupView];
+    
+    [self loadCatalog];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,8 +91,34 @@ static NSString * const XHBCatalogId = @"catalog";
  */
 - (void)loadCatalog
 {
-    /* 显示指示器 */
+    self.manage = [AFHTTPSessionManager manager];
     
+    /* 显示指示器 */
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD show];
+    
+    /* 发送网络请求 */
+    [self.manage GET:@"http://news-at.zhihu.com/api/4/themes" parameters:nil progress:^(NSProgress * downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * task, id responseObject) {
+        
+        /* 加载成功则隐藏指示器 */
+        [SVProgressHUD dismiss];
+        
+        NSLog(@"%@", responseObject[@"others"]);
+        
+        /* 将json数据转换为模型 */
+        self.categories = [XHBNewCatalog mj_objectArrayWithKeyValuesArray:responseObject[@"others"]];
+        
+        /* 拿到数据以后刷新表格 */
+        [self.catalogTableView reloadData];
+        
+        NSLog(@"%@", self.categories);
+        
+    } failure:^(NSURLSessionDataTask * task, NSError * error) {
+        /* 加载失败则提示用户 */
+        [SVProgressHUD showErrorWithStatus:@"数据加载失败"];
+    }];
 }
 
 
@@ -82,13 +126,17 @@ static NSString * const XHBCatalogId = @"catalog";
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    NSLog(@"%lu", (unsigned long)self.categories.count);
+    
+    return self.categories.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     XHBCatalogTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:XHBCatalogId forIndexPath:indexPath];
+    
+    cell.categoryItem = self.categories[indexPath.row];
 
     return cell;
 }
