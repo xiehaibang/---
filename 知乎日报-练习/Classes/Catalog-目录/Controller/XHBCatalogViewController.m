@@ -42,6 +42,7 @@ static NSString * const XHBCatalogId = @"catalog";
     /* 视图初始化 */
     [self setupView];
     
+    /* 加载左边类别数据 */
     [self loadCatalog];
 
 }
@@ -105,15 +106,11 @@ static NSString * const XHBCatalogId = @"catalog";
         /* 加载成功则隐藏指示器 */
         [SVProgressHUD dismiss];
         
-        NSLog(@"%@", responseObject[@"others"]);
-        
         /* 将json数据转换为模型 */
         self.categories = [XHBNewCatalog mj_objectArrayWithKeyValuesArray:responseObject[@"others"]];
         
         /* 拿到数据以后刷新表格 */
         [self.catalogTableView reloadData];
-        
-        NSLog(@"%@", self.categories);
         
     } failure:^(NSURLSessionDataTask * task, NSError * error) {
         /* 加载失败则提示用户 */
@@ -126,7 +123,6 @@ static NSString * const XHBCatalogId = @"catalog";
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%lu", (unsigned long)self.categories.count);
     
     return self.categories.count;
 }

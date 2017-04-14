@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,7 +18,26 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u0f-s7-HiD">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="193"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="193" id="q49-7w-QAN"/>
+                    </constraints>
+                </scrollView>
+                <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="dfk-tm-SKM">
+                    <rect key="frame" x="152" y="156" width="71" height="37"/>
+                </pageControl>
+            </subviews>
+            <color key="backgroundColor" red="0.33793793200088573" green="0.89726063837614656" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="u0f-s7-HiD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="FfW-oh-PZT"/>
+                <constraint firstItem="u0f-s7-HiD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Uzl-0n-ygt"/>
+                <constraint firstAttribute="trailing" secondItem="u0f-s7-HiD" secondAttribute="trailing" id="V4v-JI-84z"/>
+                <constraint firstItem="u0f-s7-HiD" firstAttribute="centerX" secondItem="dfk-tm-SKM" secondAttribute="centerX" id="go0-ZO-WBq"/>
+                <constraint firstItem="u0f-s7-HiD" firstAttribute="bottom" secondItem="dfk-tm-SKM" secondAttribute="bottom" id="pU2-0l-gaS"/>
+            </constraints>
+            <point key="canvasLocation" x="25.5" y="52.5"/>
         </view>
     </objects>
 </document>

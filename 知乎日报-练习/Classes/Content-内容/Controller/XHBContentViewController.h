@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface XHBContentViewController : UIViewController <UISplitViewControllerDelegate>
+@interface XHBContentViewController : UIViewController 
 
 @end

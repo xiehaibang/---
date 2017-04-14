@@ -8,6 +8,11 @@
 
 #import "XHBCatalogTableViewCell.h"
 
+@interface XHBCatalogTableViewCell ()
+@property (weak, nonatomic) IBOutlet UILabel *newsNamelable;
+
+@end
+
 @implementation XHBCatalogTableViewCell
 
 - (void)awakeFromNib {
@@ -35,7 +40,7 @@
 {
     _categoryItem = categoryItem;
     
-    self.textLabel.text = categoryItem.name;
+    self.newsNamelable.text = categoryItem.name;
 }
 
 @end

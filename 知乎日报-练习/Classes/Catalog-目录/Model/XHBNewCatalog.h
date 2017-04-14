@@ -20,7 +20,7 @@
 @property (assign, nonatomic) NSInteger color;
 
 /* 描述 */
-@property (strong, nonatomic, readonly) NSString *description;
+//@property (strong, nonatomic, readonly) NSString *description;
 
 /* 缩略图 */
 @property (strong, nonatomic) NSString *thumbnail;
