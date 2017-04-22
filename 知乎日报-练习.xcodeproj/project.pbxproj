@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		172FC06A1E98C3AB0072FB27 /* XHBNewCatalog.m in Sources */ = {isa = PBXBuildFile; fileRef = 172FC0691E98C3AB0072FB27 /* XHBNewCatalog.m */; };
 		17399A6F1E82697E00DBF296 /* XHBCatalogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17399A6E1E82697E00DBF296 /* XHBCatalogViewController.xib */; };
+		173F6AEA1EA5C7DF00C96ED0 /* XHBDayNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 173F6AE91EA5C7DF00C96ED0 /* XHBDayNews.m */; };
 		1756171E1E6C0BA9002C7BF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1756171D1E6C0BA9002C7BF2 /* Assets.xcassets */; };
 		175617211E6C0BA9002C7BF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1756171F1E6C0BA9002C7BF2 /* LaunchScreen.storyboard */; };
 		1756172C1E6C0BA9002C7BF2 /* _______Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1756172B1E6C0BA9002C7BF2 /* _______Tests.m */; };
@@ -47,6 +48,8 @@
 		172FC0681E98C3AB0072FB27 /* XHBNewCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNewCatalog.h; sourceTree = "<group>"; };
 		172FC0691E98C3AB0072FB27 /* XHBNewCatalog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNewCatalog.m; sourceTree = "<group>"; };
 		17399A6E1E82697E00DBF296 /* XHBCatalogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBCatalogViewController.xib; sourceTree = "<group>"; };
+		173F6AE81EA5C7DF00C96ED0 /* XHBDayNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBDayNews.h; sourceTree = "<group>"; };
+		173F6AE91EA5C7DF00C96ED0 /* XHBDayNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBDayNews.m; sourceTree = "<group>"; };
 		1756170E1E6C0BA9002C7BF2 /* 知乎日报-练习.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "知乎日报-练习.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1756171D1E6C0BA9002C7BF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		175617201E6C0BA9002C7BF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -237,6 +240,8 @@
 		1768E9F51E73FCA8000E7520 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				173F6AE81EA5C7DF00C96ED0 /* XHBDayNews.h */,
+				173F6AE91EA5C7DF00C96ED0 /* XHBDayNews.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -489,6 +494,7 @@
 			files = (
 				1768EA081E73FCA8000E7520 /* AppDelegate.m in Sources */,
 				172FC06A1E98C3AB0072FB27 /* XHBNewCatalog.m in Sources */,
+				173F6AEA1EA5C7DF00C96ED0 /* XHBDayNews.m in Sources */,
 				17769C591E753844006CC28A /* UIBarButtonItem+XHBExtension.m in Sources */,
 				1768EA061E73FCA8000E7520 /* XHBContentViewController.m in Sources */,
 				1768EA091E73FCA8000E7520 /* XHBNavigationController.m in Sources */,

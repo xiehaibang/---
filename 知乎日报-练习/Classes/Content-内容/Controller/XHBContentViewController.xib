@@ -11,6 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="XHBContentViewController">
             <connections>
+                <outlet property="pageControl" destination="dfk-tm-SKM" id="FxN-fh-ptB"/>
+                <outlet property="scrollView" destination="u0f-s7-HiD" id="OsC-xu-6YP"/>
+                <outlet property="topNewsButton" destination="gwZ-8E-TDY" id="06e-Xa-NlV"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,24 +23,36 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u0f-s7-HiD">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="193"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="193" id="q49-7w-QAN"/>
+                        <constraint firstAttribute="height" constant="210" id="q49-7w-QAN"/>
                     </constraints>
                 </scrollView>
                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="dfk-tm-SKM">
-                    <rect key="frame" x="152" y="156" width="71" height="37"/>
+                    <rect key="frame" x="152" y="173" width="71" height="37"/>
+                    <connections>
+                        <action selector="changePage:" destination="-1" eventType="valueChanged" id="cDC-aX-V3U"/>
+                    </connections>
                 </pageControl>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwZ-8E-TDY">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
+                </button>
             </subviews>
-            <color key="backgroundColor" red="0.33793793200088573" green="0.89726063837614656" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="u0f-s7-HiD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="FfW-oh-PZT"/>
+                <constraint firstItem="gwZ-8E-TDY" firstAttribute="height" secondItem="u0f-s7-HiD" secondAttribute="height" id="SPc-YD-Z9W"/>
                 <constraint firstItem="u0f-s7-HiD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Uzl-0n-ygt"/>
                 <constraint firstAttribute="trailing" secondItem="u0f-s7-HiD" secondAttribute="trailing" id="V4v-JI-84z"/>
+                <constraint firstItem="gwZ-8E-TDY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="YVd-zD-84Q"/>
+                <constraint firstItem="gwZ-8E-TDY" firstAttribute="centerX" secondItem="u0f-s7-HiD" secondAttribute="centerX" id="dFe-nA-tVL"/>
                 <constraint firstItem="u0f-s7-HiD" firstAttribute="centerX" secondItem="dfk-tm-SKM" secondAttribute="centerX" id="go0-ZO-WBq"/>
+                <constraint firstItem="gwZ-8E-TDY" firstAttribute="width" secondItem="u0f-s7-HiD" secondAttribute="width" id="hsA-TH-2mc"/>
+                <constraint firstItem="gwZ-8E-TDY" firstAttribute="trailing" secondItem="u0f-s7-HiD" secondAttribute="trailing" id="jsC-Zf-yuI"/>
                 <constraint firstItem="u0f-s7-HiD" firstAttribute="bottom" secondItem="dfk-tm-SKM" secondAttribute="bottom" id="pU2-0l-gaS"/>
+                <constraint firstItem="gwZ-8E-TDY" firstAttribute="leading" secondItem="u0f-s7-HiD" secondAttribute="leading" id="s1h-cQ-Y1t"/>
             </constraints>
-            <point key="canvasLocation" x="25.5" y="52.5"/>
+            <point key="canvasLocation" x="18" y="91"/>
         </view>
     </objects>
 </document>

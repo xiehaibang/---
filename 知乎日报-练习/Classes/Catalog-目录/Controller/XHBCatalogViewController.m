@@ -22,7 +22,7 @@
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 /* AFN 请求管理者 */
-@property (strong, nonatomic) AFHTTPSessionManager *manage;
+@property (strong, nonatomic) AFHTTPSessionManager *manager;
 
 /* 日报列表的数组 */
 @property (strong, nonatomic) NSArray *categories;
@@ -92,14 +92,12 @@ static NSString * const XHBCatalogId = @"catalog";
  */
 - (void)loadCatalog
 {
-    self.manage = [AFHTTPSessionManager manager];
-    
     /* 显示指示器 */
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
     
     /* 发送网络请求 */
-    [self.manage GET:@"http://news-at.zhihu.com/api/4/themes" parameters:nil progress:^(NSProgress * downloadProgress) {
+    [self.manager GET:@"http://news-at.zhihu.com/api/4/themes" parameters:nil progress:^(NSProgress * downloadProgress) {
         
     } success:^(NSURLSessionDataTask * task, id responseObject) {
         
@@ -143,6 +141,18 @@ static NSString * const XHBCatalogId = @"catalog";
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+}
+
+#pragma mark - 存取方法
+/** 返回一个manager对象 */
+- (AFHTTPSessionManager *)manager
+{
+    /* 如果 _manager 为空 */
+    if (!_manager) {
+        _manager = [AFHTTPSessionManager manager];
+    }
+    
+    return _manager;
 }
 
 @end
