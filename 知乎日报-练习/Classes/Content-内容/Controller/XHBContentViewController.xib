@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="XHBContentViewController">
             <connections>
+                <outlet property="dayNewsTableView" destination="ebG-bH-JSY" id="PhX-Ck-tFK"/>
                 <outlet property="pageControl" destination="dfk-tm-SKM" id="FxN-fh-ptB"/>
                 <outlet property="scrollView" destination="u0f-s7-HiD" id="OsC-xu-6YP"/>
-                <outlet property="topNewsButton" destination="gwZ-8E-TDY" id="06e-Xa-NlV"/>
+                <outlet property="topNewsTitle" destination="bfz-Dm-jiS" id="mLg-RG-vLp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,36 +24,47 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u0f-s7-HiD">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="220"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="210" id="q49-7w-QAN"/>
+                        <constraint firstAttribute="height" constant="220" id="q49-7w-QAN"/>
                     </constraints>
                 </scrollView>
                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="dfk-tm-SKM">
-                    <rect key="frame" x="152" y="173" width="71" height="37"/>
+                    <rect key="frame" x="152" y="183" width="71" height="37"/>
                     <connections>
                         <action selector="changePage:" destination="-1" eventType="valueChanged" id="cDC-aX-V3U"/>
                     </connections>
                 </pageControl>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwZ-8E-TDY">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
-                </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ebG-bH-JSY">
+                    <rect key="frame" x="0.0" y="220" width="375" height="447"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Uze-Pb-iKB"/>
+                        <outlet property="delegate" destination="-1" id="3LT-c5-S1D"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="ebG-bH-JSY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2po-t2-feh"/>
                 <constraint firstItem="u0f-s7-HiD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="FfW-oh-PZT"/>
-                <constraint firstItem="gwZ-8E-TDY" firstAttribute="height" secondItem="u0f-s7-HiD" secondAttribute="height" id="SPc-YD-Z9W"/>
                 <constraint firstItem="u0f-s7-HiD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Uzl-0n-ygt"/>
                 <constraint firstAttribute="trailing" secondItem="u0f-s7-HiD" secondAttribute="trailing" id="V4v-JI-84z"/>
-                <constraint firstItem="gwZ-8E-TDY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="YVd-zD-84Q"/>
-                <constraint firstItem="gwZ-8E-TDY" firstAttribute="centerX" secondItem="u0f-s7-HiD" secondAttribute="centerX" id="dFe-nA-tVL"/>
                 <constraint firstItem="u0f-s7-HiD" firstAttribute="centerX" secondItem="dfk-tm-SKM" secondAttribute="centerX" id="go0-ZO-WBq"/>
-                <constraint firstItem="gwZ-8E-TDY" firstAttribute="width" secondItem="u0f-s7-HiD" secondAttribute="width" id="hsA-TH-2mc"/>
-                <constraint firstItem="gwZ-8E-TDY" firstAttribute="trailing" secondItem="u0f-s7-HiD" secondAttribute="trailing" id="jsC-Zf-yuI"/>
                 <constraint firstItem="u0f-s7-HiD" firstAttribute="bottom" secondItem="dfk-tm-SKM" secondAttribute="bottom" id="pU2-0l-gaS"/>
-                <constraint firstItem="gwZ-8E-TDY" firstAttribute="leading" secondItem="u0f-s7-HiD" secondAttribute="leading" id="s1h-cQ-Y1t"/>
+                <constraint firstAttribute="trailing" secondItem="ebG-bH-JSY" secondAttribute="trailing" id="sRV-G6-dhp"/>
+                <constraint firstItem="ebG-bH-JSY" firstAttribute="top" secondItem="u0f-s7-HiD" secondAttribute="bottom" id="usA-1e-v6M"/>
+                <constraint firstAttribute="bottom" secondItem="ebG-bH-JSY" secondAttribute="bottom" id="yDC-Xy-WtJ"/>
             </constraints>
-            <point key="canvasLocation" x="18" y="91"/>
+            <point key="canvasLocation" x="17.5" y="90.5"/>
         </view>
+        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="bfz-Dm-jiS">
+            <rect key="frame" x="0.0" y="0.0" width="175" height="71"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
+            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <nil key="highlightedColor"/>
+            <point key="canvasLocation" x="83.5" y="528.5"/>
+        </label>
     </objects>
 </document>
