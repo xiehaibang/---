@@ -11,18 +11,30 @@
 #import "XHBCatalogViewController.h"
 #import "XHBDayNews.h"
 #import "XHBDayNewsTableViewCell.h"
+#import "XHBNewsContentViewController.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
 #import <MJExtension/MJExtension.h>
-//#import <SDWebImage/SDImageCache.h>
 #import "UIImageView+WebCache.h"
 
+
+#pragma mark - 宏定义
 /* 将屏幕的宽与高定义为宏 */
 #define screenWidth [[UIScreen mainScreen] bounds].size.width
 #define screenHeight [[UIScreen mainScreen] bounds].size.height
 
-@interface XHBContentViewController () <UIScrollViewDelegate, UITableViewDataSource>
+
+#pragma mark - 常量
+/* 将dayNewsCell的标识符设置为常量 */
+static NSString * const XHBDayNewsCell = @"dayNewsCell";
+
+/* 新闻的访问地址 */
+static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
+
+
+@interface XHBContentViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
+
 /** 顶部滚动视图 */
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
@@ -60,12 +72,7 @@
 /** 顶部新闻图片 */
 @property (strong, nonatomic) UIImageView *imageView;
 
-
 @end
-
-
-/* 将dayNewsCell的标识符设置为常量 */
-static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 @implementation XHBContentViewController
@@ -93,7 +100,9 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 #pragma mark - 视图初始化设置
-/** 视图初始化设置 */
+/** 
+ * 视图初始化设置
+ */
 - (void)setupView
 {
     /* 设置初始中点坐标为屏幕中间 */
@@ -121,7 +130,9 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 #pragma mark - 给顶部新闻添加内容
-/** 设置顶部滚动视图的内容 */
+/** 
+ * 设置顶部滚动视图的内容 
+ */
 - (void)setupTopNews
 {
     /* 设置ScrollView的委托对象 */
@@ -144,13 +155,24 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 #pragma mark - 加载网络数据
-/** 加载pageControl中的新闻 */
+/** 
+ * 加载pageControl中的新闻 
+ */
 - (void)loadTopDayNews
 {
     /* 显示指示器 */
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
 
+    /* 在 block 中替换属性的名称，让属性名和网络数据中的 key 相对应 */
+    [XHBDayNews mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        
+        return @{
+                 @"ID" : @"id"
+                 };
+        
+    }];
+    
     /* 发送无参数网络请求 */
     [self.manager GET:@"http://news-at.zhihu.com/api/4/news/latest" parameters:nil progress:^(NSProgress *downloadProgress) {
         
@@ -188,7 +210,6 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
             
             /* 将新闻标题添加到新闻图片上 */
             [self.imageView addSubview:topNewsLabel];
-            NSLog(@"%@", topNewsLabel);
             
             /* 添加图片到ScrollView */
             [self.scrollView addSubview:self.imageView];
@@ -200,7 +221,9 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     }];
 }
 
-/** 加载当日的新闻 */
+/** 
+ * 加载当日的新闻
+ */
 - (void)loadDayNews
 {
     /* 显示指示器 */
@@ -232,13 +255,17 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 #pragma mark - UITableViewDataSource 协议
-/** 获取cell的数量 */
+/** 
+ * 获取cell的数量
+ */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.dayNews.count;
 }
 
-/** 返回封装好的cell */
+/** 
+ * 返回封装好的cell
+ */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     XHBDayNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:XHBDayNewsCell forIndexPath:indexPath];
@@ -247,6 +274,21 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     
     return cell;
 }
+
+
+#pragma mark - UITableViewDelegate 协议
+/**
+ * 选中 cell 时调用
+ */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    /* 创建一个 tabBarController 对象 */
+    XHBNewsContentViewController *newsContentVC = [[XHBNewsContentViewController alloc] init];
+    
+    /* 将新创建的 tabBarController 对象压入 viewControllers */
+    [self.navigationController pushViewController:newsContentVC animated:YES];
+}
+
 
 
 #pragma mark - UIScrollViewDelegate协议
@@ -260,7 +302,9 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 #pragma mark - UIPageControl动作方法
-/** 当前页改变 */
+/** 
+ * 当前页改变
+ */
 - (IBAction)changePage:(id)sender {
     
     [UIView animateWithDuration:0.3 animations:^{
@@ -334,8 +378,10 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 
-#pragma mark - 存取方法
-/** 返回 manager 对象 */
+#pragma mark - 懒加载
+/** 
+ * 返回 manager 对象 
+ */
 - (AFHTTPSessionManager *)manager
 {
     /* 如果 _manager 为空 */

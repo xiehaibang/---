@@ -118,6 +118,9 @@ static NSString * const XHBCatalogId = @"catalog";
 
 
 #pragma mark - UITableViewDataSource 协议
+/**
+ * 获取当前段 cell 的数量
+ */
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
@@ -125,6 +128,9 @@ static NSString * const XHBCatalogId = @"catalog";
     return self.categories.count;
 }
 
+/**
+ * 返回一个定义好的 cell
+ */
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -137,14 +143,18 @@ static NSString * const XHBCatalogId = @"catalog";
 
 
 #pragma mark - UITableViewDelegate 协议
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+/**
+ * 选中 cell 时调用
+ */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
 }
 
-#pragma mark - 存取方法
-/** 返回一个manager对象 */
+#pragma mark - 懒加载
+/** 
+ * 返回一个manager对象
+ */
 - (AFHTTPSessionManager *)manager
 {
     /* 如果 _manager 为空 */

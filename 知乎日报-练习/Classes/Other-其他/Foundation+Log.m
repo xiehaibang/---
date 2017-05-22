@@ -16,7 +16,7 @@
     // 开头有个{
     [string appendString:@"{\n"];
     
-    // 遍历所有的键值对
+    // 遍历所有的键值对，然后将它们拼接起来
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [string appendFormat:@"\t%@", key];
         [string appendString:@" : "];
@@ -26,7 +26,8 @@
     // 结尾有个}
     [string appendString:@"}"];
     
-    // 查找最后一个逗号
+    //删除逗号
+    //从后往前搜索，得到的结果是搜索到的第一个符号的位置
     NSRange range = [string rangeOfString:@"," options:NSBackwardsSearch];
     if (range.location != NSNotFound)
     [string deleteCharactersInRange:range];
@@ -52,7 +53,8 @@
     // 结尾有个]
     [string appendString:@"]"];
     
-    // 查找最后一个逗号
+    //删除逗号
+    //从后往前搜索，得到的结果是搜索到的第一个符号的位置
     NSRange range = [string rangeOfString:@"," options:NSBackwardsSearch];
     if (range.location != NSNotFound)
     [string deleteCharactersInRange:range];
