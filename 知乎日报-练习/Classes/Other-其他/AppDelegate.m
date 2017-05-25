@@ -30,10 +30,10 @@
     /* 创建右边内容模块 */
     XHBContentViewController *contentViewController = [[XHBContentViewController alloc] init];
     
-    /* 将左边的目录模块加入导航控制器 */
+    /* 将左边的目录模块加入自定义导航控制器 */
     XHBNavigationController *catalogNav = [[XHBNavigationController alloc] initWithRootViewController:catalogViewController];
     
-    /* 将右边的内容模块加入导航控制器 */
+    /* 将右边的内容模块加入自定义导航控制器 */
     XHBNavigationController *contentNav = [[XHBNavigationController alloc] initWithRootViewController:contentViewController];
     
     /* 创建root视图控制器 */

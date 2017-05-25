@@ -25,6 +25,9 @@
 /** 分享链接 */
 @property (strong, nonatomic) NSString *share_url;
 
+/** JS */
+@property (strong, nonatomic) NSString *js;
+
 /** 新闻的类型 */
 @property (assign, nonatomic) NSInteger type;
 
