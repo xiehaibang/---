@@ -30,6 +30,9 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
 /** 新闻内容对象 */
 @property (strong, nonatomic) XHBNewsContent *newsContent;
 
+/** 新闻内容样式表 */
+@property (strong, nonatomic) NSString *css;
+
 /** 新闻视图 */
 @property (weak, nonatomic) IBOutlet UIWebView *newsWebView;
 
@@ -46,10 +49,6 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     
     /* 获取网络的新闻内容 */
     [self loadNewsContent];
-    
-    NSLog(@"body 的内容\n%@", self.newsContent.body);
-    
-    
     
     
 //    /* 创建一个 WKWebView */
@@ -93,26 +92,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     /* 拼接新闻请求地址 */
     NSString *newsURL = [XHBNewsaddress stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", self.newsId]];
     
-//    /* 创建请求对象 */
-//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:newsURL]];
-//    
-//    /* 发送异步网络请求 */
-//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-//        
-//        if (connectionError) {
-//            NSLog(@"请求错误\n%@", connectionError);
-//        }
-//        
-//        /* 请求成功时隐藏指示器 */
-//        [SVProgressHUD dismiss];
-//        
-//        self.newsContent = [XHBNewsContent mj_objectWithKeyValues:data];
-//        
-//        [self.newsWebView loadHTMLString:self.newsContent.body baseURL:nil];
-//        
-//    }];
-    
-    /* 发送网络请求 */
+    /* 发送获取新闻内容的网络请求 */
     [self.manager GET:newsURL parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -122,12 +102,50 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
         
         self.newsContent = [XHBNewsContent mj_objectWithKeyValues:responseObject];
         
-        [self.newsWebView loadHTMLString:self.newsContent.body baseURL:nil];
+        [self setWebView];
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
+        /* 获取失败，显示提示信息 */
+        [SVProgressHUD showErrorWithStatus:@"网络有问题，获取新闻数据失败"];
+        
     }];
+    
+}
+
+
+#pragma mark - 设置 webView
+/**
+ * 设置 webView 的显示样式，并且加载新闻内容 
+ */
+- (void)setWebView
+{
+    
+    /* 发送获取 css 的网络请求 */
+    //创建请求访问路径
+    NSURL *cssURL = [NSURL URLWithString:[self.newsContent.css firstObject]];
+    
+    //创建网络请求对象
+    NSURLRequest *request = [NSURLRequest requestWithURL:cssURL];
+    
+    //发送网络请求
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+        
+        self.css = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
+        //创建 html 头标签
+        NSString *head = [NSString stringWithFormat:@"<head><style type=\"text/css\"> %@ </style></head>", self.css];
+        
+        //创建 html
+        NSString *html = [head stringByAppendingString:self.newsContent.body];
+        
+        NSLog(@"%@", html);
+        
+        /* 加载 HTML 内容 */
+        [self.newsWebView loadHTMLString:html baseURL:nil];
+    }];
+
 }
 
 #pragma mark - 懒加载
