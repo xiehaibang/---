@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1702ED4C1ECEE4B600AC1A9F /* XHBNewsContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1702ED4B1ECEE4B600AC1A9F /* XHBNewsContent.m */; };
+		172F6E621EEE63450045FFF8 /* XHBThemeStories.m in Sources */ = {isa = PBXBuildFile; fileRef = 172F6E611EEE63450045FFF8 /* XHBThemeStories.m */; };
 		172FC06A1E98C3AB0072FB27 /* XHBNewCatalog.m in Sources */ = {isa = PBXBuildFile; fileRef = 172FC0691E98C3AB0072FB27 /* XHBNewCatalog.m */; };
 		1734B7961EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1734B7941EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m */; };
 		1734B7971EAE7C5D0050E006 /* XHBDayNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1734B7951EAE7C5D0050E006 /* XHBDayNewsTableViewCell.xib */; };
@@ -59,6 +60,8 @@
 /* Begin PBXFileReference section */
 		1702ED4A1ECEE4B600AC1A9F /* XHBNewsContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNewsContent.h; sourceTree = "<group>"; };
 		1702ED4B1ECEE4B600AC1A9F /* XHBNewsContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNewsContent.m; sourceTree = "<group>"; };
+		172F6E601EEE63450045FFF8 /* XHBThemeStories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBThemeStories.h; sourceTree = "<group>"; };
+		172F6E611EEE63450045FFF8 /* XHBThemeStories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBThemeStories.m; sourceTree = "<group>"; };
 		172FC0681E98C3AB0072FB27 /* XHBNewCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNewCatalog.h; sourceTree = "<group>"; };
 		172FC0691E98C3AB0072FB27 /* XHBNewCatalog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNewCatalog.m; sourceTree = "<group>"; };
 		1734B7931EAE7C5D0050E006 /* XHBDayNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBDayNewsTableViewCell.h; sourceTree = "<group>"; };
@@ -288,6 +291,8 @@
 				173825461EDD80C200DB633C /* XHBThemeDaily.m */,
 				173825481EDD891300DB633C /* XHBEditor.h */,
 				173825491EDD891300DB633C /* XHBEditor.m */,
+				172F6E601EEE63450045FFF8 /* XHBThemeStories.h */,
+				172F6E611EEE63450045FFF8 /* XHBThemeStories.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -550,6 +555,7 @@
 			files = (
 				17B0E7E21ED85C8D00B89E4B /* XHBThemeViewController.m in Sources */,
 				1734B7961EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m in Sources */,
+				172F6E621EEE63450045FFF8 /* XHBThemeStories.m in Sources */,
 				17B0E7E91EDAE15C00B89E4B /* NewHomeViewController.m in Sources */,
 				1768EA081E73FCA8000E7520 /* AppDelegate.m in Sources */,
 				1702ED4C1ECEE4B600AC1A9F /* XHBNewsContent.m in Sources */,

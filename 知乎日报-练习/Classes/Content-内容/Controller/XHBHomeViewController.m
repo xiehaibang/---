@@ -262,14 +262,14 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /* 创建一个新闻内容显示对象 */
+    /* 创建一个新闻内容对象 */
     XHBNewsContentViewController *newsContentVC = [[XHBNewsContentViewController alloc] init];
     
     /* 将新闻 id 赋值给 newsContentVC 对象 */
     XHBDayNews *dayNews = self.dayNews[indexPath.row];
     newsContentVC.newsId = dayNews.ID;
     
-    /* 将新创建的 tabBarController 对象压入 navigationController */
+    /* 将新创建的新闻内容对象压入 navigationController */
     [self.navigationController pushViewController:newsContentVC animated:YES];
 }
 

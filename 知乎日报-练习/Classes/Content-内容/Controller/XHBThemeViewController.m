@@ -9,6 +9,8 @@
 #import "XHBThemeViewController.h"
 #import "XHBDayNewsTableViewCell.h"
 #import "XHBThemeDaily.h"
+#import "XHBThemeStories.h"
+#import "XHBNewsContentViewController.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
@@ -89,9 +91,9 @@ static NSString * const dailyAddress = @"http://news-at.zhihu.com/api/4/theme";
     [SVProgressHUD show];
     
     /* 在 block 块中替换属性的名称，让属性名和网络数据中的 key 相对象 */
-    [XHBThemeDaily mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+    [XHBThemeStories mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         return @{
-                 @"theme_description" : @"description"
+                 @"ID" : @"id"
                  };
     }];
     
@@ -106,7 +108,7 @@ static NSString * const dailyAddress = @"http://news-at.zhihu.com/api/4/theme";
         /* 请求成功的时候隐藏指示器 */
         [SVProgressHUD dismiss];
         
-        self.stories = [XHBThemeDaily mj_objectArrayWithKeyValuesArray:responseObject[@"stories"]];
+        self.stories = [XHBThemeStories mj_objectArrayWithKeyValuesArray:responseObject[@"stories"]];
         
         /* 刷新表格 */
         [self.themeTableView reloadData];
@@ -143,6 +145,16 @@ static NSString * const dailyAddress = @"http://news-at.zhihu.com/api/4/theme";
  * 选中 cell 时调用
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    /* 创建一个新闻内容对象 */
+    XHBNewsContentViewController *newsContentVC = [[XHBNewsContentViewController alloc] init];
+    
+    /* 将新闻 id 赋值给 newsContentVC 对象 */
+    XHBThemeStories *themeStories = self.stories[indexPath.row];
+    newsContentVC.newsId = themeStories.ID;
+    
+    /* 将新创建的新闻内容对象压入 navigationController */
+    [self.navigationController pushViewController:newsContentVC animated:YES];
     
 }
 
