@@ -33,8 +33,10 @@
 }
 
 #pragma mark - 存取方法
-- (void)setDayNewsItem:(XHBDayNews *)dayNewsItem
-{
+/**
+ * 今日日报对象的存方法
+ */
+- (void)setDayNewsItem:(XHBDayNews *)dayNewsItem {
     _dayNewsItem = dayNewsItem;
     
     /* 添加新闻图片 */
@@ -42,6 +44,21 @@
     
     /* 添加新闻标题 */
     self.dayNewsTitle.text = dayNewsItem.title;
+    
+}
+
+/**
+ * 主题日报对象的存方法
+ */
+- (void)setThemeDailyItem:(XHBThemeDaily *)themeDailyItem {
+    
+    _themeDailyItem = themeDailyItem;
+    
+    /* 添加图片 */
+    [self.dayNewsImage sd_setImageWithURL:[NSURL URLWithString:themeDailyItem.images[0]]];
+    
+    /* 添加标题 */
+    self.dayNewsTitle.text = themeDailyItem.title;
     
 }
 

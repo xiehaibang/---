@@ -6,7 +6,7 @@
 //  Copyright © 2017年 谢海邦. All rights reserved.
 //
 
-#import "XHBContentViewController.h"
+#import "XHBHomeViewController.h"
 #import "XHBRootViewController.h"
 #import "XHBCatalogViewController.h"
 #import "XHBDayNews.h"
@@ -19,18 +19,7 @@
 #import "UIImageView+WebCache.h"
 
 
-#pragma mark - 宏定义
-/* 将屏幕的宽与高定义为宏 */
-#define screenWidth [[UIScreen mainScreen] bounds].size.width
-#define screenHeight [[UIScreen mainScreen] bounds].size.height
-
-
-#pragma mark - 常量
-/* 将dayNewsCell的标识符设置为常量 */
-static NSString * const XHBDayNewsCell = @"dayNewsCell";
-
-
-@interface XHBContentViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface XHBHomeViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 /** 顶部滚动视图 */
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -44,7 +33,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 /** 顶部新闻标题 */
 @property (strong, nonatomic) IBOutlet UILabel *topNewsTitle;
 
-/** 今日新闻列表 */
+/** 今日新闻列表视图 */
 @property (weak, nonatomic) IBOutlet UITableView *dayNewsTableView;
 
 
@@ -66,7 +55,11 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 @end
 
 
-@implementation XHBContentViewController
+@implementation XHBHomeViewController
+
+#pragma mark - 常量
+/* 将dayNewsCell的标识符设置为常量 */
+static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 #pragma mark - viewController 生命周期
 - (void)viewDidLoad {
@@ -96,6 +89,10 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  */
 - (void)setupView
 {
+    /* 给手机屏幕的宽高赋值 */
+    self.screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    self.screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    
     /* 为tableView队列中的cell注册类 */
     NSString *className = NSStringFromClass([XHBDayNewsTableViewCell class]);
     UINib *nib = [UINib nibWithNibName:className bundle:nil];
@@ -121,7 +118,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     self.scrollView.delegate = self;
     
     /* 设置ScrollView的内容视图的大小 */
-    self.scrollView.contentSize = CGSizeMake(screenWidth * 5, 0);
+    self.scrollView.contentSize = CGSizeMake(self.screenWidth * 5, 0);
     
     /* 设置内容视图的坐标原点 */
     self.scrollView.contentOffset = CGPointMake(0, 0);
@@ -172,14 +169,14 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
             XHBDayNews *topNews = self.topNews[i];
             
             /* 获取图片 */
-            self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(screenWidth * i, 0, screenWidth, self.scrollView.frame.size.height)];
+            self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.screenWidth * i, 0, self.screenWidth, self.scrollView.frame.size.height)];
             [self.imageView sd_setImageWithURL:[NSURL URLWithString:topNews.image]];
             
             /* 添加新闻标题 */
             UILabel *topNewsLabel = [[UILabel alloc] init];
             topNewsLabel.text = topNews.title;
             topNewsLabel.textColor = [UIColor whiteColor];
-            topNewsLabel.frame = CGRectMake(10, 150, screenWidth - 20, 80);
+            topNewsLabel.frame = CGRectMake(10, 150, self.screenWidth - 20, 80);
             
             //设置标签显示行数，0为显示多行
             topNewsLabel.numberOfLines = 0;
@@ -221,6 +218,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         [SVProgressHUD dismiss];
         
         self.dayNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:responseObject[@"stories"]];
+        
         
         /* 刷新表格 */
         [self.dayNewsTableView reloadData];
@@ -264,14 +262,14 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /* 创建一个 tabBarController 对象 */
+    /* 创建一个新闻内容显示对象 */
     XHBNewsContentViewController *newsContentVC = [[XHBNewsContentViewController alloc] init];
     
     /* 将新闻 id 赋值给 newsContentVC 对象 */
     XHBDayNews *dayNews = self.dayNews[indexPath.row];
     newsContentVC.newsId = dayNews.ID;
     
-    /* 将新创建的 tabBarController 对象压入 viewControllers */
+    /* 将新创建的 tabBarController 对象压入 navigationController */
     [self.navigationController pushViewController:newsContentVC animated:YES];
 }
 
@@ -285,7 +283,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 {
     /* 获取内容视图坐标原点与屏幕滚动视图坐标原点的偏移量 */
     CGPoint offset = scrollView.contentOffset;
-    self.pageControl.currentPage = offset.x / screenWidth;
+    self.pageControl.currentPage = offset.x / self.screenWidth;
 }
 
 
@@ -299,7 +297,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     [UIView animateWithDuration:0.3 animations:^{
         /* 将偏移量设置为当前页乘以屏幕宽度 */
         NSInteger currentPage = self.pageControl.currentPage;
-        self.scrollView.contentOffset = CGPointMake(screenWidth * currentPage, 0);
+        self.scrollView.contentOffset = CGPointMake(self.screenWidth * currentPage, 0);
     }];
     
 }
@@ -315,11 +313,11 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     /* 移动类别视图 */
     if (self.navigationController.view.frame.origin.x == 0) { //如果左边视图的位置x坐标为0
         [UIView animateWithDuration:1.0 animations:^{
-            self.navigationController.view.frame = CGRectMake(230, 0, screenWidth, screenHeight);
+            self.navigationController.view.frame = CGRectMake(230, 0, self.screenWidth, self.screenHeight);
         }];
     }else {
         [UIView animateWithDuration:1.0 animations:^{
-            self.navigationController.view.frame = CGRectMake(0, 0, screenWidth, screenHeight);
+            self.navigationController.view.frame = CGRectMake(0, 0, self.screenWidth, self.screenHeight);
         }];
     }
     

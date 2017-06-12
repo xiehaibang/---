@@ -7,14 +7,97 @@
 //
 
 #import "XHBRootViewController.h"
+#import "XHBHomeViewController.h"
+#import "XHBCatalogViewController.h"
+#import "NewHomeViewController.h"
+#import "XHBNavigationController.h"
+#import "XHBThemeViewController.h"
 
-@interface XHBRootViewController ()
+@interface XHBRootViewController ()<NSCopying>
 
 @property (strong, nonatomic) UITapGestureRecognizer *tapGR;
 
+/** 首页新闻对象 */
+@property (strong, nonatomic) XHBHomeViewController *homeVC;
+
+/** 其他主题日报对象 */
+@property (strong, nonatomic) XHBThemeViewController *themeVC;
+
 @end
 
+
 @implementation XHBRootViewController
+
+#pragma mark - 全局变量
+/* 创建一个全局静态的单例对象 */
+static id sharedInstance = nil;
+
+
+#pragma mark - 创建单例
+/**
+ * 重写 allocWithZone: 方法，让它返回单例
+ * 类方法 alloc 会默认调用此方法来创建实例
+ */
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [super allocWithZone:nil];
+    });
+    
+    return sharedInstance;
+}
+
+/**
+ * 重写初始化方法，让它返回单例
+ */
+- (instancetype)init {
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [super init];
+        
+        /* 如果 self 不为空 */
+        if (sharedInstance) {
+            
+            /* 初始化设置 */
+            [self initialSetup];
+        }
+    });
+    
+    
+    return sharedInstance;
+}
+
+/**
+ * 返回单例
+ */
++ (instancetype)sharedInstance {
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        /* 在类方法中，self 指的是类，而不是对象 */
+        sharedInstance = [[self alloc] init];
+    });
+    
+    return sharedInstance;
+}
+
+/**
+ * 重写 copyWithZone: 方法，让它返回单例
+ */
+- (id)copyWithZone:(NSZone *)zone {
+    return sharedInstance;
+}
+
+/**
+ * 返回单例
+ */
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    return sharedInstance;
+}
+
+
 
 #pragma mark - 控制器生命周期
 - (void)viewDidLoad {
@@ -31,8 +114,33 @@
 
 
 #pragma mark - 控制器初始化
-- (void)setup
-{
+/**
+ * 初始化设置
+ */
+- (void)initialSetup {
+    /* 创建左边目录模块 */
+    XHBCatalogViewController *catalogVC = [[XHBCatalogViewController alloc] init];
+    
+    /* 创建右边内容模块 */
+    self.homeVC = [[XHBHomeViewController alloc] init];
+    
+    NewHomeViewController *newVC = [[NewHomeViewController alloc] init];
+    
+    /* 将左边的目录模块加入自定义导航控制器 */
+    XHBNavigationController *catalogNav = [[XHBNavigationController alloc] initWithRootViewController:catalogVC];
+    
+    /* 将右边的内容模块加入自定义导航控制器 */
+    XHBNavigationController *homeNav = [[XHBNavigationController alloc] initWithRootViewController:self.homeVC];
+    
+    /* 将目录模块和内容模块分别加入左边和中间的视图 */
+    self.leftViewController = catalogNav;
+    self.midViewController = homeNav;
+}
+
+/**
+ * 视图加载时设置 
+ */
+- (void)setup {
     /* 添加子控制器和子视图 */
     [self addChildViewController:self.leftViewController];
     [self.view addSubview:self.leftViewController.view];
@@ -43,6 +151,17 @@
     /* 设置leftViewController的大小，和midViewController移动的距离一样大 */
     self.leftViewController.view.frame = CGRectMake(0, 0, 230, [[UIScreen mainScreen] bounds].size.height);
     
+    /* 添加手势 */
+    [self addGesture];
+}
+
+
+
+#pragma mark - 手势动作事件
+/**
+ * 创建和添加手势
+ */
+- (void)addGesture {
     /* 创建一个拖动手势以及手势动作监听事件 */
     UIPanGestureRecognizer *panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
     
@@ -56,12 +175,10 @@
     [self.midViewController.view addGestureRecognizer:self.tapGR];
 }
 
-#pragma mark - 手势动作事件
 /**
  * 计算视图的水平偏移量
  */
-- (CGRect)frameWithOffsetX:(CGFloat)offsetX
-{
+- (CGRect)frameWithOffsetX:(CGFloat)offsetX {
     /* 根据偏移量改变 midViewController 的 view 的水平位置 */
     CGRect frame = self.midViewController.view.frame;
     frame.origin.x += offsetX;
@@ -81,8 +198,7 @@
 /**
  * 手势拖动的监听方法
  */
-- (void)pan:(UIPanGestureRecognizer *)pan
-{
+- (void)pan:(UIPanGestureRecognizer *)pan {
     /* 手势变化状态 */
     if (pan.state == UIGestureRecognizerStateChanged) {
         
@@ -134,8 +250,7 @@
 /**
  * 手势点击的监听方法
  */
-- (void)tap:(UITapGestureRecognizer *)tap
-{
+- (void)tap:(UITapGestureRecognizer *)tap {
     /* 让视图回归原位 */
     //midView 当前的位置
     CGFloat midViewX = self.midViewController.view.frame.origin.x;
@@ -150,6 +265,80 @@
     if (midViewX == 0) {
         self.tapGR.cancelsTouchesInView = NO;
     }
+}
+
+#pragma mark- 切换不同的分类
+/**
+ * 切换到首页新闻 
+ */
+- (void)showHomeCategory {
+    /* 移除当前控制器和视图 */
+//    [self.midViewController removeFromParentViewController];
+    [self.midViewController.view removeFromSuperview];
+    
+    /* 创建首页对象 */
+    self.homeVC = [[XHBHomeViewController alloc] init];
+    
+    /* 将首页对象设置为导航控制器的根控制器 */
+    XHBNavigationController *homeNav = [[XHBNavigationController alloc] initWithRootViewController:self.homeVC];
+    
+    /* 将导航控制器赋给内容模块 */
+    self.midViewController = homeNav;
+    
+    /* 添加首页对象的控制器和视图到当前类的对象中 */
+//    [self addChildViewController:self.midViewController];
+    [self.view addSubview:self.midViewController.view];
+    
+}
+
+/**
+ * 切换到其他主题日报新闻
+ */
+- (void)showOtherCategory {
+//    [self.midViewController removeFromParentViewController];
+    [self.midViewController.view removeFromSuperview];
+    
+    /* 创建其他主题日报对象 */
+    self.themeVC = [[XHBThemeViewController alloc] init];
+    
+    /* 若主题日报 id 不为空，则将它赋给 themeVC 对象 */
+    if (self.ID != NSNotFound) {
+        self.themeVC.ID = self.ID;
+    }
+    
+    /* 将其他主题日报对象加入导航控制器 */
+    XHBNavigationController *themeNav = [[XHBNavigationController alloc] initWithRootViewController:self.themeVC];
+    
+    /* 将导航控制器赋给目录模块 */
+    self.midViewController = themeNav;
+    
+    /* 添加首页对象的控制器和视图到当前类的对象中 */
+//    [self addChildViewController:self.midViewController];
+    [self.view addSubview:self.midViewController.view];
+    
+    /* 添加手势 */
+    [self addGesture];
+    
+}
+
+
+#pragma mark - 懒加载
+- (XHBHomeViewController *)homeVC {
+    
+    if (!_homeVC) {
+        _homeVC = [[XHBHomeViewController alloc] init];
+    }
+    
+    return _homeVC;
+}
+
+- (XHBThemeViewController *)themeVC {
+    
+    if (!_themeVC) {
+        _themeVC = [[XHBThemeViewController alloc] init];
+    }
+    
+    return _themeVC;
 }
 
 @end

@@ -16,12 +16,6 @@
 #import <MJExtension/MJExtension.h>
 
 
-#pragma mark - 常量
-/* 新闻的访问地址 */
-static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
-
-
-
 @interface XHBNewsContentViewController ()<WKUIDelegate, UIWebViewDelegate>
 
 /** 网络请求管理者 */
@@ -38,7 +32,12 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
 
 @end
 
+
 @implementation XHBNewsContentViewController
+
+#pragma mark - 常量
+/* 新闻的访问地址 */
+static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
 
 #pragma mark - 控制器生命周期
 - (void)viewDidLoad {
@@ -140,10 +139,9 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
         //创建 html
         NSString *html = [head stringByAppendingString:self.newsContent.body];
         
-        NSLog(@"%@", html);
-        
         /* 加载 HTML 内容 */
         [self.newsWebView loadHTMLString:html baseURL:nil];
+        
     }];
 
 }

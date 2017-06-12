@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XHBBaseViewController.h"
 
-@interface XHBContentViewController : UIViewController 
+@interface XHBHomeViewController : XHBBaseViewController 
 
 @end

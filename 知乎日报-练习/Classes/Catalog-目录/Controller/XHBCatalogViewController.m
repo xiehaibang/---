@@ -9,10 +9,15 @@
 #import "XHBCatalogViewController.h"
 #import "XHBCatalogTableViewCell.h"
 #import "XHBNewCatalog.h"
+#import "XHBThemeViewController.h"
+#import "XHBNavigationController.h"
+#import "XHBRootViewController.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
 #import <MJExtension/MJExtension.h>
+
+#import "AppDelegate.h"
 
 @interface XHBCatalogViewController () <UITableViewDelegate, UITableViewDataSource>
 /* 目录表格 */
@@ -92,6 +97,14 @@ static NSString * const XHBCatalogId = @"catalog";
  */
 - (void)loadCatalog
 {
+    /* 替换属性的名称，让属性名和网络数据中的 key 相对应 */
+    [XHBNewCatalog mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{
+                 @"ID" : @"id",
+                 @"dailyDescription" : @"description"
+                 };
+    }];
+    
     /* 显示指示器 */
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
@@ -148,6 +161,18 @@ static NSString * const XHBCatalogId = @"catalog";
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    XHBNewCatalog *newsCatalog = self.categories[indexPath.row];
+    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"test" object:nil userInfo:@{@"categoryID":[NSNumber numberWithInteger:newsCatalog.ID]}];
+    
+    /* 获取 rootVC 单例 */
+    XHBRootViewController *rootVC = [XHBRootViewController sharedInstance];
+    
+    /* 将主题日报的新闻 id 赋给 rootVC 对象 */
+    rootVC.ID = newsCatalog.ID;
+    
+    /* 切换到其他主题日报 */
+    [rootVC showOtherCategory];
     
 }
 

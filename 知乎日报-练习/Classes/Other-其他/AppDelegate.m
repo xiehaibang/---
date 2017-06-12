@@ -8,9 +8,10 @@
 
 #import "AppDelegate.h"
 #import "XHBCatalogViewController.h"
-#import "XHBContentViewController.h"
+#import "XHBHomeViewController.h"
 #import "XHBNavigationController.h"
 #import "XHBRootViewController.h"
+#import "NewHomeViewController.h"
 
 
 @interface AppDelegate ()
@@ -24,27 +25,11 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    /* 创建左边目录模块 */
-    XHBCatalogViewController *catalogViewController = [[XHBCatalogViewController alloc] init];
-    
-    /* 创建右边内容模块 */
-    XHBContentViewController *contentViewController = [[XHBContentViewController alloc] init];
-    
-    /* 将左边的目录模块加入自定义导航控制器 */
-    XHBNavigationController *catalogNav = [[XHBNavigationController alloc] initWithRootViewController:catalogViewController];
-    
-    /* 将右边的内容模块加入自定义导航控制器 */
-    XHBNavigationController *contentNav = [[XHBNavigationController alloc] initWithRootViewController:contentViewController];
-    
-    /* 创建root视图控制器 */
-    XHBRootViewController *rootViewController = [[XHBRootViewController alloc] init];
-    
-    /* 将目录模块和内容模块分别加入左边和中间的视图 */
-    rootViewController.leftViewController = catalogNav;
-    rootViewController.midViewController = contentNav;
+    /* 获取 rootVC 单例 */
+    XHBRootViewController *rootVC = [XHBRootViewController sharedInstance];
     
     /* 设置rootViewController为根视图控制器 */
-    self.window.rootViewController = rootViewController;
+    self.window.rootViewController = rootVC;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

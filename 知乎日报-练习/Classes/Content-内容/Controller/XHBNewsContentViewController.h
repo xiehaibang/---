@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XHBBaseViewController.h"
 
-@interface XHBNewsContentViewController : UIViewController
+@interface XHBNewsContentViewController : XHBBaseViewController
 
 /** 新闻 id */
 @property (assign, nonatomic) NSInteger newsId;

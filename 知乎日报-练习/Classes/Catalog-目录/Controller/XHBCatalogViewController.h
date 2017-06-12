@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XHBBaseViewController.h"
 
-@interface XHBCatalogViewController : UIViewController
+@interface XHBCatalogViewController : XHBBaseViewController
 
 /* 加载新闻类别 */
 - (void)loadCatalog;

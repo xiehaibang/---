@@ -7,12 +7,36 @@
 //  root 视图控制器，控制左视图和中间视图
 
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 @interface XHBRootViewController : UIViewController
 
 /** 左边视图 */
-@property (nonatomic, strong) UIViewController *leftViewController;
+@property (strong,nonatomic) UIViewController *leftViewController;
 /** 中间视图 */
-@property (nonatomic, strong) UIViewController *midViewController;
+@property (strong,nonatomic) UIViewController *midViewController;
+
+/** 主题日报的 id */
+@property (assign, nonatomic) NSInteger ID;
+
+/** 
+ * 初始化方法 
+ */
+//- (instancetype)init;
+
+/**
+ * 获取单例
+ */
++ (instancetype)sharedInstance;
+
+/**
+ * 切换到首页新闻
+ */
+- (void)showHomeCategory;
+
+/**
+ * 切换到其他主题日报新闻
+ */
+- (void)showOtherCategory;
 
 @end
