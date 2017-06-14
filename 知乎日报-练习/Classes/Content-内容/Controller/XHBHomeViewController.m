@@ -151,6 +151,9 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     /* 隐藏水平滚动控件 */
     self.scrollView.showsHorizontalScrollIndicator = NO;
     
+    /* 隐藏垂直滚动控件 */
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    
     /* 将轮播图的图片添加到 scrollView 对象中 */
     for (int i = 0; i < self.topNews.count; i++) {
         

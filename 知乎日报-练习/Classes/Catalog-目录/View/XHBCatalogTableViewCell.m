@@ -9,7 +9,11 @@
 #import "XHBCatalogTableViewCell.h"
 
 @interface XHBCatalogTableViewCell ()
-@property (weak, nonatomic) IBOutlet UILabel *newsNamelable;
+/** 标题名称 */
+@property (weak, nonatomic) IBOutlet UILabel *dailyNameLabel;
+
+/** 订阅按钮 */
+@property (weak, nonatomic) IBOutlet UIButton *subscriptionButton;
 
 @end
 
@@ -35,12 +39,25 @@
     // Configure the view for the selected state
 }
 
+
+#pragma mark - 设置首页
+/**
+ * 设置首页的 cell
+ */
+- (void)setupHomeCell
+{
+    self.dailyNameLabel.text = @"首页";
+    
+    [self.subscriptionButton setImage:[UIImage imageNamed:@"Menu_Enter"] forState:UIControlStateNormal];
+}
+
+
 #pragma mark - 存取方法
 - (void)setCategoryItem:(XHBNewCatalog *)categoryItem
 {
     _categoryItem = categoryItem;
     
-    self.newsNamelable.text = categoryItem.name;
+    self.dailyNameLabel.text = categoryItem.name;
 }
 
 @end

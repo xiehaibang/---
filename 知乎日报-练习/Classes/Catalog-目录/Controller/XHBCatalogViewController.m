@@ -123,6 +123,9 @@ static NSString * const XHBCatalogId = @"catalog";
         /* 拿到数据以后刷新表格 */
         [self.catalogTableView reloadData];
         
+        /* 默认选中首行 */
+        [self.catalogTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+        
     } failure:^(NSURLSessionDataTask * task, NSError * error) {
         /* 加载失败则提示用户 */
         [SVProgressHUD showErrorWithStatus:@"数据加载失败"];
@@ -132,13 +135,24 @@ static NSString * const XHBCatalogId = @"catalog";
 
 #pragma mark - UITableViewDataSource 协议
 /**
+ * 获取 section 的数量 
+ */
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+/**
  * 获取当前段 cell 的数量
  */
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    
-    return self.categories.count;
+    if (section == 0) {
+        return 1;
+    }
+    else {
+        return self.categories.count;
+    }
 }
 
 /**
@@ -149,7 +163,13 @@ static NSString * const XHBCatalogId = @"catalog";
 {
     XHBCatalogTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:XHBCatalogId forIndexPath:indexPath];
     
-    cell.categoryItem = self.categories[indexPath.row];
+    /* 单独设置首页的 cell */
+    if (indexPath.section == 0) {
+        [cell setupHomeCell];
+    }
+    else {
+        cell.categoryItem = self.categories[indexPath.row];
+    }
 
     return cell;
 }
@@ -157,22 +177,55 @@ static NSString * const XHBCatalogId = @"catalog";
 
 #pragma mark - UITableViewDelegate 协议
 /**
+ * 返回指定 section 的脚视图高度
+ */
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+/**
+ * 返回指定 section 的脚视图，调用此方法需要先实现 tableView:heightForHeaderInSection: 方法
+ */
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.catalogTableView.frame.size.width, 1)];
+        
+        view.backgroundColor = [UIColor colorWithRed:27/255.0 green:35/255.0 blue:40/255.0 alpha:1.0];
+        
+        return view;
+    }
+    else {
+        return nil;
+    }
+}
+
+/**
  * 选中 cell 时调用
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    XHBNewCatalog *newsCatalog = self.categories[indexPath.row];
-    
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"test" object:nil userInfo:@{@"categoryID":[NSNumber numberWithInteger:newsCatalog.ID]}];
     
     /* 获取 rootVC 单例 */
     XHBRootViewController *rootVC = [XHBRootViewController sharedInstance];
     
-    /* 将主题日报的新闻 id 赋给 rootVC 对象 */
-    rootVC.ID = newsCatalog.ID;
-    
-    /* 切换到其他主题日报 */
-    [rootVC showOtherCategory];
+    if (indexPath.section == 0) {
+        [rootVC showHomeCategory];
+    }
+    else {
+        XHBNewCatalog *newsCatalog = self.categories[indexPath.row];
+        
+        /* 将主题日报的新闻 id 赋给 rootVC 对象 */
+        rootVC.ID = newsCatalog.ID;
+        
+        /* 切换到其他主题日报 */
+        [rootVC showOtherCategory];
+    }
     
 }
 

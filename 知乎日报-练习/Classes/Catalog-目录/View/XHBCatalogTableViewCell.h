@@ -15,4 +15,9 @@
 /* 主题日报对象 */
 @property (strong, nonatomic) XHBNewCatalog *categoryItem;
 
+/**
+ * 设置首页 cell
+ */
+- (void)setupHomeCell;
+
 @end
