@@ -124,7 +124,6 @@ static id sharedInstance = nil;
     /* 创建右边内容模块 */
     self.homeVC = [[XHBHomeViewController alloc] init];
     
-    NewHomeViewController *newVC = [[NewHomeViewController alloc] init];
     
     /* 将左边的目录模块加入自定义导航控制器 */
     XHBNavigationController *catalogNav = [[XHBNavigationController alloc] initWithRootViewController:catalogVC];

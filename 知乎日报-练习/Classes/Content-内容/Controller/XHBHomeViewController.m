@@ -20,18 +20,17 @@
 
 
 @interface XHBHomeViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
+/** 顶部新闻的轮播图对象 */
+@property (strong, nonatomic) UIView *carouselView;
 
 /** 顶部滚动视图 */
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) UIScrollView *scrollView;
 
 /** 顶部分屏控件 */
-@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+@property (strong, nonatomic) UIPageControl *pageControl;
 
 /** 顶部新闻图片按钮 */
 @property (weak, nonatomic) IBOutlet UIButton *topNewsButton;
-
-/** 顶部新闻标题 */
-@property (strong, nonatomic) IBOutlet UILabel *topNewsTitle;
 
 /** 今日新闻列表视图 */
 @property (weak, nonatomic) IBOutlet UITableView *dayNewsTableView;
@@ -69,9 +68,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     [self setupView];
     
     /* 加载pageControl中的新闻 */
-//    [self loadTopDayNews];
-    
-    [self setupTopNews];
+    [self loadTopDayNews];
     
     /* 加载今日新闻 */
     [self loadDayNews];
@@ -87,8 +84,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 /** 
  * 视图初始化设置
  */
-- (void)setupView
-{
+- (void)setupView {
     /* 给手机屏幕的宽高赋值 */
     self.screenWidth = [[UIScreen mainScreen] bounds].size.width;
     self.screenHeight = [[UIScreen mainScreen] bounds].size.height;
@@ -101,6 +97,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     /* 设置dayNewsTableView的行高 */
     self.dayNewsTableView.rowHeight = 70;
     
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     /* 创建导航栏按钮 */
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Home_Icon" highImageName:@"Home_Icon_Highlight" target:self action:@selector(catalogClick)];
     
@@ -108,37 +106,107 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 
-#pragma mark - 给顶部新闻添加内容
+#pragma mark - 设置顶部新闻
 /** 
- * 设置顶部滚动视图的内容 
+ * 创建并设置轮播图
  */
-- (void)setupTopNews
-{
-    /* 设置ScrollView的委托对象 */
-    self.scrollView.delegate = self;
+- (void)setupTopNews {
+    /* 创建一个 UIView 对象 */
+    self.carouselView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 220)];
     
-    /* 设置ScrollView的内容视图的大小 */
-    self.scrollView.contentSize = CGSizeMake(self.screenWidth * 5, 0);
+    /* 创建并设置滚动视图 */
+    [self setupScrollView];
     
-    /* 设置内容视图的坐标原点 */
-    self.scrollView.contentOffset = CGPointMake(0, 0);
+    /* 创建并设置分页控件 */
+    [self setupPageControl];
     
-    /* 设置scrollView内容视图和边框的距离 */
-    self.scrollView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+    /* 将滚动视图添加到轮播图对象中 */
+    [self.carouselView addSubview:self.scrollView];
     
-    /* 加载pageControl中的新闻 */
-    [self loadTopDayNews];
+    /* 将分页控件添加到轮播图对象中 */
+    [self.carouselView addSubview:self.pageControl];
     
 }
 
 
+/**
+ * 创建并设置滚动视图 
+ */
+- (void)setupScrollView {
+    /* 创建一个 scrollView 对象 */
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 220)];
+    
+    /* 设置ScrollView的委托对象 */
+    self.scrollView.delegate = self;
+    
+    /* 启用分页 */
+    self.scrollView.pagingEnabled = YES;
+    
+    /* 设置ScrollView的内容视图的大小 */
+    self.scrollView.contentSize = CGSizeMake(self.screenWidth * self.topNews.count, self.scrollView.frame.size.height);
+    
+    /* 设置内容视图的坐标原点 */
+    self.scrollView.contentOffset = CGPointMake(0, 0);
+    
+    /* 隐藏水平滚动控件 */
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    
+    /* 将轮播图的图片添加到 scrollView 对象中 */
+    for (int i = 0; i < self.topNews.count; i++) {
+        
+        /* 获取顶部新闻信息 */
+        XHBDayNews *topNews = self.topNews[i];
+        
+        /* 获取图片 */
+        self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.screenWidth * i, 0, self.screenWidth, self.scrollView.frame.size.height)];
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:topNews.image]];
+        
+        /* 添加新闻标题 */
+        UILabel *topNewsLabel = [[UILabel alloc] init];
+        topNewsLabel.text = topNews.title;
+        topNewsLabel.textColor = [UIColor whiteColor];
+        topNewsLabel.frame = CGRectMake(10, 150, self.screenWidth - 20, 80);
+        
+        //设置标签显示行数，0为显示多行
+        topNewsLabel.numberOfLines = 0;
+        
+        //设置topNewsLabel根据字数自适应高度
+        topNewsLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        
+        //设置topNewsLabel的文字对齐方式
+        topNewsLabel.textAlignment = NSTextAlignmentLeft;
+        
+        /* 将新闻标题添加到新闻图片上 */
+        [self.imageView addSubview:topNewsLabel];
+        
+        /* 添加图片到ScrollView */
+        [self.scrollView addSubview:self.imageView];
+        
+    }
+}
+
+/**
+ * 创建并设置分页控件
+ */
+- (void)setupPageControl {
+    /* 创建一个分页控件 */
+    self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 50, 210, 100, 0)];
+    
+    /* 设置分页控件的页数 */
+    self.pageControl.numberOfPages = self.topNews.count;
+    
+    //    self.pageControl.selected = YES;
+    
+    /* 添加动作事件 */
+    [self.pageControl addTarget:self action:@selector(changePage) forControlEvents:UIControlEventValueChanged];
+}
+
 
 #pragma mark - 加载网络数据
-/** 
- * 加载pageControl中的新闻 
+/**
+ * 加载pageControl中的新闻
  */
-- (void)loadTopDayNews
-{
+- (void)loadTopDayNews {
     /* 显示指示器 */
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
@@ -163,37 +231,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         /* 转换数据模型 */
         self.topNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:responseObject[@"top_stories"]];
         
-        for (int i = 0; i < self.pageControl.numberOfPages; i++) {
-            
-            /* 获取顶部新闻信息 */
-            XHBDayNews *topNews = self.topNews[i];
-            
-            /* 获取图片 */
-            self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.screenWidth * i, 0, self.screenWidth, self.scrollView.frame.size.height)];
-            [self.imageView sd_setImageWithURL:[NSURL URLWithString:topNews.image]];
-            
-            /* 添加新闻标题 */
-            UILabel *topNewsLabel = [[UILabel alloc] init];
-            topNewsLabel.text = topNews.title;
-            topNewsLabel.textColor = [UIColor whiteColor];
-            topNewsLabel.frame = CGRectMake(10, 150, self.screenWidth - 20, 80);
-            
-            //设置标签显示行数，0为显示多行
-            topNewsLabel.numberOfLines = 0;
-            
-            //设置topNewsLabel根据字数自适应高度
-            topNewsLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            
-            //设置topNewsLabel的文字对齐方式
-            topNewsLabel.textAlignment = NSTextAlignmentLeft;
-            
-            /* 将新闻标题添加到新闻图片上 */
-            [self.imageView addSubview:topNewsLabel];
-            
-            /* 添加图片到ScrollView */
-            [self.scrollView addSubview:self.imageView];
-            
-        }
+        [self.dayNewsTableView reloadData];
+        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         /* 提示加载失败信息 */
         [SVProgressHUD showErrorWithStatus:@"数据加载失败"];
@@ -203,8 +242,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 /** 
  * 加载当日的新闻
  */
-- (void)loadDayNews
-{
+- (void)loadDayNews {
     /* 显示指示器 */
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
@@ -234,20 +272,32 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 }
 
 
+
 #pragma mark - UITableViewDataSource 协议
+/**
+ * 获取 section 的数量
+ */
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
 /** 
  * 获取cell的数量
  */
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.dayNews.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    if (section == 0) {
+        return 0;
+    }
+    else {
+        return self.dayNews.count;
+    }
 }
 
 /** 
  * 返回封装好的cell
  */
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     XHBDayNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:XHBDayNewsCell forIndexPath:indexPath];
     
     cell.dayNewsItem = self.dayNews[indexPath.row];
@@ -256,12 +306,35 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 }
 
 
+
 #pragma mark - UITableViewDelegate 协议
+/**
+ * 返回指定 section 的头视图的高度
+ */
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 220;
+    }
+    else {
+        return 0;
+    }
+}
+
+/**
+ * 返回指定 section 的头视图，调用此方法需要先实现 tableView:heightForHeaderInSection: 方法
+ */
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    /* 创建并设置一个轮播图 */
+    [self setupTopNews];
+    
+    return self.carouselView;
+}
+
 /**
  * 选中 cell 时调用
  */
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     /* 创建一个新闻内容对象 */
     XHBNewsContentViewController *newsContentVC = [[XHBNewsContentViewController alloc] init];
     
@@ -279,8 +352,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 /**
  * 当 topNews 视图滚动的时候，获取内容视图的偏移量
  */
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     /* 获取内容视图坐标原点与屏幕滚动视图坐标原点的偏移量 */
     CGPoint offset = scrollView.contentOffset;
     self.pageControl.currentPage = offset.x / self.screenWidth;
@@ -292,7 +364,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 /** 
  * 当前页改变
  */
-- (IBAction)changePage:(id)sender {
+- (void)changePage {
     
     [UIView animateWithDuration:0.3 animations:^{
         /* 将偏移量设置为当前页乘以屏幕宽度 */
@@ -308,8 +380,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 /**
  * 导航栏按钮动作事件 
  */
-- (void)catalogClick
-{
+- (void)catalogClick {
     /* 移动类别视图 */
     if (self.navigationController.view.frame.origin.x == 0) { //如果左边视图的位置x坐标为0
         [UIView animateWithDuration:1.0 animations:^{
@@ -329,8 +400,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 /** 
  * 返回 manager 对象 
  */
-- (AFHTTPSessionManager *)manager
-{
+- (AFHTTPSessionManager *)manager {
     /* 如果 _manager 为空 */
     if (!_manager) {
         _manager = [AFHTTPSessionManager manager];
