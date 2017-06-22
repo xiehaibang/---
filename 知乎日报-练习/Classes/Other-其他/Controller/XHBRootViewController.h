@@ -39,4 +39,9 @@
  */
 - (void)showOtherCategory;
 
+/**
+ * 移除滑动菜单手势
+ */
+- (void)removeGesture;
+
 @end

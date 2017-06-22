@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -23,9 +23,25 @@
                 <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aEB-dh-eut">
                     <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="49" id="Kp4-Bo-Bnf"/>
+                    </constraints>
                     <items>
-                        <tabBarItem systemItem="favorites" id="N7R-yu-C1g"/>
-                        <tabBarItem systemItem="more" id="d0d-A1-avp"/>
+                        <tabBarItem image="News_Navigation_Arrow" selectedImage="News_Navigation_Arrow_Highlight" id="N7R-yu-C1g">
+                            <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
+                        </tabBarItem>
+                        <tabBarItem image="News_Navigation_Next" selectedImage="News_Navigation_Next_Highlight" id="d0d-A1-avp">
+                            <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
+                        </tabBarItem>
+                        <tabBarItem title="" image="News_Navigation_Vote" selectedImage="News_Navigation_Voted" id="dgf-s2-fyh">
+                            <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
+                        </tabBarItem>
+                        <tabBarItem title="" image="News_Navigation_Share" selectedImage="News_Navigation_Share_Highlight" id="vTX-4n-20D">
+                            <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
+                        </tabBarItem>
+                        <tabBarItem title="" image="News_Navigation_Comment" selectedImage="News_Navigation_Comment_Highlight" id="jwW-dd-821">
+                            <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
+                        </tabBarItem>
                     </items>
                 </tabBar>
                 <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n7y-v0-GLE">
@@ -48,4 +64,16 @@
             </constraints>
         </view>
     </objects>
+    <resources>
+        <image name="News_Navigation_Arrow" width="64" height="43"/>
+        <image name="News_Navigation_Arrow_Highlight" width="64" height="43"/>
+        <image name="News_Navigation_Comment" width="64" height="43"/>
+        <image name="News_Navigation_Comment_Highlight" width="64" height="43"/>
+        <image name="News_Navigation_Next" width="64" height="43"/>
+        <image name="News_Navigation_Next_Highlight" width="64" height="43"/>
+        <image name="News_Navigation_Share" width="64" height="43"/>
+        <image name="News_Navigation_Share_Highlight" width="64" height="43"/>
+        <image name="News_Navigation_Vote" width="64" height="43"/>
+        <image name="News_Navigation_Voted" width="64" height="43"/>
+    </resources>
 </document>

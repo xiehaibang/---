@@ -20,6 +20,13 @@
 
 
 @interface XHBHomeViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
+
+/** 顶部新闻图片按钮 */
+@property (weak, nonatomic) IBOutlet UIButton *topNewsButton;
+
+/** 今日新闻列表视图 */
+@property (weak, nonatomic) IBOutlet UITableView *dayNewsTableView;
+
 /** 顶部新闻的轮播图对象 */
 @property (strong, nonatomic) UIView *carouselView;
 
@@ -29,12 +36,8 @@
 /** 顶部分屏控件 */
 @property (strong, nonatomic) UIPageControl *pageControl;
 
-/** 顶部新闻图片按钮 */
-@property (weak, nonatomic) IBOutlet UIButton *topNewsButton;
-
-/** 今日新闻列表视图 */
-@property (weak, nonatomic) IBOutlet UITableView *dayNewsTableView;
-
+/** 计时器对象 */
+@property (strong, nonatomic) NSTimer *timer;
 
 /** 左边视图 */
 //@property (strong, nonatomic) XHBCatalogViewController *leftViewController;
@@ -101,6 +104,15 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     
     /* 创建导航栏按钮 */
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Home_Icon" highImageName:@"Home_Icon_Highlight" target:self action:@selector(catalogClick)];
+    
+    /* 创建 NSTimer 计时器来让轮播图每隔5秒自动滚动 */
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(autoScrollImage) userInfo:nil repeats:YES];
+    
+    /* 获取当前的消息循环对象 */
+    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    
+    /* 将计时器对象的优先级设置为和控件的优先级一样 */
+    [runLoop addTimer:self.timer forMode:NSRunLoopCommonModes];
     
 }
 
@@ -202,6 +214,29 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     
     /* 添加动作事件 */
     [self.pageControl addTarget:self action:@selector(changePage) forControlEvents:UIControlEventValueChanged];
+}
+
+/**
+ * 自动滚动图片
+ */
+- (void)autoScrollImage {
+    
+    /* 获取当前页的页码 */
+    NSInteger pageNumber = self.pageControl.currentPage;
+    
+    /* 若当前页的页码为最后一页，则将它设置为0，否则 + 1 */
+    if (pageNumber == self.pageControl.numberOfPages - 1) {
+        pageNumber = 0;
+    }
+    else {
+        pageNumber ++;
+    }
+    
+    /* 计算下一页的偏移值 */
+    CGFloat offsetX = pageNumber * self.scrollView.frame.size.width;
+    
+    /* 设置 scrollView 的偏移值 */
+    [self.scrollView setContentOffset:CGPointMake(offsetX, 0) animated:YES];
 }
 
 
@@ -345,6 +380,12 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     XHBDayNews *dayNews = self.dayNews[indexPath.row];
     newsContentVC.newsId = dayNews.ID;
     
+    /* 获得 rootViewController 的单例 */
+//    XHBRootViewController *rootVC = [XHBRootViewController sharedInstance];
+    
+    /* 取消滑动菜单的手势 */
+//    [rootVC removeGesture];
+    
     /* 将新创建的新闻内容对象压入 navigationController */
     [self.navigationController pushViewController:newsContentVC animated:YES];
 }
@@ -356,12 +397,49 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  * 当 topNews 视图滚动的时候，获取内容视图的偏移量
  */
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    /* 获取内容视图坐标原点与屏幕滚动视图坐标原点的偏移量 */
-    CGPoint offset = scrollView.contentOffset;
-    self.pageControl.currentPage = offset.x / self.screenWidth;
+    
+    /* 因为 tableView 也是继承 UIScrollView 的对象，所以要判断一下当前的 scrollView 是否是轮播图的 scrollView */
+    if ([scrollView isEqual:self.scrollView]) {
+        /* 获取内容视图坐标原点与屏幕滚动视图坐标原点的偏移量 */
+        CGPoint offset = scrollView.contentOffset;
+        self.pageControl.currentPage = offset.x / self.screenWidth;
+    }
 }
 
+/** 
+ * 实现即将开始拖拽的方法
+ */
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    
+    /* 因为 tableView 也是继承 UIScrollView 的对象，所以要判断一下当前的 scrollView 是否是轮播图的 scrollView */
+    if ([scrollView isEqual:self.scrollView]) {
+        /* 停止计时器 */
+        [self.timer invalidate];
+        
+        /* 在调用完 invalidate 的时候要将当前控制器的计时器对象设置为 nil，因为计时器和当前控制器形成了强引用循环，所以不设置为 nil 会导致计时器对象没有销毁，当前控制器也就无法调用 dealloc 方法 */
+        self.timer = nil;
+    }
+    
+}
 
+/** 
+ * 实现拖拽完毕的方法
+ */
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    
+    /* 因为 tableView 也是继承 UIScrollView 的对象，所以要判断一下当前的 scrollView 是否是轮播图的 scrollView */
+    if ([scrollView isEqual:self.scrollView]) {
+        /* 创建一个新的 NSTimer 计时器来让轮播图每隔5秒自动滚动 */
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(autoScrollImage) userInfo:nil repeats:YES];
+        
+        /* 获取当前的消息循环对象 */
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+        
+        /* 将计时器对象的优先级设置为和控件的优先级一样 */
+        [runLoop addTimer:self.timer forMode:NSRunLoopCommonModes];
+    }
+    
+}
 
 #pragma mark - UIPageControl动作方法
 /** 

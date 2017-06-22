@@ -15,13 +15,17 @@
 
 @interface XHBRootViewController ()<NSCopying>
 
-@property (strong, nonatomic) UITapGestureRecognizer *tapGR;
-
 /** 首页新闻对象 */
 @property (strong, nonatomic) XHBHomeViewController *homeVC;
 
 /** 其他主题日报对象 */
 @property (strong, nonatomic) XHBThemeViewController *themeVC;
+
+/** 滑动手势对象 */
+@property (strong, nonatomic) UIPanGestureRecognizer *panGR;
+
+/** 点击手势对象 */
+@property (strong, nonatomic) UITapGestureRecognizer *tapGR;
 
 @end
 
@@ -162,16 +166,24 @@ static id sharedInstance = nil;
  */
 - (void)addGesture {
     /* 创建一个拖动手势以及手势动作监听事件 */
-    UIPanGestureRecognizer *panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+    self.panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
     
     /* 将手势添加到 midView 中 */
-    [self.midViewController.view addGestureRecognizer:panGR];
+    [self.midViewController.view addGestureRecognizer:self.panGR];
     
     /* 创建一个点击手势以及手势动作监听事件 */
     self.tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
     
     /* 将手势添加到 midView 中 */
     [self.midViewController.view addGestureRecognizer:self.tapGR];
+}
+
+/**
+ * 移除手势 
+ */
+- (void)removeGesture {
+    [self.midViewController.view removeGestureRecognizer:self.panGR];
+    [self.midViewController.view removeGestureRecognizer:self.tapGR];
 }
 
 /**
