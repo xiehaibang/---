@@ -295,7 +295,6 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         self.dayNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:responseObject[@"stories"]];
         
-        
         /* 刷新表格 */
         [self.dayNewsTableView reloadData];
         
@@ -462,16 +461,10 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  * 导航栏按钮动作事件 
  */
 - (void)catalogClick {
-    /* 移动类别视图 */
-    if (self.navigationController.view.frame.origin.x == 0) { //如果左边视图的位置x坐标为0
-        [UIView animateWithDuration:1.0 animations:^{
-            self.navigationController.view.frame = CGRectMake(230, 0, self.screenWidth, self.screenHeight);
-        }];
-    }else {
-        [UIView animateWithDuration:1.0 animations:^{
-            self.navigationController.view.frame = CGRectMake(0, 0, self.screenWidth, self.screenHeight);
-        }];
-    }
+    
+    XHBRootViewController *rootVC = [XHBRootViewController sharedInstance];
+    
+    [rootVC navigationButton];
     
 }
 

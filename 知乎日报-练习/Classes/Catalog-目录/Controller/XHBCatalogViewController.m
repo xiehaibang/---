@@ -229,6 +229,7 @@ static NSString * const XHBCatalogId = @"catalog";
     
 }
 
+
 #pragma mark - 懒加载
 /** 
  * 返回一个manager对象

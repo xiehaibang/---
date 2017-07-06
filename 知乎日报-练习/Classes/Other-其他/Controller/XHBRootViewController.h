@@ -44,4 +44,9 @@
  */
 - (void)removeGesture;
 
+/**
+ * 按动导航栏按钮时显示或隐藏导航栏菜单
+ */
+- (void)navigationButton;
+
 @end

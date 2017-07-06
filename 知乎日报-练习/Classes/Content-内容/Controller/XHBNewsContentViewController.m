@@ -16,7 +16,7 @@
 #import <MJExtension/MJExtension.h>
 
 
-@interface XHBNewsContentViewController ()<WKUIDelegate, UIWebViewDelegate>
+@interface XHBNewsContentViewController ()<WKUIDelegate, UIWebViewDelegate, UITabBarDelegate>
 
 /** 网络请求管理者 */
 @property (strong, nonatomic) AFHTTPSessionManager *manager;
@@ -29,6 +29,10 @@
 
 /** 新闻视图 */
 @property (weak, nonatomic) IBOutlet UIWebView *newsWebView;
+
+/** UITabBar 控件 */
+@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
+
 
 @end
 
@@ -145,6 +149,27 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     }];
 
 }
+
+
+#pragma mark - UITabBarDelegate 协议
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    
+    /* 如果是返回按钮，则返回新闻列表 */
+    if (item.tag == 0) {
+        [self returnNewsList];
+    }
+}
+
+
+#pragma mark - tabBar 按钮动作事件
+/**
+ * 返回
+ */
+- (void)returnNewsList {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+
 
 #pragma mark - 懒加载
 /**

@@ -152,7 +152,9 @@ static id sharedInstance = nil;
     [self.view addSubview:self.midViewController.view];
     
     /* 设置leftViewController的大小，和midViewController移动的距离一样大 */
-    self.leftViewController.view.frame = CGRectMake(0, 0, 230, [[UIScreen mainScreen] bounds].size.height);
+    self.leftViewController.view.frame = CGRectMake(-230, 0, 230, [[UIScreen mainScreen] bounds].size.height);
+    
+    
     
     /* 添加手势 */
     [self addGesture];
@@ -189,21 +191,42 @@ static id sharedInstance = nil;
 /**
  * 计算视图的水平偏移量
  */
-- (CGRect)frameWithOffsetX:(CGFloat)offsetX {
+- (CGRect)frameWithOffsetX:(CGFloat)offsetX viewController:(UIViewController *)viewController{
+    
+    if ([self.midViewController isEqual:viewController]) {
+        
+        /* 根据偏移量改变 midViewController 的 view 的水平位置 */
+        CGRect frame = self.midViewController.view.frame;
+        frame.origin.x += offsetX;
+        
+        //不让手指拖动的距离大于左边视图的宽度
+        if (frame.origin.x > self.leftViewController.view.frame.size.width) {
+            frame.origin.x = self.leftViewController.view.frame.size.width;
+        }
+        //并且不让手指手指向左拖动
+        else if (frame.origin.x < 0) {
+            frame.origin.x = 0;
+        }
+        
+        return frame;
+    }
+    
     /* 根据偏移量改变 midViewController 的 view 的水平位置 */
-    CGRect frame = self.midViewController.view.frame;
+    CGRect frame = self.leftViewController.view.frame;
+    
     frame.origin.x += offsetX;
     
     //不让手指拖动的距离大于左边视图的宽度
-    if (frame.origin.x > self.leftViewController.view.frame.size.width) {
-        frame.origin.x = self.leftViewController.view.frame.size.width;
+    if (fabs(frame.origin.x) > self.leftViewController.view.frame.size.width) {
+        frame.origin.x = 0 - self.leftViewController.view.frame.size.width;
     }
     //并且不让手指手指向左拖动
-    else if (frame.origin.x < 0) {
+    else if (frame.origin.x > 0) {
         frame.origin.x = 0;
     }
     
     return frame;
+    
 }
 
 /**
@@ -216,7 +239,9 @@ static id sharedInstance = nil;
         /* 获取手势拖动的偏移量 */
         CGPoint offset = [pan translationInView:self.midViewController.view];
         
-        self.midViewController.view.frame = [self frameWithOffsetX:offset.x];
+        self.midViewController.view.frame = [self frameWithOffsetX:offset.x viewController:self.midViewController];
+        
+        self.leftViewController.view.frame = [self frameWithOffsetX:offset.x viewController:self.leftViewController];
         
     }
     /* 手势结束状态 */
@@ -234,7 +259,9 @@ static id sharedInstance = nil;
             
             [UIView animateWithDuration:0.5 animations:^{
                 
-                self.midViewController.view.frame = [self frameWithOffsetX:offsetX];
+                self.midViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.midViewController];
+                
+                self.leftViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.leftViewController];
                 
             }];
         }
@@ -246,7 +273,9 @@ static id sharedInstance = nil;
             CGFloat offsetX = leftViewWidth - midViewX;
             
             [UIView animateWithDuration:0.5 animations:^{
-                self.midViewController.view.frame = [self frameWithOffsetX:offsetX];
+                self.midViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.midViewController];
+                
+                self.leftViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.leftViewController];
             }];
             
             self.tapGR.cancelsTouchesInView = YES;
@@ -270,11 +299,33 @@ static id sharedInstance = nil;
     CGFloat offsetX = 0 - midViewX;
     
     [UIView animateWithDuration:0.5 animations:^{
-        self.midViewController.view.frame = [self frameWithOffsetX:offsetX];
+        self.midViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.midViewController];
+        
+        self.leftViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.leftViewController];
     }];
     
     if (midViewX == 0) {
         self.tapGR.cancelsTouchesInView = NO;
+    }
+}
+
+/**
+ * 按动导航栏按钮时显示或隐藏导航栏菜单
+ */
+- (void)navigationButton {
+    
+    /* 若导航栏是隐藏的，就将它显示，否则隐藏 */
+    if (self.midViewController.view.frame.origin.x == 0) {
+        [UIView animateWithDuration:1.0 animations:^{
+            self.midViewController.view.frame = [self frameWithOffsetX:230 viewController:self.midViewController];
+            self.leftViewController.view.frame = [self frameWithOffsetX:230 viewController:self.leftViewController];
+        }];
+    }
+    else {
+        [UIView animateWithDuration:1.0 animations:^{
+            self.midViewController.view.frame = [self frameWithOffsetX:-230 viewController:self.midViewController];
+            self.leftViewController.view.frame = [self frameWithOffsetX:-230 viewController:self.leftViewController];
+        }];
     }
 }
 

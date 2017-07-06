@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="XHBNewsContentViewController">
             <connections>
                 <outlet property="newsWebView" destination="n7y-v0-GLE" id="M8L-ZA-Ah9"/>
+                <outlet property="tabBar" destination="aEB-dh-eut" id="zPw-KV-SQD"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -30,19 +31,22 @@
                         <tabBarItem image="News_Navigation_Arrow" selectedImage="News_Navigation_Arrow_Highlight" id="N7R-yu-C1g">
                             <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
                         </tabBarItem>
-                        <tabBarItem image="News_Navigation_Next" selectedImage="News_Navigation_Next_Highlight" id="d0d-A1-avp">
+                        <tabBarItem tag="1" image="News_Navigation_Next" selectedImage="News_Navigation_Next_Highlight" id="d0d-A1-avp">
                             <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
                         </tabBarItem>
-                        <tabBarItem title="" image="News_Navigation_Vote" selectedImage="News_Navigation_Voted" id="dgf-s2-fyh">
+                        <tabBarItem tag="2" title="" image="News_Navigation_Vote" selectedImage="News_Navigation_Voted" id="dgf-s2-fyh">
                             <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
                         </tabBarItem>
-                        <tabBarItem title="" image="News_Navigation_Share" selectedImage="News_Navigation_Share_Highlight" id="vTX-4n-20D">
+                        <tabBarItem tag="3" title="" image="News_Navigation_Share" selectedImage="News_Navigation_Share_Highlight" id="vTX-4n-20D">
                             <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
                         </tabBarItem>
-                        <tabBarItem title="" image="News_Navigation_Comment" selectedImage="News_Navigation_Comment_Highlight" id="jwW-dd-821">
+                        <tabBarItem tag="4" title="" image="News_Navigation_Comment" selectedImage="News_Navigation_Comment_Highlight" id="jwW-dd-821">
                             <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
                         </tabBarItem>
                     </items>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="GQx-MN-yC9"/>
+                    </connections>
                 </tabBar>
                 <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n7y-v0-GLE">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
