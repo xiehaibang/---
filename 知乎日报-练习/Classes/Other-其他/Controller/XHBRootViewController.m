@@ -334,6 +334,14 @@ static id sharedInstance = nil;
  * 切换到首页新闻 
  */
 - (void)showHomeCategory {
+    
+    /* 切换的时候将菜单列表的位置复原 */
+    if (self.leftViewController.view.frame.origin.x == 0) {
+        
+        self.leftViewController.view.frame = [self frameWithOffsetX:-230 viewController:self.leftViewController];
+        
+    }
+    
     /* 移除当前控制器和视图 */
 //    [self.midViewController removeFromParentViewController];
     [self.midViewController.view removeFromSuperview];
@@ -351,12 +359,23 @@ static id sharedInstance = nil;
 //    [self addChildViewController:self.midViewController];
     [self.view addSubview:self.midViewController.view];
     
+    /* 添加手势 */
+    [self addGesture];
+    
 }
 
 /**
  * 切换到其他主题日报新闻
  */
 - (void)showOtherCategory {
+    
+    /* 切换的时候将菜单列表的位置复原 */
+    if (self.leftViewController.view.frame.origin.x == 0) {
+        
+        self.leftViewController.view.frame = [self frameWithOffsetX:-230 viewController:self.leftViewController];
+        
+    }
+    
 //    [self.midViewController removeFromParentViewController];
     [self.midViewController.view removeFromSuperview];
     
