@@ -64,6 +64,18 @@
 static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 #pragma mark - viewController 生命周期
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    /* 创建导航栏按钮 */
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Home_Icon" highImageName:@"Home_Icon_Highlight" target:self action:@selector(catalogClick)];
+    
+    //设置导航栏的标题
+    self.navigationItem.title = @"今日新闻";
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -88,6 +100,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  * 视图初始化设置
  */
 - (void)setupView {
+    
     /* 给手机屏幕的宽高赋值 */
     self.screenWidth = [[UIScreen mainScreen] bounds].size.width;
     self.screenHeight = [[UIScreen mainScreen] bounds].size.height;
@@ -101,9 +114,6 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     self.dayNewsTableView.rowHeight = 70;
     
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    /* 创建导航栏按钮 */
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Home_Icon" highImageName:@"Home_Icon_Highlight" target:self action:@selector(catalogClick)];
     
     /* 创建 NSTimer 计时器来让轮播图每隔5秒自动滚动 */
     self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(autoScrollImage) userInfo:nil repeats:YES];
@@ -378,12 +388,6 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     /* 将新闻 id 赋值给 newsContentVC 对象 */
     XHBDayNews *dayNews = self.dayNews[indexPath.row];
     newsContentVC.newsId = dayNews.ID;
-    
-    /* 获得 rootViewController 的单例 */
-//    XHBRootViewController *rootVC = [XHBRootViewController sharedInstance];
-    
-    /* 取消滑动菜单的手势 */
-//    [rootVC removeGesture];
     
     /* 将新创建的新闻内容对象压入 navigationController */
     [self.navigationController pushViewController:newsContentVC animated:YES];

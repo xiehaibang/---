@@ -32,6 +32,18 @@
     self.window.rootViewController = rootVC;
     
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    //设备屏幕的宽高
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    
+    //初始化屏幕快照视图，并将它设置为 window 最上面的视图
+    self.screenShotView = [[XHBScreenShotBackView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    [self.window insertSubview:self.screenShotView atIndex:0];
+    
+    //隐藏屏幕快照视图
+    self.screenShotView.hidden = YES;
+    
     [self.window makeKeyAndVisible];
     
     return YES;

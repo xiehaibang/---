@@ -16,4 +16,7 @@
 /** 手机屏幕的高 */
 @property (assign, nonatomic) CGFloat screenHeight;
 
+/** 是否支持自定义的 pop 拖动手势，默认 yes */
+@property (assign, nonatomic) BOOL enablePanGesture;
+
 @end

@@ -7,16 +7,12 @@
 //
 
 #import "XHBRootViewController.h"
-#import "XHBHomeViewController.h"
 #import "XHBCatalogViewController.h"
 #import "NewHomeViewController.h"
 #import "XHBNavigationController.h"
 #import "XHBThemeViewController.h"
 
 @interface XHBRootViewController ()<NSCopying>
-
-/** 首页新闻对象 */
-@property (strong, nonatomic) XHBHomeViewController *homeVC;
 
 /** 其他主题日报对象 */
 @property (strong, nonatomic) XHBThemeViewController *themeVC;
@@ -136,8 +132,8 @@ static id sharedInstance = nil;
     XHBNavigationController *homeNav = [[XHBNavigationController alloc] initWithRootViewController:self.homeVC];
     
     /* 将目录模块和内容模块分别加入左边和中间的视图 */
-    self.leftViewController = catalogNav;
-    self.midViewController = homeNav;
+    self.leftViewController = (XHBBaseViewController *)catalogNav;
+    self.midViewController = (XHBBaseViewController *)homeNav;
 }
 
 /**
@@ -154,8 +150,6 @@ static id sharedInstance = nil;
     /* 设置leftViewController的大小，和midViewController移动的距离一样大 */
     self.leftViewController.view.frame = CGRectMake(-230, 0, 230, [[UIScreen mainScreen] bounds].size.height);
     
-    
-    
     /* 添加手势 */
     [self addGesture];
 }
@@ -171,20 +165,27 @@ static id sharedInstance = nil;
     self.panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
     
     /* 将手势添加到 midView 中 */
-    [self.midViewController.view addGestureRecognizer:self.panGR];
+//    [self.midViewController.view addGestureRecognizer:self.panGR];
+    
+    //将拖动手势添加到 homeVC 的视图中
+    [self.homeVC.view addGestureRecognizer:self.panGR];
     
     /* 创建一个点击手势以及手势动作监听事件 */
     self.tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
     
     /* 将手势添加到 midView 中 */
     [self.midViewController.view addGestureRecognizer:self.tapGR];
+    
+    //添加到 homeVC 会导致点击收回侧滑菜单无效
+//    [self.homeVC.view addGestureRecognizer:self.panGR];
 }
 
 /**
  * 移除手势 
  */
 - (void)removeGesture {
-    [self.midViewController.view removeGestureRecognizer:self.panGR];
+//    [self.midViewController.view removeGestureRecognizer:self.panGR];
+    [self.homeVC.view removeGestureRecognizer:self.panGR];
     [self.midViewController.view removeGestureRecognizer:self.tapGR];
 }
 
@@ -353,12 +354,13 @@ static id sharedInstance = nil;
     XHBNavigationController *homeNav = [[XHBNavigationController alloc] initWithRootViewController:self.homeVC];
     
     /* 将导航控制器赋给内容模块 */
-    self.midViewController = homeNav;
+    self.midViewController = (XHBBaseViewController *)homeNav;
     
     /* 添加首页对象的控制器和视图到当前类的对象中 */
 //    [self addChildViewController:self.midViewController];
     [self.view addSubview:self.midViewController.view];
     
+
     /* 添加手势 */
     [self addGesture];
     
@@ -391,7 +393,7 @@ static id sharedInstance = nil;
     XHBNavigationController *themeNav = [[XHBNavigationController alloc] initWithRootViewController:self.themeVC];
     
     /* 将导航控制器赋给目录模块 */
-    self.midViewController = themeNav;
+    self.midViewController = (XHBBaseViewController *)themeNav;
     
     /* 添加首页对象的控制器和视图到当前类的对象中 */
 //    [self addChildViewController:self.midViewController];

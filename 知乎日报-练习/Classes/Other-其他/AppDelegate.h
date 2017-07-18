@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XHBScreenShotBackView.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-
+/** 屏幕快照视图的对象 */
+@property (strong, nonatomic) XHBScreenShotBackView *screenShotView;
 
 @end
 

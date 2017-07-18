@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import "XHBBaseViewController.h"
+#import "XHBHomeViewController.h"
 
 @interface XHBRootViewController : UIViewController
 
 /** 左边视图 */
-@property (strong,nonatomic) UIViewController *leftViewController;
+@property (strong,nonatomic) XHBBaseViewController *leftViewController;
 /** 中间视图 */
-@property (strong,nonatomic) UIViewController *midViewController;
+@property (strong,nonatomic) XHBBaseViewController *midViewController;
+
+/** 首页新闻对象 */
+@property (strong, nonatomic) XHBHomeViewController *homeVC;
 
 /** 主题日报的 id */
 @property (assign, nonatomic) NSInteger ID;
@@ -38,6 +43,11 @@
  * 切换到其他主题日报新闻
  */
 - (void)showOtherCategory;
+
+/**
+ * 添加滑动菜单手势
+ */
+- (void)addGesture;
 
 /**
  * 移除滑动菜单手势
