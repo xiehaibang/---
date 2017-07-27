@@ -16,7 +16,7 @@
 #import <MJExtension/MJExtension.h>
 
 
-@interface XHBNewsContentViewController ()<WKUIDelegate, UIWebViewDelegate, UITabBarDelegate>
+@interface XHBNewsContentViewController ()<WKUIDelegate, WKNavigationDelegate, UIWebViewDelegate, UITabBarDelegate>
 
 /** 网络请求管理者 */
 @property (strong, nonatomic) AFHTTPSessionManager *manager;
@@ -28,7 +28,9 @@
 @property (strong, nonatomic) NSString *css;
 
 /** 新闻视图 */
-@property (weak, nonatomic) IBOutlet UIWebView *newsWebView;
+//@property (weak, nonatomic) IBOutlet UIWebView *newsWebView;
+
+@property (strong, nonatomic) WKWebView *newsWKWebView;
 
 /** UITabBar 控件 */
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
@@ -54,17 +56,18 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     [self loadNewsContent];
     
     
-//    /* 创建一个 WKWebView */
-//    WKWebView *newsWebView = [[WKWebView alloc] initWithFrame:self.view.frame];
-//    
-//    /* 将 WKWebView 添加到当前视图中 */
-//    [self.view addSubview:newsWebView];
-//    
-//    /* 给 WKWebView 设置委托 */
-//    newsWebView.UIDelegate = self;
-//    
-//    /* 加载 html 语言 */
-//    [newsWebView loadHTMLString:self.newsContent.body baseURL:nil];
+//    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+//    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+    
+    /* 创建一个 WKWebView */
+    self.newsWKWebView = [[WKWebView alloc] initWithFrame:self.view.frame];
+    
+    /* 将 WKWebView 添加到当前视图中 */
+    [self.view addSubview:self.newsWKWebView];
+    
+    /* 给 WKWebView 设置委托 */
+    self.newsWKWebView.UIDelegate = self;
+    self.newsWKWebView.navigationDelegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -140,11 +143,17 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
         //创建 html 头标签
         NSString *head = [NSString stringWithFormat:@"<head><style type=\"text/css\"> %@ </style></head>", self.css];
         
+    
+        
         //创建 html
         NSString *html = [head stringByAppendingString:self.newsContent.body];
         
         /* 加载 HTML 内容 */
-        [self.newsWebView loadHTMLString:html baseURL:nil];
+//        [self.newsWebView loadHTMLString:html baseURL:nil];
+        /* 加载 html 语言 */
+        [self.newsWKWebView  loadHTMLString:html baseURL:nil];
+
+        [self.newsWKWebView setContentScaleFactor:1.0];
         
     }];
 

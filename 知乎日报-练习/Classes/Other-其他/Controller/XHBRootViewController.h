@@ -47,7 +47,7 @@
 /**
  * 添加滑动菜单手势
  */
-- (void)addGesture;
+- (void)addGestureForView:(UIView *)view;
 
 /**
  * 移除滑动菜单手势

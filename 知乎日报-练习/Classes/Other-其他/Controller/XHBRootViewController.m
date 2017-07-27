@@ -8,7 +8,6 @@
 
 #import "XHBRootViewController.h"
 #import "XHBCatalogViewController.h"
-#import "NewHomeViewController.h"
 #import "XHBNavigationController.h"
 #import "XHBThemeViewController.h"
 
@@ -151,7 +150,7 @@ static id sharedInstance = nil;
     self.leftViewController.view.frame = CGRectMake(-230, 0, 230, [[UIScreen mainScreen] bounds].size.height);
     
     /* 添加手势 */
-    [self addGesture];
+    [self addGestureForView:self.homeVC.view];
 }
 
 
@@ -160,24 +159,19 @@ static id sharedInstance = nil;
 /**
  * 创建和添加手势
  */
-- (void)addGesture {
+- (void)addGestureForView:(UIView *)view {
     /* 创建一个拖动手势以及手势动作监听事件 */
     self.panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
     
-    /* 将手势添加到 midView 中 */
-//    [self.midViewController.view addGestureRecognizer:self.panGR];
-    
     //将拖动手势添加到 homeVC 的视图中
-    [self.homeVC.view addGestureRecognizer:self.panGR];
+    [view addGestureRecognizer:self.panGR];
     
     /* 创建一个点击手势以及手势动作监听事件 */
     self.tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
     
-    /* 将手势添加到 midView 中 */
-    [self.midViewController.view addGestureRecognizer:self.tapGR];
-    
-    //添加到 homeVC 会导致点击收回侧滑菜单无效
-//    [self.homeVC.view addGestureRecognizer:self.panGR];
+    //将点击手势添加到 homeVC 的视图中
+    [view addGestureRecognizer:self.tapGR];
+
 }
 
 /**
@@ -362,7 +356,7 @@ static id sharedInstance = nil;
     
 
     /* 添加手势 */
-    [self addGesture];
+    [self addGestureForView:self.homeVC.view];
     
 }
 
@@ -400,7 +394,7 @@ static id sharedInstance = nil;
     [self.view addSubview:self.midViewController.view];
     
     /* 添加手势 */
-    [self addGesture];
+    [self addGestureForView:self.themeVC.view];
     
 }
 

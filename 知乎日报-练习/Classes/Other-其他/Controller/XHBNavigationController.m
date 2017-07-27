@@ -254,6 +254,8 @@ static CGFloat screenHeight;
  */
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated {
     
+    
+    
     //pop 以后就移除上一层视图的屏幕快照
     [self.screenShotArray removeLastObject];
     

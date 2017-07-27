@@ -21,11 +21,27 @@
 
 @interface XHBHomeViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
-/** 顶部新闻图片按钮 */
-@property (weak, nonatomic) IBOutlet UIButton *topNewsButton;
-
 /** 今日新闻列表视图 */
 @property (weak, nonatomic) IBOutlet UITableView *dayNewsTableView;
+
+/** 手机屏幕的宽 */
+@property (assign, nonatomic) CGFloat screenWidth;
+
+/** 手机屏幕的高 */
+@property (assign, nonatomic) CGFloat screenHeight;
+
+/** 计时器对象 */
+@property (strong, nonatomic) NSTimer *timer;
+
+/** AFN 网络请求管理者 */
+@property (strong, nonatomic) AFHTTPSessionManager *manager;
+
+/** 今日新闻数组 */
+@property (strong, nonatomic) NSArray *dayNews;
+
+
+/** 顶部新闻数组 */
+@property (strong, nonatomic) NSArray *topNews;
 
 /** 顶部新闻的轮播图对象 */
 @property (strong, nonatomic) UIView *carouselView;
@@ -36,23 +52,32 @@
 /** 顶部分屏控件 */
 @property (strong, nonatomic) UIPageControl *pageControl;
 
-/** 计时器对象 */
-@property (strong, nonatomic) NSTimer *timer;
+/** 顶部新闻对象 */
+@property (strong, nonatomic) XHBDayNews *topDayNews;
 
-/** 左边视图 */
-//@property (strong, nonatomic) XHBCatalogViewController *leftViewController;
+/** 顶部滚动新闻图片数量 */
+@property (assign, nonatomic) NSInteger imageCount;
 
-/** AFN 网络请求管理者 */
-@property (strong, nonatomic) AFHTTPSessionManager *manager;
+/** 顶部滚动新闻当前图片索引 */
+@property (assign, nonatomic) NSInteger currentImageIndex;
 
-/** 顶部新闻数组 */
-@property (strong, nonatomic) NSArray *topNews;
+/** 顶部滚动新闻的左边图片 */
+@property (strong, nonatomic) UIImageView *leftImageView;
 
-/** 今日新闻数组 */
-@property (strong, nonatomic) NSArray *dayNews;
+/** 顶部滚动新闻的右边图片 */
+@property (strong, nonatomic) UIImageView *rightImageView;
 
-/** 顶部新闻图片 */
-@property (strong, nonatomic) UIImageView *imageView;
+/** 顶部滚动新闻的中间图片 */
+@property (strong, nonatomic) UIImageView *centerImageView;
+
+/** 顶部滚动新闻的左边图片标题 */
+@property (strong, nonatomic) UILabel *leftImageTitle;
+
+/** 顶部滚动新闻的右边图片标题 */
+@property (strong, nonatomic) UILabel *rightImageTitle;
+
+/** 顶部滚动新闻的中间图片标题 */
+@property (strong, nonatomic) UILabel *centerImageTitle;
 
 @end
 
@@ -68,12 +93,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     
     [super viewWillAppear:animated];
     
-    /* 创建导航栏按钮 */
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Home_Icon" highImageName:@"Home_Icon_Highlight" target:self action:@selector(catalogClick)];
-    
-    //设置导航栏的标题
-    self.navigationItem.title = @"今日新闻";
-    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
+    //显示导航栏
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)viewDidLoad {
@@ -82,7 +103,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     /* 控件初始化设置 */
     [self setupView];
     
-    /* 加载pageControl中的新闻 */
+    /* 加载顶部的滚动的新闻 */
     [self loadTopDayNews];
     
     /* 加载今日新闻 */
@@ -115,14 +136,15 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    /* 创建 NSTimer 计时器来让轮播图每隔5秒自动滚动 */
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(autoScrollImage) userInfo:nil repeats:YES];
+    /* 创建导航栏按钮 */
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Home_Icon" highImageName:@"Home_Icon_Highlight" target:self action:@selector(catalogClick)];
     
-    /* 获取当前的消息循环对象 */
-    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    //设置导航栏的标题
+    self.navigationItem.title = @"今日新闻";
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
     
-    /* 将计时器对象的优先级设置为和控件的优先级一样 */
-    [runLoop addTimer:self.timer forMode:NSRunLoopCommonModes];
+    //创建一个计时器
+    [self setupTimer];
     
 }
 
@@ -133,20 +155,12 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  * 创建并设置轮播图
  */
 - (void)setupTopNews {
-    /* 创建一个 UIView 对象 */
-    self.carouselView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 220)];
     
     /* 创建并设置滚动视图 */
     [self setupScrollView];
     
     /* 创建并设置分页控件 */
     [self setupPageControl];
-    
-    /* 将滚动视图添加到轮播图对象中 */
-    [self.carouselView addSubview:self.scrollView];
-    
-    /* 将分页控件添加到轮播图对象中 */
-    [self.carouselView addSubview:self.pageControl];
     
 }
 
@@ -158,6 +172,10 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     /* 创建一个 scrollView 对象 */
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 220)];
     
+    //scrollView 的宽和高
+    CGFloat scrollViewWidth = self.scrollView.frame.size.width;
+    CGFloat scrollViewHeight = self.scrollView.frame.size.height;
+    
     /* 设置ScrollView的委托对象 */
     self.scrollView.delegate = self;
     
@@ -165,10 +183,10 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     self.scrollView.pagingEnabled = YES;
     
     /* 设置ScrollView的内容视图的大小 */
-    self.scrollView.contentSize = CGSizeMake(self.screenWidth * self.topNews.count, self.scrollView.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(scrollViewWidth * 3, scrollViewHeight);
     
     /* 设置内容视图的坐标原点 */
-    self.scrollView.contentOffset = CGPointMake(0, 0);
+    self.scrollView.contentOffset = CGPointMake(scrollViewWidth, 0);
     
     /* 隐藏水平滚动控件 */
     self.scrollView.showsHorizontalScrollIndicator = NO;
@@ -176,54 +194,148 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     /* 隐藏垂直滚动控件 */
     self.scrollView.showsVerticalScrollIndicator = NO;
     
-    /* 将轮播图的图片添加到 scrollView 对象中 */
-    for (int i = 0; i < self.topNews.count; i++) {
-        
-        /* 获取顶部新闻信息 */
-        XHBDayNews *topNews = self.topNews[i];
-        
-        /* 获取图片 */
-        self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.screenWidth * i, 0, self.screenWidth, self.scrollView.frame.size.height)];
-        [self.imageView sd_setImageWithURL:[NSURL URLWithString:topNews.image]];
-        
-        /* 添加新闻标题 */
-        UILabel *topNewsLabel = [[UILabel alloc] init];
-        topNewsLabel.text = topNews.title;
-        topNewsLabel.textColor = [UIColor whiteColor];
-        topNewsLabel.frame = CGRectMake(10, 150, self.screenWidth - 20, 80);
-        
-        //设置标签显示行数，0为显示多行
-        topNewsLabel.numberOfLines = 0;
-        
-        //设置topNewsLabel根据字数自适应高度
-        topNewsLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        
-        //设置topNewsLabel的文字对齐方式
-        topNewsLabel.textAlignment = NSTextAlignmentLeft;
-        
-        /* 将新闻标题添加到新闻图片上 */
-        [self.imageView addSubview:topNewsLabel];
-        
-        /* 添加图片到ScrollView */
-        [self.scrollView addSubview:self.imageView];
-        
-    }
+    //将滚动视图超过内容视图边缘时的反弹效果关闭
+    self.scrollView.bounces = NO;
+    
+    //设置图片的总数
+    self.imageCount = self.topNews.count;
+    
+    //添加3个 ImageView
+    self.leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, scrollViewWidth, scrollViewHeight)];
+    [self.scrollView addSubview:self.leftImageView];
+    
+    self.centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(scrollViewWidth, 0, scrollViewWidth, scrollViewHeight)];
+    [self.scrollView addSubview:self.centerImageView];
+    
+    self.rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(scrollViewWidth * 2, 0, scrollViewWidth, scrollViewHeight)];
+    [self.scrollView addSubview:self.rightImageView];
+    
+    //初始化 scrollView 的图片
+    [self setDefaultImage];
+    
+    /* 将滚动视图添加到轮播图对象中 */
+    [self.carouselView addSubview:self.scrollView];
 }
 
 /**
  * 创建并设置分页控件
  */
 - (void)setupPageControl {
-    /* 创建一个分页控件 */
-    self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 50, 210, 100, 0)];
+    /* 初始化一个分页控件 */
+    self.pageControl = [[UIPageControl alloc] init];
+    
+    //根据页数返回合适的大小
+    CGSize pageSize = [self.pageControl sizeForNumberOfPages:self.imageCount];
+    
+    self.pageControl.bounds = CGRectMake(0, 0, pageSize.width, pageSize.height);
+    self.pageControl.center = CGPointMake(self.scrollView.frame.size.width / 2, 210);
     
     /* 设置分页控件的页数 */
-    self.pageControl.numberOfPages = self.topNews.count;
-    
-    //    self.pageControl.selected = YES;
+    self.pageControl.numberOfPages = self.imageCount;
     
     /* 添加动作事件 */
     [self.pageControl addTarget:self action:@selector(changePage) forControlEvents:UIControlEventValueChanged];
+    
+    /* 将分页控件添加到轮播图对象中 */
+    [self.carouselView addSubview:self.pageControl];
+}
+
+/**
+ * 创建并设置一个计时器
+ */
+- (void)setupTimer {
+    /* 创建 NSTimer 计时器来让轮播图每隔5秒自动滚动 */
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(autoScrollImage) userInfo:nil repeats:YES];
+    
+    /* 获取当前的消息循环对象 */
+    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    
+    /* 将计时器对象的优先级设置为和控件的优先级一样 */
+    [runLoop addTimer:self.timer forMode:NSRunLoopCommonModes];
+}
+
+/**
+ * 创建并设置轮播图的标题
+ */
+- (void)setupTitle:(NSString *)title imageView:(UIImageView *)imageView {
+    
+    if ([imageView isEqual:self.leftImageView]) {
+        
+        if (self.leftImageTitle == NULL) {
+            //设置 title 的位置和大小
+            self.leftImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, self.screenWidth - 20, 80)];
+            
+            //设置 title 的颜色
+            self.leftImageTitle.textColor = [UIColor whiteColor];
+            
+            //设置标签显示行数，0为显示多行
+            self.leftImageTitle.numberOfLines = 0;
+            
+            //设置topNewsLabel根据字数自适应高度
+            self.leftImageTitle.lineBreakMode = NSLineBreakByWordWrapping;
+            
+            //设置topNewsLabel的文字对齐方式
+            self.leftImageTitle.textAlignment = NSTextAlignmentLeft;
+            
+            /* 将新闻标题添加到新闻图片上 */
+            [imageView addSubview:self.leftImageTitle];
+        }
+        
+        self.leftImageTitle.text = title;
+        
+    }
+    
+    if ([imageView isEqual:self.rightImageView]) {
+        
+        if (self.rightImageTitle == NULL) {
+            //设置 title 的位置和大小
+            self.rightImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, self.screenWidth - 20, 80)];
+            
+            //设置 title 的颜色
+            self.rightImageTitle.textColor = [UIColor whiteColor];
+            
+            //设置标签显示行数，0为显示多行
+            self.rightImageTitle.numberOfLines = 0;
+            
+            //设置topNewsLabel根据字数自适应高度
+            self.rightImageTitle.lineBreakMode = NSLineBreakByWordWrapping;
+            
+            //设置topNewsLabel的文字对齐方式
+            self.rightImageTitle.textAlignment = NSTextAlignmentLeft;
+            
+            /* 将新闻标题添加到新闻图片上 */
+            [imageView addSubview:self.rightImageTitle];
+        }
+        
+        self.rightImageTitle.text = title;
+
+    }
+    
+    if ([imageView isEqual:self.centerImageView]) {
+        
+        if (self.centerImageTitle == NULL) {
+            //设置 title 的位置和大小
+            self.centerImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, self.screenWidth - 20, 80)];
+            
+            //设置 title 的颜色
+            self.centerImageTitle.textColor = [UIColor whiteColor];
+            
+            //设置标签显示行数，0为显示多行
+            self.centerImageTitle.numberOfLines = 0;
+            
+            //设置topNewsLabel根据字数自适应高度
+            self.centerImageTitle.lineBreakMode = NSLineBreakByWordWrapping;
+            
+            //设置topNewsLabel的文字对齐方式
+            self.centerImageTitle.textAlignment = NSTextAlignmentLeft;
+            
+            /* 将新闻标题添加到新闻图片上 */
+            [imageView addSubview:self.centerImageTitle];
+        }
+        
+        self.centerImageTitle.text = title;
+        
+    }
 }
 
 /**
@@ -231,23 +343,82 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  */
 - (void)autoScrollImage {
     
-    /* 获取当前页的页码 */
-    NSInteger pageNumber = self.pageControl.currentPage;
+    //将 scrollView 的 contentOffset 设置到下一页
+    [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * 2, 0) animated:YES];
     
-    /* 若当前页的页码为最后一页，则将它设置为0，否则 + 1 */
-    if (pageNumber == self.pageControl.numberOfPages - 1) {
-        pageNumber = 0;
-    }
-    else {
-        pageNumber ++;
-    }
+    //创建一个不循环的计时器
+    [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(scrollViewDidEndDecelerating:) userInfo:nil repeats:NO];
     
-    /* 计算下一页的偏移值 */
-    CGFloat offsetX = pageNumber * self.scrollView.frame.size.width;
-    
-    /* 设置 scrollView 的偏移值 */
-    [self.scrollView setContentOffset:CGPointMake(offsetX, 0) animated:YES];
 }
+
+/** 
+ * 设置默认显示的图片 
+ */
+- (void)setDefaultImage {
+    
+    //加载默认显示的图片，并添加标题
+    self.topDayNews = self.topNews[self.imageCount - 1];
+    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:self.topDayNews.image]];
+    [self setupTitle:self.topDayNews.title imageView:self.leftImageView];
+    
+    self.topDayNews = self.topNews[0];
+    [self.centerImageView sd_setImageWithURL:[NSURL URLWithString:self.topDayNews.image]];
+    [self setupTitle:self.topDayNews.title imageView:self.centerImageView];
+    
+    self.topDayNews = self.topNews[1];
+    [self.rightImageView sd_setImageWithURL:[NSURL URLWithString:self.topDayNews.image]];
+    [self setupTitle:self.topDayNews.title imageView:self.rightImageView];
+    
+    //当前显示的图片索引
+    self.currentImageIndex = 0;
+    
+    //设置当前页
+    self.pageControl.currentPage = self.currentImageIndex;
+    
+    
+}
+
+/**
+ * 滚动时重新加载图片
+ */
+- (void)reloadImage {
+    
+    //声明左边 ImageView 和右边 ImageView 的图片索引
+    NSInteger leftImageIndex, rightImageIndex;
+    
+    CGPoint offset = [self.scrollView contentOffset];
+    
+    //滚动到右边
+    if (offset.x > self.scrollView.frame.size.width) {
+        self.currentImageIndex = (self.currentImageIndex + 1) % self.imageCount;
+    }
+    else if (offset.x < self.scrollView.frame.size.width) { //滚动到左边
+        self.currentImageIndex = (self.currentImageIndex + self.imageCount - 1) % self.imageCount;
+    }
+    
+    //设置 pageControl 的当前页
+    self.pageControl.currentPage = self.currentImageIndex;
+    
+    //根据当前图片索引加载 centerImageView 的图片和标题
+    self.topDayNews = self.topNews[self.currentImageIndex];
+    [self.centerImageView sd_setImageWithURL:[NSURL URLWithString:self.topDayNews.image]];
+    [self setupTitle:self.topDayNews.title imageView:self.centerImageView];
+    
+    //计算左边 ImageView 和右边 ImageView 的图片索引
+    leftImageIndex = (self.currentImageIndex + self.imageCount - 1) % self.imageCount;
+    rightImageIndex = (self.currentImageIndex + 1) % self.imageCount;
+    
+    //根据左边和右边的图片索引加载 leftImageView 和 rightImageView 的图片和标题
+    self.topDayNews = self.topNews[leftImageIndex];
+    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:self.topDayNews.image]];
+    [self setupTitle:self.topDayNews.title imageView:self.leftImageView];
+    
+    self.topDayNews = self.topNews[rightImageIndex];
+    [self.rightImageView sd_setImageWithURL:[NSURL URLWithString:self.topDayNews.image]];
+    [self setupTitle:self.topDayNews.title imageView:self.rightImageView];
+    
+}
+
 
 
 #pragma mark - 加载网络数据
@@ -278,6 +449,9 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         /* 转换数据模型 */
         self.topNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:responseObject[@"top_stories"]];
+        
+        /* 创建并设置一个轮播图 */
+        [self setupTopNews];
         
         [self.dayNewsTableView reloadData];
         
@@ -372,9 +546,6 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  */
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    /* 创建并设置一个轮播图 */
-    [self setupTopNews];
-    
     return self.carouselView;
 }
 
@@ -396,19 +567,6 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 #pragma mark - UIScrollViewDelegate协议
-/**
- * 当 topNews 视图滚动的时候，获取内容视图的偏移量
- */
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-    /* 因为 tableView 也是继承 UIScrollView 的对象，所以要判断一下当前的 scrollView 是否是轮播图的 scrollView */
-    if ([scrollView isEqual:self.scrollView]) {
-        /* 获取内容视图坐标原点与屏幕滚动视图坐标原点的偏移量 */
-        CGPoint offset = scrollView.contentOffset;
-        self.pageControl.currentPage = offset.x / self.screenWidth;
-    }
-}
-
 /** 
  * 实现即将开始拖拽的方法
  */
@@ -432,17 +590,28 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     
     /* 因为 tableView 也是继承 UIScrollView 的对象，所以要判断一下当前的 scrollView 是否是轮播图的 scrollView */
     if ([scrollView isEqual:self.scrollView]) {
-        /* 创建一个新的 NSTimer 计时器来让轮播图每隔5秒自动滚动 */
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(autoScrollImage) userInfo:nil repeats:YES];
         
-        /* 获取当前的消息循环对象 */
-        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-        
-        /* 将计时器对象的优先级设置为和控件的优先级一样 */
-        [runLoop addTimer:self.timer forMode:NSRunLoopCommonModes];
+        //重新创建一个计时器
+        [self setupTimer];
     }
     
 }
+
+/**
+ * 实现视图停止滚动时的方法
+ */
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    
+    if (self.imageCount != 0) {
+        //重新加载图片
+        [self reloadImage];
+    }
+    
+    //将 scrollView 的 contentOffset 设置为 centerImageView，将滚动的动画效果关闭
+    [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width, 0) animated:NO];
+}
+
+
 
 #pragma mark - UIPageControl动作方法
 /** 
@@ -460,7 +629,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 
-#pragma mark - 侧滑菜单动作事件方法
+#pragma mark - 按钮动作事件方法
 /**
  * 导航栏按钮动作事件 
  */
@@ -470,6 +639,14 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     
     [rootVC navigationButton];
     
+}
+
+/**
+ * 轮播图的图片按钮动作事件
+ */
+- (void)imageViewClick {
+    
+    NSLog(@"第%lu张图片", self.pageControl.currentPage);
 }
 
 
@@ -487,5 +664,16 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     return _manager;
 }
 
+/** 
+ * 返回一个轮播图对象
+ */
+- (UIView *)carouselView {
+    
+    if (!_carouselView) {
+        _carouselView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 220)];
+    }
+    
+    return _carouselView;
+}
 
 @end

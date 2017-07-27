@@ -11,6 +11,7 @@
 #import "XHBThemeDaily.h"
 #import "XHBThemeStories.h"
 #import "XHBNewsContentViewController.h"
+#import "XHBRootViewController.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
@@ -29,6 +30,12 @@
 
 /** 主题日报的编辑『用户推荐日报』中此项的指是一个空数组，在 App 中的主编栏显示为『许多人』，点击后访问该主题日报的介绍页面，请留意） */
 @property (strong, nonatomic) NSArray *editors;
+
+/** 手机屏幕的宽 */
+@property (assign, nonatomic) CGFloat screenWidth;
+
+/** 手机屏幕的高 */
+@property (assign, nonatomic) CGFloat screenHeight;
 
 @end
 
@@ -126,16 +133,9 @@ static NSString * const dailyAddress = @"http://news-at.zhihu.com/api/4/theme";
  */
 - (void)catalogClick
 {
-    /* 移动类别视图 */
-    if (self.navigationController.view.frame.origin.x == 0) { //如果左边视图的位置x坐标为0
-        [UIView animateWithDuration:1.0 animations:^{
-            self.navigationController.view.frame = CGRectMake(230, 0, self.screenWidth, self.screenHeight);
-        }];
-    }else {
-        [UIView animateWithDuration:1.0 animations:^{
-            self.navigationController.view.frame = CGRectMake(0, 0, self.screenWidth, self.screenHeight);
-        }];
-    }
+    XHBRootViewController *rootVC = [XHBRootViewController sharedInstance];
+    
+    [rootVC navigationButton];
     
 }
 

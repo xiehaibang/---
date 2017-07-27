@@ -11,7 +11,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="XHBNewsContentViewController">
             <connections>
-                <outlet property="newsWebView" destination="n7y-v0-GLE" id="M8L-ZA-Ah9"/>
                 <outlet property="tabBar" destination="aEB-dh-eut" id="zPw-KV-SQD"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -48,23 +47,12 @@
                         <outlet property="delegate" destination="-1" id="GQx-MN-yC9"/>
                     </connections>
                 </tabBar>
-                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n7y-v0-GLE">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                    <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <connections>
-                        <outlet property="delegate" destination="-1" id="d92-Qb-BcG"/>
-                    </connections>
-                </webView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="aEB-dh-eut" firstAttribute="top" secondItem="n7y-v0-GLE" secondAttribute="bottom" id="8sT-hp-Vvm"/>
-                <constraint firstItem="n7y-v0-GLE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="agu-so-GN2"/>
                 <constraint firstAttribute="trailing" secondItem="aEB-dh-eut" secondAttribute="trailing" id="fpF-uX-QA0"/>
-                <constraint firstItem="n7y-v0-GLE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="iZ7-Nn-Ft9"/>
                 <constraint firstAttribute="bottom" secondItem="aEB-dh-eut" secondAttribute="bottom" id="klH-Oo-JOq"/>
                 <constraint firstItem="aEB-dh-eut" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="u00-e3-FMZ"/>
-                <constraint firstAttribute="trailing" secondItem="n7y-v0-GLE" secondAttribute="trailing" id="ukn-fc-sf8"/>
             </constraints>
         </view>
     </objects>

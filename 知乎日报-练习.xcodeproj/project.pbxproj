@@ -38,7 +38,6 @@
 		179785511F1941DC00B82C3A /* XHBScreenShotBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 179785501F1941DC00B82C3A /* XHBScreenShotBackView.m */; };
 		17B0E7E21ED85C8D00B89E4B /* XHBThemeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17B0E7E01ED85C8D00B89E4B /* XHBThemeViewController.m */; };
 		17B0E7E31ED85C8D00B89E4B /* XHBThemeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17B0E7E11ED85C8D00B89E4B /* XHBThemeViewController.xib */; };
-		17B0E7E91EDAE15C00B89E4B /* NewHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17B0E7E81EDAE15C00B89E4B /* NewHomeViewController.m */; };
 		5A9BC05AA5AF9F7B76E7D1F6 /* Pods________.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A85BB835C13A4286867FB30C /* Pods________.framework */; };
 /* End PBXBuildFile section */
 
@@ -116,8 +115,6 @@
 		17B0E7DF1ED85C8D00B89E4B /* XHBThemeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBThemeViewController.h; sourceTree = "<group>"; };
 		17B0E7E01ED85C8D00B89E4B /* XHBThemeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBThemeViewController.m; sourceTree = "<group>"; };
 		17B0E7E11ED85C8D00B89E4B /* XHBThemeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBThemeViewController.xib; sourceTree = "<group>"; };
-		17B0E7E71EDAE15C00B89E4B /* NewHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewHomeViewController.h; sourceTree = "<group>"; };
-		17B0E7E81EDAE15C00B89E4B /* NewHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewHomeViewController.m; sourceTree = "<group>"; };
 		3E840FE32AD827A0B044F7D0 /* Pods-知乎日报-练习.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-知乎日报-练习.release.xcconfig"; path = "Pods/Target Support Files/Pods-知乎日报-练习/Pods-知乎日报-练习.release.xcconfig"; sourceTree = "<group>"; };
 		45BAE40B74C24449811DA1FA /* Pods-知乎日报-练习.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-知乎日报-练习.debug.xcconfig"; path = "Pods/Target Support Files/Pods-知乎日报-练习/Pods-知乎日报-练习.debug.xcconfig"; sourceTree = "<group>"; };
 		A85BB835C13A4286867FB30C /* Pods________.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods________.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,6 +146,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		173006EC1F1E4105003507FD /* test */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = test;
+			sourceTree = "<group>";
+		};
 		175617051E6C0BA9002C7BF2 = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +179,7 @@
 		175617101E6C0BA9002C7BF2 /* 知乎日报-练习 */ = {
 			isa = PBXGroup;
 			children = (
+				173006EC1F1E4105003507FD /* test */,
 				1768E9E81E73FCA8000E7520 /* Classes */,
 				175617111E6C0BA9002C7BF2 /* Supporting Files */,
 			);
@@ -280,8 +285,6 @@
 				17B0E7DF1ED85C8D00B89E4B /* XHBThemeViewController.h */,
 				17B0E7E01ED85C8D00B89E4B /* XHBThemeViewController.m */,
 				17B0E7E11ED85C8D00B89E4B /* XHBThemeViewController.xib */,
-				17B0E7E71EDAE15C00B89E4B /* NewHomeViewController.h */,
-				17B0E7E81EDAE15C00B89E4B /* NewHomeViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -573,7 +576,6 @@
 				17B0E7E21ED85C8D00B89E4B /* XHBThemeViewController.m in Sources */,
 				1734B7961EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m in Sources */,
 				172F6E621EEE63450045FFF8 /* XHBThemeStories.m in Sources */,
-				17B0E7E91EDAE15C00B89E4B /* NewHomeViewController.m in Sources */,
 				1768EA081E73FCA8000E7520 /* AppDelegate.m in Sources */,
 				1702ED4C1ECEE4B600AC1A9F /* XHBNewsContent.m in Sources */,
 				172FC06A1E98C3AB0072FB27 /* XHBNewCatalog.m in Sources */,

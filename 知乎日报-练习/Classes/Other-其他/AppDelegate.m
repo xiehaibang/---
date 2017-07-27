@@ -11,7 +11,6 @@
 #import "XHBHomeViewController.h"
 #import "XHBNavigationController.h"
 #import "XHBRootViewController.h"
-#import "NewHomeViewController.h"
 
 
 @interface AppDelegate ()
