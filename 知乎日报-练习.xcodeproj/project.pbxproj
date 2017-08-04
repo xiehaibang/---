@@ -770,7 +770,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = XF5LMZ7DL8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "知乎日报-练习/Classes/Other-其他/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "知乎日报-练习/Classes/Other/PrefixHeader.pch";
 				INFOPLIST_FILE = "知乎日报-练习/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cn.bang.-------";
@@ -786,7 +786,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = XF5LMZ7DL8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "知乎日报-练习/Classes/Other-其他/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "知乎日报-练习/Classes/Other/PrefixHeader.pch";
 				INFOPLIST_FILE = "知乎日报-练习/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cn.bang.-------";
