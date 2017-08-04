@@ -217,22 +217,23 @@
 		1768E9E81E73FCA8000E7520 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1768E9E91E73FCA8000E7520 /* Catalog-目录 */,
-				1768E9F01E73FCA8000E7520 /* Content-内容 */,
+				1768E9E91E73FCA8000E7520 /* ThemeList */,
+				1768E9F01E73FCA8000E7520 /* NewsList */,
 				1768E9F71E73FCA8000E7520 /* Other-其他 */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		1768E9E91E73FCA8000E7520 /* Catalog-目录 */ = {
+		1768E9E91E73FCA8000E7520 /* ThemeList */ = {
 			isa = PBXGroup;
 			children = (
 				1768E9EA1E73FCA8000E7520 /* Controller */,
 				1768E9EE1E73FCA8000E7520 /* Model */,
 				1768E9EF1E73FCA8000E7520 /* View */,
 			);
-			path = "Catalog-目录";
+			path = ThemeList;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		1768E9EA1E73FCA8000E7520 /* Controller */ = {
 			isa = PBXGroup;
@@ -263,14 +264,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		1768E9F01E73FCA8000E7520 /* Content-内容 */ = {
+		1768E9F01E73FCA8000E7520 /* NewsList */ = {
 			isa = PBXGroup;
 			children = (
 				1768E9F11E73FCA8000E7520 /* Controller */,
 				1768E9F51E73FCA8000E7520 /* Model */,
 				1768E9F61E73FCA8000E7520 /* View */,
 			);
-			path = "Content-内容";
+			path = NewsList;
 			sourceTree = "<group>";
 		};
 		1768E9F11E73FCA8000E7520 /* Controller */ = {

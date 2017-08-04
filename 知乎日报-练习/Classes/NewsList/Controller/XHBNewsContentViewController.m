@@ -54,13 +54,40 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     
     /* 获取网络的新闻内容 */
     [self loadNewsContent];
+
+    //创建并设置显示新闻内容的视图
+    [self setupWebView];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - 设置视图
+- (void)setupWebView {
+    //手机屏幕的宽高
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
     
+    //创建 WKWebView 的 Configuration 对象
+    WKWebViewConfiguration *wkConfiguration = [[WKWebViewConfiguration alloc] init];
     
-//    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-//    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+    //自适应屏幕的 js
+    NSString *jsString = @"var meta = document.createElement('meta');meta.setAttribute('name', 'viewport');meta.setAttribute('content', 'width=device-width');document.getElementsByTagName('head')[0].appendChild(meta);";
+    
+    //将 js 注入
+    WKUserScript *wkUserScript = [[WKUserScript alloc] initWithSource:jsString injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    
+    //创建用于和 js 交互的对象
+    WKUserContentController *wkUserContent = [[WKUserContentController alloc] init];
+    
+    [wkUserContent addUserScript:wkUserScript];
+    
+    wkConfiguration.userContentController = wkUserContent;
     
     /* 创建一个 WKWebView */
-    self.newsWKWebView = [[WKWebView alloc] initWithFrame:self.view.frame];
+    self.newsWKWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight - self.tabBar.frame.size.height) configuration:wkConfiguration];
     
     /* 将 WKWebView 添加到当前视图中 */
     [self.view addSubview:self.newsWKWebView];
@@ -68,11 +95,6 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     /* 给 WKWebView 设置委托 */
     self.newsWKWebView.UIDelegate = self;
     self.newsWKWebView.navigationDelegate = self;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
