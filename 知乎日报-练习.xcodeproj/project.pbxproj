@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1702ED4C1ECEE4B600AC1A9F /* XHBNewsContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1702ED4B1ECEE4B600AC1A9F /* XHBNewsContent.m */; };
 		171E62D01F1CF8FA000048B6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 171E62CF1F1CF8FA000048B6 /* Default-568h@2x.png */; };
 		172F6E621EEE63450045FFF8 /* XHBThemeStories.m in Sources */ = {isa = PBXBuildFile; fileRef = 172F6E611EEE63450045FFF8 /* XHBThemeStories.m */; };
 		172FC06A1E98C3AB0072FB27 /* XHBNewCatalog.m in Sources */ = {isa = PBXBuildFile; fileRef = 172FC0691E98C3AB0072FB27 /* XHBNewCatalog.m */; };
@@ -16,6 +15,9 @@
 		173825441EDD50D300DB633C /* XHBBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 173825431EDD50D300DB633C /* XHBBaseViewController.m */; };
 		173825471EDD80C200DB633C /* XHBThemeDaily.m in Sources */ = {isa = PBXBuildFile; fileRef = 173825461EDD80C200DB633C /* XHBThemeDaily.m */; };
 		1738254A1EDD891300DB633C /* XHBEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 173825491EDD891300DB633C /* XHBEditor.m */; };
+		17382D721F34867A00B5CF27 /* XHBNewsContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17382D701F34867A00B5CF27 /* XHBNewsContentViewController.m */; };
+		17382D731F34867A00B5CF27 /* XHBNewsContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17382D711F34867A00B5CF27 /* XHBNewsContentViewController.xib */; };
+		17382D761F34872600B5CF27 /* XHBNewsContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 17382D751F34872600B5CF27 /* XHBNewsContent.m */; };
 		17399A6F1E82697E00DBF296 /* XHBCatalogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17399A6E1E82697E00DBF296 /* XHBCatalogViewController.xib */; };
 		173DB5951EAE2BA000120899 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 173DB5941EAE2BA000120899 /* Foundation+Log.m */; };
 		173F6AEA1EA5C7DF00C96ED0 /* XHBDayNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 173F6AE91EA5C7DF00C96ED0 /* XHBDayNews.m */; };
@@ -23,8 +25,6 @@
 		175617211E6C0BA9002C7BF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1756171F1E6C0BA9002C7BF2 /* LaunchScreen.storyboard */; };
 		1756172C1E6C0BA9002C7BF2 /* _______Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1756172B1E6C0BA9002C7BF2 /* _______Tests.m */; };
 		175617371E6C0BA9002C7BF2 /* _______UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 175617361E6C0BA9002C7BF2 /* _______UITests.m */; };
-		175734BB1ED2C80D00E5555B /* XHBNewsContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 175734B91ED2C80D00E5555B /* XHBNewsContentViewController.m */; };
-		175734BC1ED2C80D00E5555B /* XHBNewsContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 175734BA1ED2C80D00E5555B /* XHBNewsContentViewController.xib */; };
 		1768EA041E73FCA8000E7520 /* XHBCatalogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1768E9EC1E73FCA8000E7520 /* XHBCatalogViewController.m */; };
 		1768EA061E73FCA8000E7520 /* XHBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1768E9F31E73FCA8000E7520 /* XHBHomeViewController.m */; };
 		1768EA071E73FCA8000E7520 /* XHBHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1768E9F41E73FCA8000E7520 /* XHBHomeViewController.xib */; };
@@ -59,8 +59,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1702ED4A1ECEE4B600AC1A9F /* XHBNewsContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNewsContent.h; sourceTree = "<group>"; };
-		1702ED4B1ECEE4B600AC1A9F /* XHBNewsContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNewsContent.m; sourceTree = "<group>"; };
 		171E62CF1F1CF8FA000048B6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		172F6E601EEE63450045FFF8 /* XHBThemeStories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBThemeStories.h; sourceTree = "<group>"; };
 		172F6E611EEE63450045FFF8 /* XHBThemeStories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBThemeStories.m; sourceTree = "<group>"; };
@@ -69,14 +67,19 @@
 		1734B7931EAE7C5D0050E006 /* XHBDayNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBDayNewsTableViewCell.h; sourceTree = "<group>"; };
 		1734B7941EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBDayNewsTableViewCell.m; sourceTree = "<group>"; };
 		1734B7951EAE7C5D0050E006 /* XHBDayNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBDayNewsTableViewCell.xib; sourceTree = "<group>"; };
-		173825421EDD50D300DB633C /* XHBBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBBaseViewController.h; sourceTree = "<group>"; };
-		173825431EDD50D300DB633C /* XHBBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBBaseViewController.m; sourceTree = "<group>"; };
+		173825421EDD50D300DB633C /* XHBBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XHBBaseViewController.h; path = ../../Other/Controller/XHBBaseViewController.h; sourceTree = "<group>"; };
+		173825431EDD50D300DB633C /* XHBBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XHBBaseViewController.m; path = ../../Other/Controller/XHBBaseViewController.m; sourceTree = "<group>"; };
 		173825451EDD80C200DB633C /* XHBThemeDaily.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBThemeDaily.h; sourceTree = "<group>"; };
 		173825461EDD80C200DB633C /* XHBThemeDaily.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBThemeDaily.m; sourceTree = "<group>"; };
 		173825481EDD891300DB633C /* XHBEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBEditor.h; sourceTree = "<group>"; };
 		173825491EDD891300DB633C /* XHBEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBEditor.m; sourceTree = "<group>"; };
+		17382D6F1F34867A00B5CF27 /* XHBNewsContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNewsContentViewController.h; sourceTree = "<group>"; };
+		17382D701F34867A00B5CF27 /* XHBNewsContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNewsContentViewController.m; sourceTree = "<group>"; };
+		17382D711F34867A00B5CF27 /* XHBNewsContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBNewsContentViewController.xib; sourceTree = "<group>"; };
+		17382D741F34872600B5CF27 /* XHBNewsContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNewsContent.h; sourceTree = "<group>"; };
+		17382D751F34872600B5CF27 /* XHBNewsContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNewsContent.m; sourceTree = "<group>"; };
 		17399A6E1E82697E00DBF296 /* XHBCatalogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBCatalogViewController.xib; sourceTree = "<group>"; };
-		173DB5941EAE2BA000120899 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
+		173DB5941EAE2BA000120899 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Foundation+Log.m"; path = "../Other/Foundation+Log.m"; sourceTree = "<group>"; };
 		173F6AE81EA5C7DF00C96ED0 /* XHBDayNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBDayNews.h; sourceTree = "<group>"; };
 		173F6AE91EA5C7DF00C96ED0 /* XHBDayNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBDayNews.m; sourceTree = "<group>"; };
 		1756170E1E6C0BA9002C7BF2 /* 知乎日报-练习.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "知乎日报-练习.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,22 +92,19 @@
 		175617321E6C0BA9002C7BF2 /* 知乎日报-练习UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "知乎日报-练习UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		175617361E6C0BA9002C7BF2 /* _______UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "_______UITests.m"; sourceTree = "<group>"; };
 		175617381E6C0BA9002C7BF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		175734B81ED2C80D00E5555B /* XHBNewsContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNewsContentViewController.h; sourceTree = "<group>"; };
-		175734B91ED2C80D00E5555B /* XHBNewsContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNewsContentViewController.m; sourceTree = "<group>"; };
-		175734BA1ED2C80D00E5555B /* XHBNewsContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBNewsContentViewController.xib; sourceTree = "<group>"; };
 		1768E9EB1E73FCA8000E7520 /* XHBCatalogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBCatalogViewController.h; sourceTree = "<group>"; };
 		1768E9EC1E73FCA8000E7520 /* XHBCatalogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBCatalogViewController.m; sourceTree = "<group>"; };
 		1768E9F21E73FCA8000E7520 /* XHBHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBHomeViewController.h; sourceTree = "<group>"; };
 		1768E9F31E73FCA8000E7520 /* XHBHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBHomeViewController.m; sourceTree = "<group>"; };
 		1768E9F41E73FCA8000E7520 /* XHBHomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBHomeViewController.xib; sourceTree = "<group>"; };
-		1768E9F81E73FCA8000E7520 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		1768E9F91E73FCA8000E7520 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1768E9FC1E73FCA8000E7520 /* XHBNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNavigationController.h; sourceTree = "<group>"; };
-		1768E9FD1E73FCA8000E7520 /* XHBNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNavigationController.m; sourceTree = "<group>"; };
-		1768E9FE1E73FCA8000E7520 /* XHBRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBRootViewController.h; sourceTree = "<group>"; };
-		1768E9FF1E73FCA8000E7520 /* XHBRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBRootViewController.m; sourceTree = "<group>"; };
-		1768EA021E73FCA8000E7520 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1768EA031E73FCA8000E7520 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		1768E9F81E73FCA8000E7520 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Other/AppDelegate.h; sourceTree = "<group>"; };
+		1768E9F91E73FCA8000E7520 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../Other/AppDelegate.m; sourceTree = "<group>"; };
+		1768E9FC1E73FCA8000E7520 /* XHBNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XHBNavigationController.h; path = ../../Other/Controller/XHBNavigationController.h; sourceTree = "<group>"; };
+		1768E9FD1E73FCA8000E7520 /* XHBNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XHBNavigationController.m; path = ../../Other/Controller/XHBNavigationController.m; sourceTree = "<group>"; };
+		1768E9FE1E73FCA8000E7520 /* XHBRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XHBRootViewController.h; path = ../../Other/Controller/XHBRootViewController.h; sourceTree = "<group>"; };
+		1768E9FF1E73FCA8000E7520 /* XHBRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XHBRootViewController.m; path = ../../Other/Controller/XHBRootViewController.m; sourceTree = "<group>"; };
+		1768EA021E73FCA8000E7520 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../Other/main.m; sourceTree = "<group>"; };
+		1768EA031E73FCA8000E7520 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = ../Other/PrefixHeader.pch; sourceTree = "<group>"; };
 		17769C571E753844006CC28A /* UIBarButtonItem+XHBExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+XHBExtension.h"; sourceTree = "<group>"; };
 		17769C581E753844006CC28A /* UIBarButtonItem+XHBExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+XHBExtension.m"; sourceTree = "<group>"; };
 		17769C5A1E75594A006CC28A /* XHBCatalogTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBCatalogTableViewCell.h; sourceTree = "<group>"; };
@@ -151,6 +151,42 @@
 			children = (
 			);
 			path = test;
+			sourceTree = "<group>";
+		};
+		17382D6B1F3485E200B5CF27 /* NewsContent */ = {
+			isa = PBXGroup;
+			children = (
+				17382D6C1F3485E200B5CF27 /* Controller */,
+				17382D6D1F3485E200B5CF27 /* Model */,
+				17382D6E1F3485E200B5CF27 /* View */,
+			);
+			path = NewsContent;
+			sourceTree = "<group>";
+		};
+		17382D6C1F3485E200B5CF27 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				17382D6F1F34867A00B5CF27 /* XHBNewsContentViewController.h */,
+				17382D701F34867A00B5CF27 /* XHBNewsContentViewController.m */,
+				17382D711F34867A00B5CF27 /* XHBNewsContentViewController.xib */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		17382D6D1F3485E200B5CF27 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				17382D741F34872600B5CF27 /* XHBNewsContent.h */,
+				17382D751F34872600B5CF27 /* XHBNewsContent.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		17382D6E1F3485E200B5CF27 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		175617051E6C0BA9002C7BF2 = {
@@ -217,6 +253,7 @@
 		1768E9E81E73FCA8000E7520 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				17382D6B1F3485E200B5CF27 /* NewsContent */,
 				1768E9E91E73FCA8000E7520 /* ThemeList */,
 				1768E9F01E73FCA8000E7520 /* NewsList */,
 				1768E9F71E73FCA8000E7520 /* Other-其他 */,
@@ -280,9 +317,6 @@
 				1768E9F21E73FCA8000E7520 /* XHBHomeViewController.h */,
 				1768E9F31E73FCA8000E7520 /* XHBHomeViewController.m */,
 				1768E9F41E73FCA8000E7520 /* XHBHomeViewController.xib */,
-				175734B81ED2C80D00E5555B /* XHBNewsContentViewController.h */,
-				175734B91ED2C80D00E5555B /* XHBNewsContentViewController.m */,
-				175734BA1ED2C80D00E5555B /* XHBNewsContentViewController.xib */,
 				17B0E7DF1ED85C8D00B89E4B /* XHBThemeViewController.h */,
 				17B0E7E01ED85C8D00B89E4B /* XHBThemeViewController.m */,
 				17B0E7E11ED85C8D00B89E4B /* XHBThemeViewController.xib */,
@@ -295,8 +329,6 @@
 			children = (
 				173F6AE81EA5C7DF00C96ED0 /* XHBDayNews.h */,
 				173F6AE91EA5C7DF00C96ED0 /* XHBDayNews.m */,
-				1702ED4A1ECEE4B600AC1A9F /* XHBNewsContent.h */,
-				1702ED4B1ECEE4B600AC1A9F /* XHBNewsContent.m */,
 				173825451EDD80C200DB633C /* XHBThemeDaily.h */,
 				173825461EDD80C200DB633C /* XHBThemeDaily.m */,
 				173825481EDD891300DB633C /* XHBEditor.h */,
@@ -338,7 +370,8 @@
 				17769C571E753844006CC28A /* UIBarButtonItem+XHBExtension.h */,
 				17769C581E753844006CC28A /* UIBarButtonItem+XHBExtension.m */,
 			);
-			path = Category;
+			name = Category;
+			path = ../Other/Category;
 			sourceTree = "<group>";
 		};
 		1768E9FB1E73FCA8000E7520 /* Controller */ = {
@@ -351,7 +384,8 @@
 				173825421EDD50D300DB633C /* XHBBaseViewController.h */,
 				173825431EDD50D300DB633C /* XHBBaseViewController.m */,
 			);
-			path = Controller;
+			name = Controller;
+			path = ../Other/Controller;
 			sourceTree = "<group>";
 		};
 		1797854E1F19418B00B82C3A /* Viwe */ = {
@@ -360,7 +394,8 @@
 				1797854F1F1941DC00B82C3A /* XHBScreenShotBackView.h */,
 				179785501F1941DC00B82C3A /* XHBScreenShotBackView.m */,
 			);
-			path = Viwe;
+			name = Viwe;
+			path = ../Other/Viwe;
 			sourceTree = "<group>";
 		};
 		31A238FF2589135AE6B8A63D /* Pods */ = {
@@ -498,10 +533,10 @@
 				171E62D01F1CF8FA000048B6 /* Default-568h@2x.png in Resources */,
 				1768EA071E73FCA8000E7520 /* XHBHomeViewController.xib in Resources */,
 				17769C5E1E75594A006CC28A /* XHBCatalogTableViewCell.xib in Resources */,
-				175734BC1ED2C80D00E5555B /* XHBNewsContentViewController.xib in Resources */,
 				17399A6F1E82697E00DBF296 /* XHBCatalogViewController.xib in Resources */,
 				1756171E1E6C0BA9002C7BF2 /* Assets.xcassets in Resources */,
 				17B0E7E31ED85C8D00B89E4B /* XHBThemeViewController.xib in Resources */,
+				17382D731F34867A00B5CF27 /* XHBNewsContentViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,17 +613,17 @@
 				1734B7961EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m in Sources */,
 				172F6E621EEE63450045FFF8 /* XHBThemeStories.m in Sources */,
 				1768EA081E73FCA8000E7520 /* AppDelegate.m in Sources */,
-				1702ED4C1ECEE4B600AC1A9F /* XHBNewsContent.m in Sources */,
 				172FC06A1E98C3AB0072FB27 /* XHBNewCatalog.m in Sources */,
+				17382D761F34872600B5CF27 /* XHBNewsContent.m in Sources */,
 				173F6AEA1EA5C7DF00C96ED0 /* XHBDayNews.m in Sources */,
 				17769C591E753844006CC28A /* UIBarButtonItem+XHBExtension.m in Sources */,
 				173825441EDD50D300DB633C /* XHBBaseViewController.m in Sources */,
 				1768EA061E73FCA8000E7520 /* XHBHomeViewController.m in Sources */,
+				17382D721F34867A00B5CF27 /* XHBNewsContentViewController.m in Sources */,
 				173DB5951EAE2BA000120899 /* Foundation+Log.m in Sources */,
 				1768EA091E73FCA8000E7520 /* XHBNavigationController.m in Sources */,
 				173825471EDD80C200DB633C /* XHBThemeDaily.m in Sources */,
 				17769C5D1E75594A006CC28A /* XHBCatalogTableViewCell.m in Sources */,
-				175734BB1ED2C80D00E5555B /* XHBNewsContentViewController.m in Sources */,
 				1768EA041E73FCA8000E7520 /* XHBCatalogViewController.m in Sources */,
 				1738254A1EDD891300DB633C /* XHBEditor.m in Sources */,
 				179785511F1941DC00B82C3A /* XHBScreenShotBackView.m in Sources */,
