@@ -11,7 +11,7 @@
 #import "XHBCatalogViewController.h"
 #import "XHBDayNews.h"
 #import "XHBDayNewsTableViewCell.h"
-#import "XHBNewsContentViewController.h"
+#import "XHBContainerViewController.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
@@ -24,12 +24,6 @@
 /** 今日新闻列表视图 */
 @property (weak, nonatomic) IBOutlet UITableView *dayNewsTableView;
 
-/** 手机屏幕的宽 */
-@property (assign, nonatomic) CGFloat screenWidth;
-
-/** 手机屏幕的高 */
-@property (assign, nonatomic) CGFloat screenHeight;
-
 /** 计时器对象 */
 @property (strong, nonatomic) NSTimer *timer;
 
@@ -37,8 +31,10 @@
 @property (strong, nonatomic) AFHTTPSessionManager *manager;
 
 /** 今日新闻数组 */
-@property (strong, nonatomic) NSArray *dayNews;
+@property (copy, nonatomic) NSArray *dayNews;
 
+/** 今日新闻的新闻 id 数组 */
+@property (strong, nonatomic) NSArray *dayNewsId;
 
 /** 顶部新闻数组 */
 @property (strong, nonatomic) NSArray *topNews;
@@ -121,10 +117,6 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  * 视图初始化设置
  */
 - (void)setupView {
-    
-    /* 给手机屏幕的宽高赋值 */
-    self.screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    self.screenHeight = [[UIScreen mainScreen] bounds].size.height;
     
     /* 为tableView队列中的cell注册类 */
     NSString *className = NSStringFromClass([XHBDayNewsTableViewCell class]);
@@ -263,7 +255,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         if (self.leftImageTitle == NULL) {
             //设置 title 的位置和大小
-            self.leftImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, self.screenWidth - 20, 80)];
+            self.leftImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, screenWidth - 20, 80)];
             
             //设置 title 的颜色
             self.leftImageTitle.textColor = [UIColor whiteColor];
@@ -289,7 +281,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         if (self.rightImageTitle == NULL) {
             //设置 title 的位置和大小
-            self.rightImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, self.screenWidth - 20, 80)];
+            self.rightImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, screenWidth - 20, 80)];
             
             //设置 title 的颜色
             self.rightImageTitle.textColor = [UIColor whiteColor];
@@ -315,7 +307,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         if (self.centerImageTitle == NULL) {
             //设置 title 的位置和大小
-            self.centerImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, self.screenWidth - 20, 80)];
+            self.centerImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, screenWidth - 20, 80)];
             
             //设置 title 的颜色
             self.centerImageTitle.textColor = [UIColor whiteColor];
@@ -479,6 +471,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         self.dayNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:responseObject[@"stories"]];
         
+        self.dayNewsId = [self.dayNews valueForKeyPath:@"ID"];
+        
         /* 刷新表格 */
         [self.dayNewsTableView reloadData];
         
@@ -553,15 +547,22 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  * 选中 cell 时调用
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    /* 创建一个新闻内容对象 */
-    XHBNewsContentViewController *newsContentVC = [[XHBNewsContentViewController alloc] init];
+//    /* 创建一个新闻内容对象 */
+//    XHBNewsContentViewController *newsContentVC = [[XHBNewsContentViewController alloc] init];
+//    
+//    /* 将新闻 id 赋值给 newsContentVC 对象 */
+//    XHBDayNews *dayNews = self.dayNews[indexPath.row];
+//    newsContentVC.newsId = dayNews.ID;
     
-    /* 将新闻 id 赋值给 newsContentVC 对象 */
-    XHBDayNews *dayNews = self.dayNews[indexPath.row];
-    newsContentVC.newsId = dayNews.ID;
+    //创建一个新闻内容容器对象
+    XHBContainerViewController *containerVC = [[XHBContainerViewController alloc] init];
+    
+    //将新闻 id 和本类对象赋值给新闻容器对象
+    containerVC.newsId = [[self.dayNewsId objectAtIndex:indexPath.row] integerValue];
+    containerVC.homeVC = self;
     
     /* 将新创建的新闻内容对象压入 navigationController */
-    [self.navigationController pushViewController:newsContentVC animated:YES];
+    [self.navigationController pushViewController:containerVC animated:YES];
 }
 
 
@@ -613,6 +614,55 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 
+#pragma mark - XHBNewsContentControllerDelegate
+/**
+ * 通过本条新闻的 id 获取下一条新闻的 id
+ */
+- (NSInteger)getNextNewsWithNewsId:(NSInteger)newsId {
+    
+    //获取当前新闻 id 在新闻 id 数组中的位置
+    NSInteger idIndex = [self.dayNewsId indexOfObject:[NSNumber numberWithInteger:newsId]];
+    
+    return [[self.dayNewsId objectAtIndex:++idIndex] integerValue];
+}
+
+/**
+ * 通过本条新闻的 id 获取上一条新闻的 id
+ */
+- (NSInteger)getPreviousNewsWithNewsId:(NSInteger)newsId {
+    
+    //获取当前新闻 id 在新闻 id 数组中的位置
+    NSInteger idIndex = [self.dayNewsId indexOfObject:[NSNumber numberWithInteger:newsId]];
+    
+    return [[self.dayNewsId objectAtIndex:--idIndex] integerValue];
+}
+
+/**
+ * 判断本条新闻是不是第一条新闻
+ */
+- (BOOL)isFirstNewsWithNewsId:(NSInteger)newsId {
+    
+    if ([[NSNumber numberWithInteger:newsId] isEqual:self.dayNewsId.firstObject]) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+/**
+ * 判断本条新闻是不是最后一条新闻
+ */
+- (BOOL)isLastNewsWithNewsId:(NSInteger)newsId {
+    
+    if ([[NSNumber numberWithInteger:newsId] isEqual:self.dayNewsId.lastObject]) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+
+
 #pragma mark - UIPageControl动作方法
 /** 
  * 当前页改变
@@ -622,7 +672,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     [UIView animateWithDuration:0.3 animations:^{
         /* 将偏移量设置为当前页乘以屏幕宽度 */
         NSInteger currentPage = self.pageControl.currentPage;
-        self.scrollView.contentOffset = CGPointMake(self.screenWidth * currentPage, 0);
+        self.scrollView.contentOffset = CGPointMake(screenWidth * currentPage, 0);
     }];
     
 }

@@ -66,8 +66,6 @@ static CGFloat maskAlpha = 0.4;
  */
 - (void)showEffectChange:(CGPoint)point {
     
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    
     if (point.x > 0) {
         /* 让遮罩的透明度随着视图的位移改变 */
         self.maskView.backgroundColor = [UIColor colorWithHue:0 saturation:0 brightness:0 alpha:-point.x / screenWidth * maskAlpha + maskAlpha];

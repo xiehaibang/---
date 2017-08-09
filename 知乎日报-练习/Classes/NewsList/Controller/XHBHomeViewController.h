@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "XHBBaseViewController.h"
+#import "XHBNewsContentViewController.h"
 
-@interface XHBHomeViewController : XHBBaseViewController 
+@interface XHBHomeViewController : XHBBaseViewController <XHBNewsContentControllerDelegate>
 
 @end

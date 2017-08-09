@@ -27,12 +27,6 @@
 @end
 
 
-#pragma mark - 全局变量
-//屏幕的宽高
-static CGFloat screenWidth;
-static CGFloat screenHeight;
-
-
 @implementation XHBNavigationController
 
 #pragma mark - 初始化
@@ -43,9 +37,6 @@ static CGFloat screenHeight;
     if (self) {
         /* 初始化屏幕快照的数组 */
         self.screenShotArray = [NSMutableArray array];
-        
-        screenWidth = [UIScreen mainScreen].bounds.size.width;
-        screenHeight = [UIScreen mainScreen].bounds.size.height;
         
     }
     
@@ -77,7 +68,9 @@ static CGFloat screenHeight;
     /* 设置自定义手势的代理 */
     self.backPanGesture.delegate = self;
     
-    [self.view addGestureRecognizer:self.backPanGesture];
+    if (self.viewControllers.count > 1) {
+        [self.topViewController.view addGestureRecognizer:self.backPanGesture];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

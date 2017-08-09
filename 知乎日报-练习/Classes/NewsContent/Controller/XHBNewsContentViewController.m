@@ -8,6 +8,8 @@
 
 #import "XHBNewsContentViewController.h"
 #import "XHBNewsContent.h"
+#import "XHBNewsHeadView.h"
+#import "XHBNewsFootView.h"
 
 #import <WebKit/WebKit.h>
 
@@ -35,6 +37,17 @@
 /** UITabBar 控件 */
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
+/** 第一条新闻的提示 */
+@property (strong, nonatomic) UILabel *firstLabel;
+
+/** 最后一条新闻的提示 */
+@property (strong, nonatomic) UILabel *lastLabel;
+
+/** 载入上一条新闻的头部视图 */
+@property (strong, nonatomic) XHBNewsHeadView *headView;
+
+/** 载入下一条新闻的脚部视图 */
+@property (strong, nonatomic) XHBNewsFootView *footView;
 
 @end
 
@@ -51,9 +64,6 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     
     /* 隐藏导航栏 */
     self.navigationController.navigationBarHidden = YES;
-    
-    /* 获取网络的新闻内容 */
-    [self loadNewsContent];
 
     //创建并设置显示新闻内容的视图
     [self setupWebView];
@@ -66,10 +76,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
 
 #pragma mark - 设置视图
 - (void)setupWebView {
-    //手机屏幕的宽高
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-    
+
     //创建 WKWebView 的 Configuration 对象
     WKWebViewConfiguration *wkConfiguration = [[WKWebViewConfiguration alloc] init];
     
@@ -182,6 +189,88 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
 }
 
 
+#pragma mark - 加载新闻
+/** 
+ * 加载上一条新闻 
+ */
+- (void)loadPreviousNews {
+    
+    //判断指向新闻内容容器的代理对象是否实现了协议方法
+    if ([self.containerDelegate respondsToSelector:@selector(scrollToPreviousViewWithNewsId:)]) {
+        
+        //判断指向首页的代理对象是否实现了协议方法
+        if ([self.homeDelegate respondsToSelector:@selector(getPreviousNewsWithNewsId:)]) {
+            
+            //获取上一条新闻 id
+            NSInteger previousNewsId = [self.homeDelegate getPreviousNewsWithNewsId:self.newsId];
+            
+            //加载上一条新闻
+            [self.containerDelegate scrollToPreviousViewWithNewsId:previousNewsId];
+        }
+        
+    }
+    
+}
+
+/** 
+ * 加载下一条新闻 
+ */
+- (void)loadNextNews {
+    
+    //判断代理对象是否实现了协议方法
+    if ([self.containerDelegate respondsToSelector:@selector(scrollToNextViewWithNewsId:)]) {
+        
+        //判断指向首页的代理对象是否实现了协议方法
+        if ([self.homeDelegate respondsToSelector:@selector(getNextNewsWithNewsId:)]) {
+            
+            //获取下一条新闻 id
+            NSInteger nextNewsId = [self.homeDelegate getNextNewsWithNewsId:self.newsId];
+            
+            //加载下一条新闻
+            [self.containerDelegate scrollToNextViewWithNewsId:nextNewsId];
+        }
+        
+    }
+    
+}
+
+
+#pragma mark - WKUIDelegate
+/**
+ * 当视图加载完毕的时候
+ */
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation  {
+    
+    //获取新闻内容页的长度，然后在下面添加加载下一条新闻的底部视图
+    [webView evaluateJavaScript:@"document.body.scrollHeight" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        
+        CGFloat webHeight = [result floatValue];
+        
+        //判断一下指向首页的代理对象是否实现了相应的方法
+        if ([self.homeDelegate respondsToSelector:@selector(isLastNewsWithNewsId:)]) {
+    
+            //判断当前新闻是不是最后一条新闻
+            if ([self.homeDelegate isLastNewsWithNewsId:self.newsId]) {
+                
+                CGRect frame = self.lastLabel.frame;
+                frame.origin.y = webHeight + 20;
+                self.lastLabel.frame = frame;
+                
+                [self.newsWKWebView.scrollView addSubview:self.lastLabel];
+                
+            }else {
+                
+                CGRect frame = self.footView.frame;
+                frame.origin.y = webHeight + 15;
+                self.footView.frame = frame;
+                
+                [self.newsWKWebView.scrollView addSubview:self.footView];
+            }
+        }
+    }];
+}
+
+
 #pragma mark - UITabBarDelegate 协议
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     
@@ -213,6 +302,61 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     }
     
     return _manager;
+}
+
+/**
+ * 设置并返回第一条新闻提示的对象
+ */
+- (UILabel *)firstLabel {
+    
+    if (!_firstLabel) {
+        _firstLabel = [[UILabel alloc] init];
+    }
+    
+    return _firstLabel;
+}
+
+/**
+ * 设置并返回最后一条新闻提示的对象
+ */
+- (UILabel *)lastLabel {
+    
+    if (!_lastLabel) {
+        _lastLabel = [[UILabel alloc] init];
+        
+        _lastLabel.text = @"这已经是最后一篇了";
+        
+        [_lastLabel sizeToFit];
+        
+        _lastLabel.textColor = [UIColor grayColor];
+        
+        _lastLabel.center = CGPointMake(self.view.center.x, 0);
+        
+        _lastLabel.font = [UIFont systemFontOfSize:14.0];
+    }
+    
+    return _lastLabel;
+}
+
+/** 
+ * 返回载入下一条新闻的脚部视图
+ */
+- (XHBNewsFootView *)footView {
+    
+    if (!_footView) {
+        _footView = [XHBNewsFootView attachObserveToScrollView:self.newsWKWebView.scrollView target:self action:@selector(loadNextNews)];
+    }
+    
+    return _footView;
+}
+
+- (void)setNewsId:(NSInteger)newsId {
+    
+    _newsId = newsId;
+    
+    /* 获取网络的新闻内容 */
+    [self loadNewsContent];
+    
 }
 
 @end

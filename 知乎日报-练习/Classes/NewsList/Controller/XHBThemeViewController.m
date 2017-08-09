@@ -31,12 +31,6 @@
 /** 主题日报的编辑『用户推荐日报』中此项的指是一个空数组，在 App 中的主编栏显示为『许多人』，点击后访问该主题日报的介绍页面，请留意） */
 @property (strong, nonatomic) NSArray *editors;
 
-/** 手机屏幕的宽 */
-@property (assign, nonatomic) CGFloat screenWidth;
-
-/** 手机屏幕的高 */
-@property (assign, nonatomic) CGFloat screenHeight;
-
 @end
 
 @implementation XHBThemeViewController
@@ -71,10 +65,6 @@ static NSString * const dailyAddress = @"http://news-at.zhihu.com/api/4/theme";
  * 加载视图内容
  */
 - (void)setupView {
-    
-    /* 给手机屏幕的宽高赋值 */
-    self.screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    self.screenHeight = [[UIScreen mainScreen] bounds].size.height;
     
     /* 为 themeTableView 重用队列中的 cell 注册类 */
     NSString *className = NSStringFromClass([XHBDayNewsTableViewCell class]);
