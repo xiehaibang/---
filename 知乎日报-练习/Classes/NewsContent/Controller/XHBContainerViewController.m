@@ -11,11 +11,11 @@
 
 @interface XHBContainerViewController () <XHBNewsContentControllerDelegate>
 
-/** 容器底层的滚动视图 */
-@property (strong, nonatomic) UIScrollView *containerScrollView;
+///** 容器底层的滚动视图 */
+//@property (strong, nonatomic) UIScrollView *containerScrollView;
 
-/** 容器上层的滚动视图 */
-@property (strong, nonatomic) XHBNewsContentViewController *newsContentVC;
+///** 容器上层的滚动视图 */
+//@property (strong, nonatomic) XHBNewsContentViewController *newsContentVC;
 
 @end
 
@@ -27,9 +27,7 @@
     
     //容器对象视图的设置
     [self setupView];
-    
-    NSLog(@"navigation: %@", self.navigationController.view);
-    NSLog(@"%@", self.view);
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,6 +42,9 @@
 - (void)setupView {
     //将自动调整滚动视图插入关闭
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    //隐藏导航栏
+    self.navigationController.navigationBarHidden = YES;
     
     //初始化 containerScrollView 并设置
     [self setupScrollView];

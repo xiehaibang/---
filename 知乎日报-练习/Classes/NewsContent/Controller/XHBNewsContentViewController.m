@@ -61,9 +61,6 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
 #pragma mark - 控制器生命周期
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    /* 隐藏导航栏 */
-    self.navigationController.navigationBarHidden = YES;
 
     //创建并设置显示新闻内容的视图
     [self setupWebView];

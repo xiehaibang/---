@@ -9,6 +9,7 @@
 #import "XHBNavigationController.h"
 #import "XHBBaseViewController.h"
 #import "XHBRootViewController.h"
+#import "XHBContainerViewController.h"
 
 #import "AppDelegate.h"
 
@@ -23,6 +24,9 @@
 
 /** 应用的单例 */
 @property (strong, nonatomic) AppDelegate *appdelegate;
+
+/** 中间视图 */
+@property (strong, nonatomic) XHBBaseViewController *midVC;
 
 @end
 
@@ -58,7 +62,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - 手势创建与设置
+/**
+ * 添加手势
+ */
+- (void)addGesture {
     /* 屏蔽系统的手势 */
     self.interactivePopGestureRecognizer.enabled = NO;
     
@@ -68,16 +85,16 @@
     /* 设置自定义手势的代理 */
     self.backPanGesture.delegate = self;
     
-    if (self.viewControllers.count > 1) {
-        [self.topViewController.view addGestureRecognizer:self.backPanGesture];
-    }
+    [self.midVC.view addGestureRecognizer:self.backPanGesture];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+/**
+ * 删除手势
+ */
+- (void)removeGesture {
+    
+    [self.midVC.view removeGestureRecognizer:self.backPanGesture];
 }
-
 
 #pragma mark - UIGestureRecognizerDelegate 方法
 /**
@@ -144,9 +161,6 @@
  */
 - (void)fingerMoveBack:(UIPanGestureRecognizer *)panGesture {
     
-    /* 获取应用的中间视图 */
-    XHBBaseViewController *midVC = [XHBRootViewController sharedInstance].midViewController;
-    
     /* 若目前在导航控制器里面的 viewController 只有一个，就返回 */
     if (self.viewControllers.count == 1) {
         return;
@@ -168,7 +182,7 @@
         if (translate.x >= 10) {
             
             //让 window 根视图跟着移动
-            midVC.view.transform = CGAffineTransformMakeTranslation(translate.x - 10, 0);
+            self.midVC.view.transform = CGAffineTransformMakeTranslation(translate.x - 10, 0);
         }
     }
     //拖动手势结束时
@@ -182,7 +196,7 @@
             
             [UIView animateWithDuration:0.5 animations:^{
                 //让视图消失在视线中
-                midVC.view.transform = CGAffineTransformMakeTranslation(screenWidth, 0);
+                self.midVC.view.transform = CGAffineTransformMakeTranslation(screenWidth, 0);
                 
             } completion:^(BOOL finished) {
                 
@@ -190,7 +204,7 @@
                 [self popViewControllerAnimated:NO];
                 
                 //将 rootVC 的坐标原点还原，并且隐藏屏幕快照视图
-                midVC.view.transform = CGAffineTransformIdentity;
+                self.midVC.view.transform = CGAffineTransformIdentity;
                 self.appdelegate.screenShotView.hidden = YES;
                 
             }];
@@ -198,7 +212,7 @@
         else {
             [UIView animateWithDuration:0.5 animations:^{
                 
-                midVC.view.transform = CGAffineTransformIdentity;
+                self.midVC.view.transform = CGAffineTransformIdentity;
                 
             } completion:^(BOOL finished) {
                 
@@ -236,7 +250,11 @@
         [self.screenShotArray addObject:viewImage];
         self.appdelegate.screenShotView.imageView.image = viewImage;
         
+        //将视图压入导航控制器
         [super pushViewController:viewController animated:animated];
+        
+        //将视图压入导航控制器以后在添加手势
+        [self addGesture];
     }
 }
 
@@ -251,6 +269,9 @@
     
     //pop 以后就移除上一层视图的屏幕快照
     [self.screenShotArray removeLastObject];
+    
+    //删除手势
+    [self removeGesture];
     
     //获取上上层的屏幕快照，如果它存在，则将它赋给屏幕快照视图
     UIImage *image = [self.screenShotArray lastObject];
@@ -312,6 +333,15 @@
     }
     
     return _appdelegate;
+}
+
+- (XHBBaseViewController *)midVC {
+    
+    if (!_midVC) {
+        _midVC = [XHBRootViewController sharedInstance].midViewController;
+    }
+    
+    return _midVC;
 }
 
 @end
