@@ -19,10 +19,5 @@
 /** 首页对象 */
 @property (strong, nonatomic) XHBHomeViewController *homeVC;
 
-/** 容器底层的滚动视图 */
-@property (strong, nonatomic) UIScrollView *containerScrollView;
-
-/** 容器上层的滚动视图 */
-@property (strong, nonatomic) XHBNewsContentViewController *newsContentVC;
 
 @end

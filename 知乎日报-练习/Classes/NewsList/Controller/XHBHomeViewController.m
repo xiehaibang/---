@@ -118,18 +118,20 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  */
 - (void)setupView {
     
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    /* 创建导航栏按钮 */
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Home_Icon" highImageName:@"Home_Icon_Highlight" target:self action:@selector(catalogClick)];
+    
     /* 为tableView队列中的cell注册类 */
     NSString *className = NSStringFromClass([XHBDayNewsTableViewCell class]);
     UINib *nib = [UINib nibWithNibName:className bundle:nil];
     [self.dayNewsTableView registerNib:nib forCellReuseIdentifier:XHBDayNewsCell];
     
     /* 设置dayNewsTableView的行高 */
-    self.dayNewsTableView.rowHeight = 70;
+    self.dayNewsTableView.rowHeight = 90;
     
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    /* 创建导航栏按钮 */
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Home_Icon" highImageName:@"Home_Icon_Highlight" target:self action:@selector(catalogClick)];
+    self.dayNewsTableView.showsVerticalScrollIndicator = NO;
     
     //设置导航栏的标题
     self.navigationItem.title = @"今日新闻";
@@ -255,10 +257,12 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         if (self.leftImageTitle == NULL) {
             //设置 title 的位置和大小
-            self.leftImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, screenWidth - 20, 80)];
+            self.leftImageTitle = [[UILabel alloc] init];
             
             //设置 title 的颜色
             self.leftImageTitle.textColor = [UIColor whiteColor];
+            
+            self.leftImageTitle.font = [UIFont boldSystemFontOfSize:20];
             
             //设置标签显示行数，0为显示多行
             self.leftImageTitle.numberOfLines = 0;
@@ -271,6 +275,14 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
             
             /* 将新闻标题添加到新闻图片上 */
             [imageView addSubview:self.leftImageTitle];
+            
+            //给新闻标题添加约束
+            [self.leftImageTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.left.equalTo(imageView.mas_left).with.offset(15);
+                make.right.equalTo(imageView.mas_right).with.offset(-15);
+                make.bottom.equalTo(imageView.mas_bottom).with.offset(-20);
+            }];
         }
         
         self.leftImageTitle.text = title;
@@ -281,10 +293,12 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         if (self.rightImageTitle == NULL) {
             //设置 title 的位置和大小
-            self.rightImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, screenWidth - 20, 80)];
+            self.rightImageTitle = [[UILabel alloc] init];
             
             //设置 title 的颜色
             self.rightImageTitle.textColor = [UIColor whiteColor];
+            
+            self.rightImageTitle.font = [UIFont boldSystemFontOfSize:20];
             
             //设置标签显示行数，0为显示多行
             self.rightImageTitle.numberOfLines = 0;
@@ -297,6 +311,14 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
             
             /* 将新闻标题添加到新闻图片上 */
             [imageView addSubview:self.rightImageTitle];
+            
+            //给新闻标题添加约束
+            [self.rightImageTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.left.equalTo(imageView.mas_left).with.offset(15);
+                make.right.equalTo(imageView.mas_right).with.offset(-15);
+                make.bottom.equalTo(imageView.mas_bottom).with.offset(-20);
+            }];
         }
         
         self.rightImageTitle.text = title;
@@ -307,10 +329,12 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         if (self.centerImageTitle == NULL) {
             //设置 title 的位置和大小
-            self.centerImageTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, screenWidth - 20, 80)];
+            self.centerImageTitle = [[UILabel alloc] init];
             
             //设置 title 的颜色
             self.centerImageTitle.textColor = [UIColor whiteColor];
+            
+            self.centerImageTitle.font = [UIFont boldSystemFontOfSize:20];
             
             //设置标签显示行数，0为显示多行
             self.centerImageTitle.numberOfLines = 0;
@@ -323,6 +347,14 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
             
             /* 将新闻标题添加到新闻图片上 */
             [imageView addSubview:self.centerImageTitle];
+            
+            //给新闻标题添加约束
+            [self.centerImageTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.left.equalTo(imageView.mas_left).with.offset(15);
+                make.right.equalTo(imageView.mas_right).with.offset(-15);
+                make.bottom.equalTo(imageView.mas_bottom).with.offset(-20);
+            }];
         }
         
         self.centerImageTitle.text = title;
@@ -418,10 +450,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  * 加载pageControl中的新闻
  */
 - (void)loadTopDayNews {
-    /* 显示指示器 */
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
-    [SVProgressHUD show];
-
+    
     /* 在 block 中替换属性的名称，让属性名和网络数据中的 key 相对应 */
     [XHBDayNews mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         
@@ -431,13 +460,15 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
     }];
     
+    //打开网络活动指示器
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
     /* 发送无参数网络请求 */
     [self.manager GET:@"http://news-at.zhihu.com/api/4/news/latest" parameters:nil progress:^(NSProgress *downloadProgress) {
         
     } success:^(NSURLSessionDataTask *task, id responseObject) {
         
-        /* 请求成功，隐藏指示器 */
-        [SVProgressHUD dismiss];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         
         /* 转换数据模型 */
         self.topNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:responseObject[@"top_stories"]];
@@ -448,6 +479,9 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         [self.dayNewsTableView reloadData];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
         /* 提示加载失败信息 */
         [SVProgressHUD showErrorWithStatus:@"数据加载失败"];
     }];
@@ -457,17 +491,16 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  * 加载当日的新闻
  */
 - (void)loadDayNews {
-    /* 显示指示器 */
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
-    [SVProgressHUD show];
+    
+    //打开网络活动指示器
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     /* 发送网络请求 */
     [self.manager GET:@"http://news-at.zhihu.com/api/4/news/latest" parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        /* 请求成功，隐藏指示器 */
-        [SVProgressHUD dismiss];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         
         self.dayNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:responseObject[@"stories"]];
         
@@ -478,6 +511,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         
         /* 加载失败 */
         [SVProgressHUD showErrorWithStatus:@"数据加载失败！"];
@@ -634,7 +669,13 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     //获取当前新闻 id 在新闻 id 数组中的位置
     NSInteger idIndex = [self.dayNewsId indexOfObject:[NSNumber numberWithInteger:newsId]];
     
-    return [[self.dayNewsId objectAtIndex:--idIndex] integerValue];
+    if (idIndex == 0) {
+        return [[self.dayNewsId objectAtIndex:0] integerValue];
+    }
+    else {
+        return [[self.dayNewsId objectAtIndex:--idIndex] integerValue];
+    }
+    
 }
 
 /**

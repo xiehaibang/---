@@ -25,10 +25,14 @@
 /** 传进来的滚动视图 */
 @property (strong, nonatomic) UIScrollView *scrollView;
 
+/** 视图知否加载过的布尔值 */
+@property (assign, nonatomic) BOOL isLoaded;
+
 @end
 
 @implementation XHBNewsFootView
 
+#pragma mark - 视图的设置
 /**
  * 将 XHBNewsFootView 固定在传进来的视图上，并且对传进来的滚动视图进行监听
  */
@@ -44,7 +48,7 @@
     [footView setupView];
     
     //对传进来的 scrollView 的 contentOffset 进行监听
-    [footView.scrollView addObserver:footView forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [footView.scrollView addObserver:footView forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     
     return footView;
 }
@@ -54,28 +58,26 @@
  */
 - (void)setupView {
     
-    //设置 footView
-    CGRect frame = self.frame;
-    frame.origin.x = 0;
-    frame.size = CGSizeMake(screenWidth, 30);
-    self.frame = frame;
-    
     self.backgroundColor = [UIColor clearColor];
-    
-    //设置 arrowImage 和 promptLabel
-    self.arrowImage.frame = CGRectMake(130, 5, 15, 20);
-    
-    frame = self.promptLabel.frame;
-    frame.origin.x = self.arrowImage.frame.origin.x + 25;
-    self.promptLabel.frame = frame;
-    
-    CGPoint center = self.promptLabel.center;
-    center.y = self.arrowImage.center.y;
-    self.promptLabel.center = center;
-
     
     [self addSubview:self.promptLabel];
     [self addSubview:self.arrowImage];
+    
+    //给箭头图片添加约束
+    [self.arrowImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.equalTo(self).with.offset(140);
+        make.top.equalTo(self).with.offset(5);
+        make.width.mas_equalTo(15);
+        make.height.mas_equalTo(20);
+    }];
+    
+    //给提示信息对象添加约束
+    [self.promptLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.equalTo(self.arrowImage.mas_right).with.offset(10);
+        make.centerY.equalTo(self.arrowImage.mas_centerY);
+    }];
 }
 
 
@@ -90,35 +92,41 @@
     //获取偏移值
     CGFloat offsetY = scrollView.contentOffset.y;
     
-    if (offsetY < scrollView.contentSize.height - scrollView.frame.size.height) {
-        return;
-    }
-    else if (offsetY > scrollView.contentSize.height - scrollView.frame.size.height + 60) {
-        
-        [UIView animateWithDuration:0.2 animations:^{
-            //让箭头图片旋转180°
-            self.arrowImage.transform = CGAffineTransformMakeRotation(M_PI);
-        }];
-        
-        //如果 scrollView 停止滚动
-        if (!self.scrollView.isDragging) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            //使用宏来忽略警告
-            [self.target performSelector:self.action];
-#pragma clang diagnostic pop
+    if (!scrollView.isDragging) {
+    
+        if (offsetY < scrollView.contentSize.height - scrollView.frame.size.height) {
+            return;
         }
-        
-    }
-    else {
-        
-        //将箭头旋转回原位
-        [UIView animateWithDuration:0.2 animations:^{
-            self.arrowImage.transform = CGAffineTransformIdentity;
-        }];
+        else if (offsetY > scrollView.contentSize.height - scrollView.frame.size.height + 60) {
+            
+            [UIView animateWithDuration:0.2 animations:^{
+                //让箭头图片旋转180°
+                self.arrowImage.transform = CGAffineTransformMakeRotation(M_PI);
+            }];
+            
+            //如果 scrollView 停止滚动
+            if (!self.scrollView.isDragging && !self. isLoaded) {
+                //用 performSelector: 方法会存在内存泄露的危险，因为编译器不知道该对象能不能响应，如果不能，就是不安全的
+                //所以可以用 methodForSelector: 方法来获取指定方法的函数指针，在传入 receiver 和 selector 调用这个方法
+                ((void (*)(id, SEL))[self.target methodForSelector:self.action])(self.target, self.action);
+                
+                //将视图设置已经加载过，以防止视图被销毁之前，因为 scrollView 的滚动再次加载别的新闻
+                self.isLoaded = YES;
+            }
+            
+        }
+        else {
+            
+            //将箭头旋转回原位
+            [UIView animateWithDuration:0.2 animations:^{
+                self.arrowImage.transform = CGAffineTransformIdentity;
+            }];
+        }
     }
     
+    
 }
+
 
 
 #pragma mark - getter

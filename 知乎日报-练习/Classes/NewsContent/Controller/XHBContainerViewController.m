@@ -11,11 +11,11 @@
 
 @interface XHBContainerViewController () <XHBNewsContentControllerDelegate>
 
-///** 容器底层的滚动视图 */
-//@property (strong, nonatomic) UIScrollView *containerScrollView;
+/** 容器底层的滚动视图 */
+@property (strong, nonatomic) UIScrollView *containerScrollView;
 
-///** 容器上层的滚动视图 */
-//@property (strong, nonatomic) XHBNewsContentViewController *newsContentVC;
+/** 容器上层的滚动视图 */
+@property (strong, nonatomic) XHBNewsContentViewController *newsContentVC;
 
 @end
 
@@ -52,6 +52,7 @@
     self.newsContentVC = [self setupNewsContentVC];
     
     [self.containerScrollView addSubview:self.newsContentVC.view];
+
     
     //将新闻内容页对象添加为容器对象的子对象
     [self addChildViewController:self.newsContentVC];
@@ -101,13 +102,13 @@
         
     } completion:^(BOOL finished) {
         
-        //移除在当前 containerScrollView 上的 新闻内容视图
-        [self.newsContentVC.view removeFromSuperview];
-        
         //移除当前容器的子控制器
         [self.newsContentVC removeFromParentViewController];
         
-        self.newsContentVC = nil;
+        //移除在当前 containerScrollView 上的 新闻内容视图
+        [self.newsContentVC.view removeFromSuperview];
+        
+        _newsContentVC = nil;
         
         /* 先将 containerScrollView 的视图移回去在将新的新闻内容页添加到 scrollView 上，不然就会有从下又往上偏移的感觉 */
         //将 containerScrollView 的视角移回中间
@@ -128,7 +129,7 @@
     
     XHBNewsContentViewController *newsContentVC = [[XHBNewsContentViewController alloc] init];
     
-    newsContentVC.view.frame = CGRectMake(0, self.containerScrollView.frame.size.height, self.containerScrollView.frame.size.width, self.containerScrollView.frame.size.height);
+    newsContentVC.view.frame = CGRectMake(0, screenHeight, screenWidth, screenHeight);
     
     newsContentVC.newsId = self.newsId;
     
@@ -150,7 +151,7 @@
     self.newsId = newsId;
     
     //通过偏移倍数，设置 scrollView 的滚动偏移值
-    [self setupContentOffset:2.0];
+    [self setupContentOffset:2];
 }
 
 /**

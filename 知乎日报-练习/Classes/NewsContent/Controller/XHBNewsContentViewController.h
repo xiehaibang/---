@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "XHBBaseViewController.h"
 
-
+//@class WKWebView;
 
 @protocol XHBNewsContentControllerDelegate <NSObject>
 
@@ -57,5 +57,6 @@
 
 /** 指向首页的代理对象 */
 @property (weak, nonatomic) id <XHBNewsContentControllerDelegate> homeDelegate;
+
 
 @end
