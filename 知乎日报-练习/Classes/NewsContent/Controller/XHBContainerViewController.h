@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "XHBBaseViewController.h"
 
-@class XHBHomeViewController, XHBNewsContentViewController;
+@class XHBHomeViewController, XHBThemeViewController;
 
 @interface XHBContainerViewController : XHBBaseViewController
 
@@ -19,5 +19,7 @@
 /** 首页对象 */
 @property (strong, nonatomic) XHBHomeViewController *homeVC;
 
+/** 其他主题日报对象 */
+@property (strong, nonatomic) XHBThemeViewController *themeVC;
 
 @end

@@ -135,7 +135,13 @@
     
     newsContentVC.containerDelegate = self;
     
-    newsContentVC.homeDelegate = (id)self.homeVC;
+    if (self.homeVC) {
+        newsContentVC.newsListDelegate = (id)self.homeVC;
+    }
+    else if (self.themeVC) {
+        newsContentVC.newsListDelegate = (id)self.themeVC;
+    }
+    
     
     return newsContentVC;
     

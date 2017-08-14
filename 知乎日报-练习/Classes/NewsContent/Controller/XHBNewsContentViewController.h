@@ -53,10 +53,10 @@
 @property (assign, nonatomic) NSInteger newsId;
 
 /** 指向容器的代理对象 */
-@property (weak, nonatomic) id <XHBNewsContentControllerDelegate> containerDelegate;
+@property (weak, nonatomic) id<XHBNewsContentControllerDelegate> containerDelegate;
 
 /** 指向首页的代理对象 */
-@property (weak, nonatomic) id <XHBNewsContentControllerDelegate> homeDelegate;
+@property (weak, nonatomic) id<XHBNewsContentControllerDelegate> newsListDelegate;
 
 
 @end

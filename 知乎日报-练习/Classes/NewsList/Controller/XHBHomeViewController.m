@@ -582,12 +582,6 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  * 选中 cell 时调用
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    /* 创建一个新闻内容对象 */
-//    XHBNewsContentViewController *newsContentVC = [[XHBNewsContentViewController alloc] init];
-//    
-//    /* 将新闻 id 赋值给 newsContentVC 对象 */
-//    XHBDayNews *dayNews = self.dayNews[indexPath.row];
-//    newsContentVC.newsId = dayNews.ID;
     
     //创建一个新闻内容容器对象
     XHBContainerViewController *containerVC = [[XHBContainerViewController alloc] init];

@@ -11,12 +11,14 @@
 #import "XHBNewsHeadView.h"
 #import "XHBNewsFootView.h"
 #import "XHBNewsTopImageView.h"
+#import "XHBHomeViewController.h"
 
 #import <WebKit/WebKit.h>
 
 #import <AFNetworking/AFNetworking.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <MJExtension/MJExtension.h>
+
 
 
 @interface XHBNewsContentViewController ()<WKUIDelegate, WKNavigationDelegate, UIWebViewDelegate, UITabBarDelegate>
@@ -83,6 +85,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     
     [self.newsWKWebView.scrollView removeObserver:self.headView forKeyPath:@"contentOffset"];
     [self.newsWKWebView.scrollView removeObserver:self.footView forKeyPath:@"contentOffset"];
+    [self.newsWKWebView.scrollView removeObserver:self.topImage forKeyPath:@"contentOffset"];
 }
 
 #pragma mark - 设置视图
@@ -134,16 +137,17 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
  */
 - (void)setupHeadView {
     
+        
     //如果当前新闻有图
     if (self.newsContent.image) {
         
         self.topImage.newsContent = self.newsContent;
     }
     
-    if ([self.homeDelegate respondsToSelector:@selector(isFirstNewsWithNewsId:)]) {
+    if ([self.newsListDelegate respondsToSelector:@selector(isFirstNewsWithNewsId:)]) {
         
         //如果是第一条新闻并且有图片
-        if ([self.homeDelegate isFirstNewsWithNewsId:self.newsId] && self.newsContent.image) {
+        if ([self.newsListDelegate isFirstNewsWithNewsId:self.newsId] && self.newsContent.image) {
             
             [self.topImage addSubview:self.firstLabel];
             
@@ -155,18 +159,18 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
             
         }
         //如果是第一条新闻并且没有图片
-        else if ([self.homeDelegate isFirstNewsWithNewsId:self.newsId] && !self.newsContent.image) {
+        else if ([self.newsListDelegate isFirstNewsWithNewsId:self.newsId] && !self.newsContent.image) {
             
             [self.newsWKWebView.scrollView addSubview:self.firstLabel];
             
             //给 firstLabel 添加约束
             [self.firstLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.topImage.mas_top).with.offset(-50);
-                make.centerX.equalTo(self.topImage.mas_centerX);
+                make.top.equalTo(self.newsWKWebView.scrollView.mas_top).with.offset(-50);
+                make.centerX.equalTo(self.newsWKWebView.scrollView.mas_centerX);
             }];
         }
         //如果不是第一条新闻并且有图片
-        else if (![self.homeDelegate isFirstNewsWithNewsId:self.newsId] && self.newsContent.image) {
+        else if (![self.newsListDelegate isFirstNewsWithNewsId:self.newsId] && self.newsContent.image) {
             
             [self.topImage addSubview:self.headView];
             
@@ -185,14 +189,15 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
             
             //给 headView 添加约束
             [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.topImage.mas_top).with.offset(-50);
-                make.centerX.equalTo(self.topImage.mas_centerX);
+                make.top.equalTo(self.newsWKWebView.scrollView.mas_top).with.offset(-50);
+                make.centerX.equalTo(self.newsWKWebView.scrollView.mas_centerX);
                 make.width.mas_equalTo(screenWidth);
                 make.height.mas_equalTo(30);
             }];
         }
         
     }
+    
     
 }
 
@@ -202,10 +207,10 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
 - (void)setupFootView:(CGFloat)webHeight {
     
     //判断一下指向首页的代理对象是否实现了相应的方法
-    if ([self.homeDelegate respondsToSelector:@selector(isLastNewsWithNewsId:)]) {
+    if ([self.newsListDelegate respondsToSelector:@selector(isLastNewsWithNewsId:)]) {
         
         //判断当前新闻是不是最后一条新闻
-        if ([self.homeDelegate isLastNewsWithNewsId:self.newsId]) {
+        if ([self.newsListDelegate isLastNewsWithNewsId:self.newsId]) {
 
             
             [self.newsWKWebView.scrollView addSubview:self.lastLabel];
@@ -250,8 +255,10 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
         
     }];
     
+//    __weak typeof(self) weakSelf = self;
+    
     /* 拼接新闻请求地址 */
-    NSString *newsURL = [XHBNewsaddress stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", self.newsId]];
+    NSString *newsURL = [XHBNewsaddress stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.newsId]];
     
     //打开网络活动指示器
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -296,10 +303,10 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     if ([self.containerDelegate respondsToSelector:@selector(scrollToPreviousViewWithNewsId:)]) {
         
         //判断指向首页的代理对象是否实现了协议方法
-        if ([self.homeDelegate respondsToSelector:@selector(getPreviousNewsWithNewsId:)]) {
+        if ([self.newsListDelegate respondsToSelector:@selector(getPreviousNewsWithNewsId:)]) {
             
             //获取上一条新闻 id
-            NSInteger previousNewsId = [self.homeDelegate getPreviousNewsWithNewsId:self.newsId];
+            NSInteger previousNewsId = [self.newsListDelegate getPreviousNewsWithNewsId:self.newsId];
             
             //加载上一条新闻
             [self.containerDelegate scrollToPreviousViewWithNewsId:previousNewsId];
@@ -318,10 +325,10 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     if ([self.containerDelegate respondsToSelector:@selector(scrollToNextViewWithNewsId:)]) {
         
         //判断指向首页的代理对象是否实现了协议方法
-        if ([self.homeDelegate respondsToSelector:@selector(getNextNewsWithNewsId:)]) {
+        if ([self.newsListDelegate respondsToSelector:@selector(getNextNewsWithNewsId:)]) {
             
             //获取下一条新闻 id
-            NSInteger nextNewsId = [self.homeDelegate getNextNewsWithNewsId:self.newsId];
+            NSInteger nextNewsId = [self.newsListDelegate getNextNewsWithNewsId:self.newsId];
             
             //加载下一条新闻
             [self.containerDelegate scrollToNextViewWithNewsId:nextNewsId];
