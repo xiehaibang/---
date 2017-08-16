@@ -455,7 +455,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     
     if (!_footView) {
         
-        _footView = [XHBNewsFootView attachObserveToScrollView:self.newsWKWebView.scrollView target:self action:@selector(loadNextNews)];
+        _footView = [XHBNewsFootView getViewObserveToScrollView:self.newsWKWebView.scrollView target:self action:@selector(loadNextNews)];
     }
     
     return _footView;
@@ -468,7 +468,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     
     if (!_headView) {
         
-        _headView = [XHBNewsHeadView attachObserveToScrollView:self.newsWKWebView.scrollView target:self action:@selector(loadPreviousNews)];
+        _headView = [XHBNewsHeadView getViewObserveToScrollView:self.newsWKWebView.scrollView target:self action:@selector(loadPreviousNews)];
     }
     
     return _headView;

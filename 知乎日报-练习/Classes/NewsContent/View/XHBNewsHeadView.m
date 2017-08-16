@@ -34,9 +34,9 @@
 
 #pragma mark - 视图设置
 /**
- * 将 XHBNewsFootView 固定在传进来的视图上，并且对传进来的滚动视图进行监听
+ * 获取 XHBNewsHeadView 对象，并且对传进来的滚动视图进行监听
  */
-+ (XHBNewsHeadView *)attachObserveToScrollView:(UIScrollView *)scrollView target:(id)target action:(SEL)action {
++ (XHBNewsHeadView *)getViewObserveToScrollView:(UIScrollView *)scrollView target:(id)target action:(SEL)action {
     
     //创建一个脚部视图
     XHBNewsHeadView *headView = [[XHBNewsHeadView alloc] init];

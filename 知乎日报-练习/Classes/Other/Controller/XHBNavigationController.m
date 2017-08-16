@@ -233,7 +233,7 @@
         
     }
     else if (self.viewControllers.count >= 1) { //当导航控制器有了根视图以后
-        
+    
         //新建一个基于位图的上下文并设置为当前上下文
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(screenWidth, screenHeight), YES, 0);
         

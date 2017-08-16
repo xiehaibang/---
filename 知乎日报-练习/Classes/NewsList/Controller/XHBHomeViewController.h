@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "XHBBaseViewController.h"
 #import "XHBNewsContentViewController.h"
+#import "XHBHomeTopView.h"
 
 @interface XHBHomeViewController : XHBBaseViewController <XHBNewsContentControllerDelegate>
+
+/** 顶部视图 */
+@property (strong, nonatomic) XHBHomeTopView *topView;
 
 @end

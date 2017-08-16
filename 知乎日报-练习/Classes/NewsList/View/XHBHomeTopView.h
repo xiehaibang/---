@@ -8,11 +8,41 @@
 
 #import <UIKit/UIKit.h>
 
+/** 声明事件的 block 类型 */
+typedef void (^actionBlock)(NSInteger newsId);
+
 @interface XHBHomeTopView : UIView
+
+/** 顶部新闻数组 */
+@property (strong, nonatomic) NSArray *topNews;
+
+/** 计时器对象 */
+@property (strong, nonatomic) NSTimer *timer;
+
+/** 点击事件的 block */
+@property (copy, nonatomic) actionBlock tapActionBlock;
+
 
 /**
  * 将 XHBHomeTopView 固定在传进来的视图上，并且监听传进来的滚动视图的偏移值
  */
 + (XHBHomeTopView *)attachToView:(UIView *)view observeScrollView:(UIScrollView *)scrollView;
+
+/**
+ * 创建计时器
+ */
+- (void)createTimer;
+
+/**
+ * 启动计时器
+ */
+- (void)startTimer;
+
+/**
+ * 停止轮播图的计时器
+ */
+- (void)stopTimer;
+
+- (void)deleteTimer;
 
 @end

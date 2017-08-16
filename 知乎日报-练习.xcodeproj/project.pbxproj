@@ -16,6 +16,7 @@
 		173118101F3952FE00EB73E3 /* UIView+XHBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1731180F1F3952FE00EB73E3 /* UIView+XHBExtension.m */; };
 		1734B7961EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1734B7941EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m */; };
 		1734B7971EAE7C5D0050E006 /* XHBDayNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1734B7951EAE7C5D0050E006 /* XHBDayNewsTableViewCell.xib */; };
+		1736469A1F434F7700DFD681 /* XHBRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 173646991F434F7700DFD681 /* XHBRefreshControl.m */; };
 		173825441EDD50D300DB633C /* XHBBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 173825431EDD50D300DB633C /* XHBBaseViewController.m */; };
 		173825471EDD80C200DB633C /* XHBThemeDaily.m in Sources */ = {isa = PBXBuildFile; fileRef = 173825461EDD80C200DB633C /* XHBThemeDaily.m */; };
 		1738254A1EDD891300DB633C /* XHBEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 173825491EDD891300DB633C /* XHBEditor.m */; };
@@ -81,6 +82,8 @@
 		1734B7931EAE7C5D0050E006 /* XHBDayNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBDayNewsTableViewCell.h; sourceTree = "<group>"; };
 		1734B7941EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBDayNewsTableViewCell.m; sourceTree = "<group>"; };
 		1734B7951EAE7C5D0050E006 /* XHBDayNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBDayNewsTableViewCell.xib; sourceTree = "<group>"; };
+		173646981F434F7700DFD681 /* XHBRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBRefreshControl.h; sourceTree = "<group>"; };
+		173646991F434F7700DFD681 /* XHBRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBRefreshControl.m; sourceTree = "<group>"; };
 		173825421EDD50D300DB633C /* XHBBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XHBBaseViewController.h; path = ../../Other/Controller/XHBBaseViewController.h; sourceTree = "<group>"; };
 		173825431EDD50D300DB633C /* XHBBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XHBBaseViewController.m; path = ../../Other/Controller/XHBBaseViewController.m; sourceTree = "<group>"; };
 		173825451EDD80C200DB633C /* XHBThemeDaily.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBThemeDaily.h; sourceTree = "<group>"; };
@@ -373,6 +376,8 @@
 				1734B7951EAE7C5D0050E006 /* XHBDayNewsTableViewCell.xib */,
 				173867901F3EDBC000C6B6C8 /* XHBHomeTopView.h */,
 				173867911F3EDBC000C6B6C8 /* XHBHomeTopView.m */,
+				173646981F434F7700DFD681 /* XHBRefreshControl.h */,
+				173646991F434F7700DFD681 /* XHBRefreshControl.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -655,6 +660,7 @@
 				17382D721F34867A00B5CF27 /* XHBNewsContentViewController.m in Sources */,
 				173DB5951EAE2BA000120899 /* Foundation+Log.m in Sources */,
 				1768EA091E73FCA8000E7520 /* XHBNavigationController.m in Sources */,
+				1736469A1F434F7700DFD681 /* XHBRefreshControl.m in Sources */,
 				173825471EDD80C200DB633C /* XHBThemeDaily.m in Sources */,
 				17769C5D1E75594A006CC28A /* XHBCatalogTableViewCell.m in Sources */,
 				1768EA041E73FCA8000E7520 /* XHBCatalogViewController.m in Sources */,

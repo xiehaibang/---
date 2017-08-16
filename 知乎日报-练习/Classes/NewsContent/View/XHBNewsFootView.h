@@ -11,9 +11,9 @@
 @interface XHBNewsFootView : UIView
 
 /**
- * 将 XHBNewsFootView 固定在传进来的视图上，并且对传进来的滚动视图进行监听
+ * 获取 XHBNewsFootView 对象，并且对传进来的滚动视图进行监听
  */
-+ (XHBNewsFootView *)attachObserveToScrollView:(UIScrollView *)scrollView
++ (XHBNewsFootView *)getViewObserveToScrollView:(UIScrollView *)scrollView
                                         target:(id)target
                                         action:(SEL)action;
 

@@ -11,9 +11,9 @@
 @interface XHBNewsHeadView : UIView
 
 /**
- * 将 XHBNewsHeadView 固定在传进来的视图上，并且对传进来的滚动视图进行监听
+ * 获取 XHBNewsHeadView 对象，并且对传进来的滚动视图进行监听
  */
-+ (XHBNewsHeadView *)attachObserveToScrollView:(UIScrollView *)scrollView
++ (XHBNewsHeadView *)getViewObserveToScrollView:(UIScrollView *)scrollView
                                         target:(id)target
                                         action:(SEL)action;
 

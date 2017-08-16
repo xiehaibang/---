@@ -133,6 +133,7 @@ static id sharedInstance = nil;
     /* 将目录模块和内容模块分别加入左边和中间的视图 */
     self.leftViewController = (XHBBaseViewController *)catalogNav;
     self.midViewController = (XHBBaseViewController *)homeNav;
+//    self.midViewController = self.homeVC;
 }
 
 /**
@@ -145,6 +146,9 @@ static id sharedInstance = nil;
     
     [self addChildViewController:self.midViewController];
     [self.view addSubview:self.midViewController.view];
+    [self.midViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
     
     /* 设置leftViewController的大小，和midViewController移动的距离一样大 */
     self.leftViewController.view.frame = CGRectMake(-230, 0, 230, [[UIScreen mainScreen] bounds].size.height);
@@ -231,6 +235,9 @@ static id sharedInstance = nil;
     /* 手势变化状态 */
     if (pan.state == UIGestureRecognizerStateChanged) {
         
+        //停止计时器
+        [self.homeVC.topView stopTimer];
+        
         /* 获取手势拖动的偏移量 */
         CGPoint offset = [pan translationInView:self.midViewController.view];
         
@@ -259,6 +266,7 @@ static id sharedInstance = nil;
                 self.leftViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.leftViewController];
                 
             }];
+            
         }
         
         /* 当视图处于大于左边视图宽度一半的位置时，让左边视图全部显示出来 */
@@ -276,6 +284,9 @@ static id sharedInstance = nil;
             self.tapGR.cancelsTouchesInView = YES;
             
         }
+        
+        //启动计时器
+        [self.homeVC.topView startTimer];
     }
     
     /* 将偏移量复位 */
