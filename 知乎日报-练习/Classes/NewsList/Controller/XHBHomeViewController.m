@@ -10,10 +10,12 @@
 #import "XHBRootViewController.h"
 #import "XHBCatalogViewController.h"
 #import "XHBDayNews.h"
+#import "XHBHomeNews.h"
 #import "XHBDayNewsTableViewCell.h"
 #import "XHBContainerViewController.h"
 #import "XHBNavigationController.h"
 #import "XHBRefreshControl.h"
+#import "XHBSectionHeadView.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
@@ -29,20 +31,32 @@
 /** AFN 网络请求管理者 */
 @property (strong, nonatomic) AFHTTPSessionManager *manager;
 
+/** 新闻的时间 */
+@property (copy, nonatomic) NSString *newsDate;
+
+/** 全部新闻的数组 */
+@property (strong, nonatomic) NSMutableArray *homeNewsItems;
+
 /** 今日新闻数组 */
 @property (copy, nonatomic) NSArray *dayNews;
 
 /** 今日新闻的新闻 id 数组 */
-@property (strong, nonatomic) NSArray *dayNewsId;
+@property (copy, nonatomic) NSMutableArray *dayNewsId;
 
 /** 顶部新闻数组 */
-@property (strong, nonatomic) NSArray *topNews;
+@property (copy, nonatomic) NSArray *topNews;
 
 /** 盖住导航栏的视图 */
 @property (strong, nonatomic) UIView *navBar;
 
+/** 导航栏的标题 */
+@property (strong, nonatomic) UILabel *navTitle;
+
 /** 刷新控件 */
 @property (strong, nonatomic) XHBRefreshControl *refreshView;
+
+/** 历史新闻是否正在加载的状态 */
+@property (assign, nonatomic) BOOL isLoading;
 
 @end
 
@@ -68,11 +82,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     /* 控件初始化设置 */
     [self setupView];
     
-    /* 加载顶部的滚动的新闻 */
-    [self loadTopDayNews];
-    
-    /* 加载今日新闻 */
-    [self loadDayNews];
+    //加载首页新闻
+    [self loadHomeNews];
     
 }
 
@@ -138,14 +149,14 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     }];
     
     //添加导航栏的标题
-    UILabel *navTitle = [[UILabel alloc] init];
-    navTitle.attributedText = [[NSAttributedString alloc] initWithString:@"今日新闻"
+    self.navTitle = [[UILabel alloc] init];
+    self.navTitle.attributedText = [[NSAttributedString alloc] initWithString:@"今日新闻"
                                                               attributes:@{
                                                                             NSFontAttributeName:[UIFont boldSystemFontOfSize:18],
                                                                             NSForegroundColorAttributeName:[UIColor whiteColor]
                                                                                               }];
-    [self.view addSubview:navTitle];
-    [navTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.view addSubview:self.navTitle];
+    [self.navTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
         make.top.equalTo(self.view.mas_top).with.offset(25);
     }];
@@ -153,9 +164,9 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     //添加刷新控件
     [self.view addSubview:self.refreshView];
     [self.refreshView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(navTitle.mas_centerY);
+        make.centerY.equalTo(self.navTitle.mas_centerY);
         make.width.and.height.mas_equalTo(20);
-        make.right.equalTo(navTitle.mas_left).with.offset(-15);
+        make.right.equalTo(self.navTitle.mas_left).with.offset(-15);
     }];
     
     [self.refreshView.activityView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -172,6 +183,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     /* 设置dayNewsTableView的行高 */
     self.dayNewsTableView.rowHeight = 90;
     
+    //给 tableView 添加头部视图
     self.dayNewsTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 220)];
     
     self.dayNewsTableView.showsVerticalScrollIndicator = NO;
@@ -182,9 +194,9 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 #pragma mark - 加载网络数据
 /**
- * 加载pageControl中的新闻
+ * 加载今日新闻，包括顶部的
  */
-- (void)loadTopDayNews {
+- (void)loadHomeNews {
     
     /* 在 block 中替换属性的名称，让属性名和网络数据中的 key 相对应 */
     [XHBDayNews mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
@@ -198,66 +210,106 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     //打开网络活动指示器
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    /* 发送无参数网络请求 */
-    [self.manager GET:@"http://news-at.zhihu.com/api/4/news/latest" parameters:nil progress:^(NSProgress *downloadProgress) {
-        
-    } success:^(NSURLSessionDataTask *task, id responseObject) {
-        
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        
-        /* 转换数据模型 */
-        self.topNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:responseObject[@"top_stories"]];
-        
-        [self.dayNewsTableView reloadData];
-        
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        
-        /* 提示加载失败信息 */
-        [SVProgressHUD showErrorWithStatus:@"数据加载失败"];
-    }];
-}
-
-/** 
- * 加载当日的新闻
- */
-- (void)loadDayNews {
-    
-    //打开网络活动指示器
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-    /* 发送网络请求 */
+    //发送网络请求
     [self.manager GET:@"http://news-at.zhihu.com/api/4/news/latest" parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         
-        self.dayNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:responseObject[@"stories"]];
+        XHBHomeNews *homeNews = [XHBHomeNews mj_objectWithKeyValues:responseObject];
         
-        self.dayNewsId = [self.dayNews valueForKeyPath:@"ID"];
+        self.newsDate = homeNews.date;
+        
+        [self.homeNewsItems addObject:homeNews];
+        
+        self.topNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:homeNews.top_stories];
+        
+        self.dayNewsId = [self.homeNewsItems valueForKeyPath:@"stories.ID"];
         
         /* 刷新表格 */
         [self.dayNewsTableView reloadData];
         
         //结束刷新
         [self.refreshView endRefresh];
-
-    
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+       
+        //关闭网络活动指示器
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         
-        /* 加载失败 */
-        [SVProgressHUD showErrorWithStatus:@"数据加载失败！"];
+        //请求失败
+        [SVProgressHUD showErrorWithStatus:@"数据加载失败!"];
+        
         //结束刷新
         [self.refreshView endRefresh];
+    }];
+}
+
+/**
+ * 加载以前的新闻
+ */
+- (void)loadHistoryNews {
     
+    /* 在 block 中替换属性的名称，让属性名和网络数据中的 key 相对应 */
+    [XHBDayNews mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        
+        return @{
+                 @"ID" : @"id"
+                 };
         
     }];
     
+    //判断历史新闻是否正在加载，正在加载就返回
+    if (self.isLoading) {
+        return;
+    }
+    
+    //将历史新闻的加载状态设置为正在加载
+    self.isLoading = YES;
+    
+    //访问地址
+    NSString *newsURL = [NSString stringWithFormat:@"http://news-at.zhihu.com/api/4/news/before/%@", self.newsDate];
+    
+    //打开网络活动指示器
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    [self.manager GET:newsURL parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
+        XHBHomeNews *homeNews = [XHBHomeNews mj_objectWithKeyValues:responseObject];
+        
+        self.newsDate = homeNews.date;
+        
+        [self.homeNewsItems addObject:homeNews];
+        
+        self.dayNewsId = [self.homeNewsItems valueForKeyPath:@"stories.ID"];
+        
+        [self.dayNewsTableView insertSections:[NSIndexSet indexSetWithIndex:self.homeNewsItems.count - 1] withRowAnimation:UITableViewRowAnimationFade];
+        
+        /* 刷新表格 */
+        [self.dayNewsTableView reloadData];
+        
+        //加载完毕，设置历史新闻的正在加载的状态为 NO
+        self.isLoading = NO;
+        
+        //结束刷新
+        [self.refreshView endRefresh];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        //关闭网络活动指示器
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
+        //请求失败
+        [SVProgressHUD showErrorWithStatus:@"数据加载失败!"];
+        
+        //结束刷新
+        [self.refreshView endRefresh];
+    }];
 }
 
 /** 
@@ -265,11 +317,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  */
 - (void)updateNews {
     
-    /* 加载顶部的滚动的新闻 */
-    [self loadTopDayNews];
-    
-    /* 加载今日新闻 */
-    [self loadDayNews];
+    //重新加载首页的新闻
+    [self loadHomeNews];
 }
 
 
@@ -279,7 +328,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  * 获取 section 的数量
  */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return self.homeNewsItems.count;
 }
 
 /** 
@@ -287,23 +336,17 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-//    if (section == 0) {
-//        return 0;
-//    }
-//    else {
-//        return self.dayNews.count;
-//    }
-    
-    return self.dayNews.count;
+    return [[self.homeNewsItems[section] stories] count];
 }
 
 /** 
  * 返回封装好的cell
  */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    
     XHBDayNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:XHBDayNewsCell forIndexPath:indexPath];
     
-    cell.dayNewsItem = self.dayNews[indexPath.row];
+    cell.dayNewsItem = [self.homeNewsItems[indexPath.section] stories][indexPath.row];
     
     return cell;
 }
@@ -312,30 +355,69 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 #pragma mark - UITableViewDelegate 协议
 /**
- * 返回指定 section 的头视图的高度
- */
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//
-//}
-//
-///**
-// * 返回指定 section 的头视图，调用此方法需要先实现 tableView:heightForHeaderInSection: 方法
-// */
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    
-////    return self.carouselView;
-//    return [[UIView alloc] init];
-//}
-
-/**
  * 选中 cell 时调用
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self pushViewNewsContentControllerWithNewsId:[[self.dayNewsId objectAtIndex:indexPath.row] integerValue]];
+    XHBDayNews *news = [self.homeNewsItems[indexPath.section] stories][indexPath.row];
+    
+    [self pushViewNewsContentControllerWithNewsId:news.ID];
     
 }
 
+/**
+ * 返回 section 的头视图的高度
+ */
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+
+    //tableView displayHeaderView 的方法不会在高度为0的 section 执行，所以不能返回0
+    return section?35:CGFLOAT_MIN;
+}
+
+/**
+ * 返回指定 section 的头视图，调用此方法需要先实现 tableView:heightForHeaderInSection: 方法
+ */
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    XHBSectionHeadView *headView = [XHBSectionHeadView getSectionHeadViewWithTableView:tableView];
+    
+    XHBHomeNews *homeNews = self.homeNewsItems[section];
+    
+    headView.date = homeNews.date;
+    
+    return section?headView:nil;
+}
+
+/**
+ * 将要显示 section 的头视图时
+ */
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(nonnull UIView *)view forSection:(NSInteger)section {
+    
+    if (section == 0) {
+        
+        [self.navBar mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(55);
+        }];
+        
+        self.navTitle.alpha = 1;
+    }
+}
+
+/**
+ * section 的头部视图结束显示时
+ */
+- (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(nonnull UIView *)view forSection:(NSInteger)section {
+    
+    if (section == 0) {
+        
+        //section 的头部视图在滚动到顶部的时候会悬停在顶部，所以要修改 navBar 的高度并隐藏 navTitle
+        [self.navBar mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(20);
+        }];
+        
+        self.navTitle.alpha = 0;
+    }
+}
 
 
 #pragma mark - UIScrollViewDelegate协议
@@ -345,6 +427,12 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     CGFloat offsetY = scrollView.contentOffset.y;
+    
+    //上拉加载以前的数据
+    if (offsetY > scrollView.contentSize.height - 1.5 * screenHeight) {
+        
+        [self loadHistoryNews];
+    }
     
     if (offsetY <= 0 && offsetY >= -90) {
         self.navBar.alpha = 0;
@@ -462,6 +550,21 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
 
 #pragma mark - setter
+- (void)setDayNewsId:(NSMutableArray *)dayNewsId {
+    
+    NSMutableArray *mutableArray = [NSMutableArray array];
+    
+    for (NSInteger i = 0; i < dayNewsId.count; i++) {
+        
+        NSArray *array = dayNewsId[i];
+        
+        [mutableArray addObjectsFromArray:array];
+    }
+    
+    _dayNewsId = mutableArray;
+    
+}
+
 - (void)setTopNews:(NSArray *)topNews {
     
     _topNews = topNews;
@@ -492,6 +595,16 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     }
     
     return _manager;
+}
+
+
+- (NSMutableArray *)homeNewsItems {
+    
+    if (!_homeNewsItems) {
+        _homeNewsItems = [[NSMutableArray alloc] init];
+    }
+    
+    return _homeNewsItems;
 }
 
 - (XHBHomeTopView *)topView {

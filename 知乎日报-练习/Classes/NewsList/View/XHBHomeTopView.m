@@ -165,7 +165,7 @@
     self.carouselScroll.contentSize = CGSizeMake(screenWidth * 3, 265);
     
     /* 设置内容视图的坐标原点 */
-    self.carouselScroll.contentOffset = CGPointMake(self.carouselScroll.width, 0);
+    self.carouselScroll.contentOffset = CGPointMake(screenWidth, 0);
     
     //添加3个 ImageView
     self.leftImageView = [[UIImageView alloc] init];

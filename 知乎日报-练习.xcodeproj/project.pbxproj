@@ -17,6 +17,8 @@
 		1734B7961EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1734B7941EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m */; };
 		1734B7971EAE7C5D0050E006 /* XHBDayNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1734B7951EAE7C5D0050E006 /* XHBDayNewsTableViewCell.xib */; };
 		1736469A1F434F7700DFD681 /* XHBRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 173646991F434F7700DFD681 /* XHBRefreshControl.m */; };
+		173646A01F457D8000DFD681 /* XHBHomeNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 1736469F1F457D8000DFD681 /* XHBHomeNews.m */; };
+		173646A31F4592CA00DFD681 /* XHBSectionHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 173646A21F4592CA00DFD681 /* XHBSectionHeadView.m */; };
 		173825441EDD50D300DB633C /* XHBBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 173825431EDD50D300DB633C /* XHBBaseViewController.m */; };
 		173825471EDD80C200DB633C /* XHBThemeDaily.m in Sources */ = {isa = PBXBuildFile; fileRef = 173825461EDD80C200DB633C /* XHBThemeDaily.m */; };
 		1738254A1EDD891300DB633C /* XHBEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 173825491EDD891300DB633C /* XHBEditor.m */; };
@@ -84,6 +86,10 @@
 		1734B7951EAE7C5D0050E006 /* XHBDayNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XHBDayNewsTableViewCell.xib; sourceTree = "<group>"; };
 		173646981F434F7700DFD681 /* XHBRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBRefreshControl.h; sourceTree = "<group>"; };
 		173646991F434F7700DFD681 /* XHBRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBRefreshControl.m; sourceTree = "<group>"; };
+		1736469E1F457D8000DFD681 /* XHBHomeNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBHomeNews.h; sourceTree = "<group>"; };
+		1736469F1F457D8000DFD681 /* XHBHomeNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBHomeNews.m; sourceTree = "<group>"; };
+		173646A11F4592CA00DFD681 /* XHBSectionHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBSectionHeadView.h; sourceTree = "<group>"; };
+		173646A21F4592CA00DFD681 /* XHBSectionHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBSectionHeadView.m; sourceTree = "<group>"; };
 		173825421EDD50D300DB633C /* XHBBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XHBBaseViewController.h; path = ../../Other/Controller/XHBBaseViewController.h; sourceTree = "<group>"; };
 		173825431EDD50D300DB633C /* XHBBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XHBBaseViewController.m; path = ../../Other/Controller/XHBBaseViewController.m; sourceTree = "<group>"; };
 		173825451EDD80C200DB633C /* XHBThemeDaily.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBThemeDaily.h; sourceTree = "<group>"; };
@@ -364,6 +370,8 @@
 				173825491EDD891300DB633C /* XHBEditor.m */,
 				172F6E601EEE63450045FFF8 /* XHBThemeStories.h */,
 				172F6E611EEE63450045FFF8 /* XHBThemeStories.m */,
+				1736469E1F457D8000DFD681 /* XHBHomeNews.h */,
+				1736469F1F457D8000DFD681 /* XHBHomeNews.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -378,6 +386,8 @@
 				173867911F3EDBC000C6B6C8 /* XHBHomeTopView.m */,
 				173646981F434F7700DFD681 /* XHBRefreshControl.h */,
 				173646991F434F7700DFD681 /* XHBRefreshControl.m */,
+				173646A11F4592CA00DFD681 /* XHBSectionHeadView.h */,
+				173646A21F4592CA00DFD681 /* XHBSectionHeadView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -644,6 +654,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				173646A01F457D8000DFD681 /* XHBHomeNews.m in Sources */,
 				173867921F3EDBC000C6B6C8 /* XHBHomeTopView.m in Sources */,
 				17B0E7E21ED85C8D00B89E4B /* XHBThemeViewController.m in Sources */,
 				1734B7961EAE7C5D0050E006 /* XHBDayNewsTableViewCell.m in Sources */,
@@ -670,6 +681,7 @@
 				179785511F1941DC00B82C3A /* XHBScreenShotBackView.m in Sources */,
 				171DAD171F3B636900308F4D /* XHBNewsTopImageView.m in Sources */,
 				1768EA0C1E73FCA8000E7520 /* main.m in Sources */,
+				173646A31F4592CA00DFD681 /* XHBSectionHeadView.m in Sources */,
 				1768EA0A1E73FCA8000E7520 /* XHBRootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
