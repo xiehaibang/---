@@ -12,6 +12,7 @@
 #import "XHBNewsFootView.h"
 #import "XHBNewsTopImageView.h"
 #import "XHBHomeViewController.h"
+#import "XHBSessionManager.h"
 
 #import <WebKit/WebKit.h>
 
@@ -390,7 +391,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
 - (AFHTTPSessionManager *)manager
 {
     if (!_manager) {
-        _manager = [AFHTTPSessionManager manager];
+        _manager = [XHBSessionManager sharedHttpSessionManager];
     }
     
     return _manager;

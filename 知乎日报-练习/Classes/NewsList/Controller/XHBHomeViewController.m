@@ -16,6 +16,8 @@
 #import "XHBNavigationController.h"
 #import "XHBRefreshControl.h"
 #import "XHBSectionHeadView.h"
+#import "XHBSessionManager.h"
+
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
@@ -472,6 +474,11 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     //获取当前新闻 id 在新闻 id 数组中的位置
     NSInteger idIndex = [self.dayNewsId indexOfObject:[NSNumber numberWithInteger:newsId]];
     
+    //如果当前 id 等于今日新闻的倒数第二条，就加载历史新闻
+    if (idIndex == self.dayNewsId.count - 2) {
+        [self loadHistoryNews];
+    }
+    
     return [[self.dayNewsId objectAtIndex:++idIndex] integerValue];
 }
 
@@ -591,7 +598,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 - (AFHTTPSessionManager *)manager {
     /* 如果 _manager 为空 */
     if (!_manager) {
-        _manager = [AFHTTPSessionManager manager];
+        _manager = [XHBSessionManager sharedHttpSessionManager];
     }
     
     return _manager;

@@ -13,6 +13,7 @@
 #import "XHBNewsContentViewController.h"
 #import "XHBRootViewController.h"
 #import "XHBContainerViewController.h"
+#import "XHBSessionManager.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
@@ -155,16 +156,6 @@ static NSString * const dailyAddress = @"http://news-at.zhihu.com/api/4/theme";
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    /* 创建一个新闻内容对象 */
-//    XHBNewsContentViewController *newsContentVC = [[XHBNewsContentViewController alloc] init];
-//    
-//    /* 将新闻 id 赋值给 newsContentVC 对象 */
-//    XHBThemeStories *themeStories = self.stories[indexPath.row];
-//    newsContentVC.newsId = themeStories.ID;
-//    
-//    /* 将新创建的新闻内容对象压入 navigationController */
-//    [self.navigationController pushViewController:newsContentVC animated:YES];
-    
     //创建一个新闻内容容器对象
     XHBContainerViewController *containerVC = [[XHBContainerViewController alloc] init];
     
@@ -269,7 +260,7 @@ static NSString * const dailyAddress = @"http://news-at.zhihu.com/api/4/theme";
 - (AFHTTPSessionManager *)manager {
     
     if (!_manager) {
-        _manager = [AFHTTPSessionManager manager];
+        _manager = [XHBSessionManager sharedHttpSessionManager];
     }
     
     return _manager;

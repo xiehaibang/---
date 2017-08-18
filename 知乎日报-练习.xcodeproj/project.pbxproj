@@ -11,6 +11,7 @@
 		171E62D01F1CF8FA000048B6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 171E62CF1F1CF8FA000048B6 /* Default-568h@2x.png */; };
 		172F6E621EEE63450045FFF8 /* XHBThemeStories.m in Sources */ = {isa = PBXBuildFile; fileRef = 172F6E611EEE63450045FFF8 /* XHBThemeStories.m */; };
 		172FC06A1E98C3AB0072FB27 /* XHBNewCatalog.m in Sources */ = {isa = PBXBuildFile; fileRef = 172FC0691E98C3AB0072FB27 /* XHBNewCatalog.m */; };
+		173056F61F47449600060940 /* XHBSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 173056F51F47449600060940 /* XHBSessionManager.m */; };
 		1730D22E1F38863200F03F28 /* XHBNewsHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1730D22D1F38863200F03F28 /* XHBNewsHeadView.m */; };
 		1730D2311F38866B00F03F28 /* XHBNewsFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1730D2301F38866B00F03F28 /* XHBNewsFootView.m */; };
 		173118101F3952FE00EB73E3 /* UIView+XHBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1731180F1F3952FE00EB73E3 /* UIView+XHBExtension.m */; };
@@ -75,6 +76,8 @@
 		172F6E611EEE63450045FFF8 /* XHBThemeStories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBThemeStories.m; sourceTree = "<group>"; };
 		172FC0681E98C3AB0072FB27 /* XHBNewCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNewCatalog.h; sourceTree = "<group>"; };
 		172FC0691E98C3AB0072FB27 /* XHBNewCatalog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNewCatalog.m; sourceTree = "<group>"; };
+		173056F41F47449600060940 /* XHBSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBSessionManager.h; sourceTree = "<group>"; };
+		173056F51F47449600060940 /* XHBSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBSessionManager.m; sourceTree = "<group>"; };
 		1730D22C1F38863200F03F28 /* XHBNewsHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNewsHeadView.h; sourceTree = "<group>"; };
 		1730D22D1F38863200F03F28 /* XHBNewsHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHBNewsHeadView.m; sourceTree = "<group>"; };
 		1730D22F1F38866B00F03F28 /* XHBNewsFootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHBNewsFootView.h; sourceTree = "<group>"; };
@@ -178,6 +181,15 @@
 			children = (
 			);
 			path = test;
+			sourceTree = "<group>";
+		};
+		173056F31F4713F000060940 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				173056F41F47449600060940 /* XHBSessionManager.h */,
+				173056F51F47449600060940 /* XHBSessionManager.m */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 		17382D6B1F3485E200B5CF27 /* NewsContent */ = {
@@ -395,6 +407,7 @@
 		1768E9F71E73FCA8000E7520 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				173056F31F4713F000060940 /* Tool */,
 				1768E9FB1E73FCA8000E7520 /* Controller */,
 				1797854E1F19418B00B82C3A /* Viwe */,
 				1768E9FA1E73FCA8000E7520 /* Category */,
@@ -669,6 +682,7 @@
 				173825441EDD50D300DB633C /* XHBBaseViewController.m in Sources */,
 				1768EA061E73FCA8000E7520 /* XHBHomeViewController.m in Sources */,
 				17382D721F34867A00B5CF27 /* XHBNewsContentViewController.m in Sources */,
+				173056F61F47449600060940 /* XHBSessionManager.m in Sources */,
 				173DB5951EAE2BA000120899 /* Foundation+Log.m in Sources */,
 				1768EA091E73FCA8000E7520 /* XHBNavigationController.m in Sources */,
 				1736469A1F434F7700DFD681 /* XHBRefreshControl.m in Sources */,
