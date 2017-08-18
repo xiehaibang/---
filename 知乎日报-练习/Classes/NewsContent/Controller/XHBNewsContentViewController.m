@@ -366,6 +366,10 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     if (item.tag == 0) {
         [self returnNewsList];
     }
+    else if (item.tag == 1) {
+        //如果是下一篇的按钮，就加载下一篇文章
+        [self loadNextNews];
+    }
 }
 
 

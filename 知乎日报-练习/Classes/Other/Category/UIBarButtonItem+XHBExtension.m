@@ -26,9 +26,7 @@
     [button setBackgroundImage:[UIImage imageNamed:highImageName] forState:UIControlStateHighlighted];
     
     /* 设置按钮的大小，如果不设置按钮无法显示 */
-    CGRect frame;
-    frame.size = button.currentBackgroundImage.size;
-    button.frame = frame;
+    button.size = button.currentBackgroundImage.size;
     
     /* 添加按钮监听事件 */
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
@@ -62,9 +60,7 @@
     button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     
     /* 设置按钮大小 */
-    CGRect frame;
-    frame.size = CGSizeMake(120, 40);
-    button.frame = frame;
+    button.size = CGSizeMake(120, 40);
     
     /* 添加按钮监听事件 */
     
