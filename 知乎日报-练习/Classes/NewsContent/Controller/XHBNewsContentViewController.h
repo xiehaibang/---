@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "XHBBaseViewController.h"
 
+#import <WebKit/WebKit.h>
+
 //@class WKWebView;
 
 @protocol XHBNewsContentControllerDelegate <NSObject>
@@ -58,5 +60,13 @@
 /** 指向首页的代理对象 */
 @property (weak, nonatomic) id<XHBNewsContentControllerDelegate> newsListDelegate;
 
+/** 新闻视图 */
+@property (strong, nonatomic) WKWebView *newsWKWebView;
+
+
+/**
+ * 移除在 WKWebView 的 scrollView 上的监听者
+ */
+- (void)removeWKWebViewObserver;
 
 @end

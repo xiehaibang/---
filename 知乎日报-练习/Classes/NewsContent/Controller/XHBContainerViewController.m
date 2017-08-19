@@ -95,30 +95,38 @@
     //创建上一条或者下一条新闻的内容对象
     XHBNewsContentViewController *newsContentVC = [self setupNewsContentVC];
     
+    __weak XHBContainerViewController *wself = self;
+    
     [UIView animateWithDuration:0.2 animations:^{
         
         //将 scrollView 偏移到下一页
-        self.containerScrollView.contentOffset = CGPointMake(0, number * screenHeight);
+        wself.containerScrollView.contentOffset = CGPointMake(0, number * screenHeight);
         
     } completion:^(BOOL finished) {
         
+        //移除在 WKWebView 的 scrollView 上的监听者
+        [wself.newsContentVC removeWKWebViewObserver];
+        
+        [_newsContentVC.newsWKWebView removeFromSuperview];
+        _newsContentVC.newsWKWebView = nil;
+        
         //移除当前容器的子控制器
-        [self.newsContentVC removeFromParentViewController];
+        [wself.newsContentVC removeFromParentViewController];
         
         //移除在当前 containerScrollView 上的 新闻内容视图
-        [self.newsContentVC.view removeFromSuperview];
+        [wself.newsContentVC.view removeFromSuperview];
         
         _newsContentVC = nil;
         
         /* 先将 containerScrollView 的视图移回去在将新的新闻内容页添加到 scrollView 上，不然就会有从下又往上偏移的感觉 */
         //将 containerScrollView 的视角移回中间
-        self.containerScrollView.contentOffset = CGPointMake(0, screenHeight);
+        wself.containerScrollView.contentOffset = CGPointMake(0, screenHeight);
         
-        self.newsContentVC = newsContentVC;
+        wself.newsContentVC = newsContentVC;
         
-        [self.containerScrollView addSubview:self.newsContentVC.view];
+        [wself.containerScrollView addSubview:self.newsContentVC.view];
         
-        [self addChildViewController:self.newsContentVC];
+        [wself addChildViewController:self.newsContentVC];
     }];
 }
 

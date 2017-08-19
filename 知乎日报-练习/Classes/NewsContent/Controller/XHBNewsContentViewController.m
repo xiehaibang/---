@@ -8,13 +8,13 @@
 
 #import "XHBNewsContentViewController.h"
 #import "XHBNewsContent.h"
+#import "XHBHomeViewController.h"
+#import "XHBSessionManager.h"
 #import "XHBNewsHeadView.h"
 #import "XHBNewsFootView.h"
 #import "XHBNewsTopImageView.h"
-#import "XHBHomeViewController.h"
-#import "XHBSessionManager.h"
 
-#import <WebKit/WebKit.h>
+//#import <WebKit/WebKit.h>
 
 #import <AFNetworking/AFNetworking.h>
 #import <SVProgressHUD/SVProgressHUD.h>
@@ -36,8 +36,11 @@
 /** 新闻的 html */
 @property (strong, nonatomic) NSString *html;
 
-/** 新闻视图 */
-@property (strong, nonatomic) WKWebView *newsWKWebView;
+/** 载入上一条新闻的头部视图 */
+@property (strong, nonatomic) XHBNewsHeadView *headView;
+
+/** 载入下一条新闻的脚部视图 */
+@property (strong, nonatomic) XHBNewsFootView *footView;
 
 /** 新闻头部的图片视图 */
 @property (strong, nonatomic) XHBNewsTopImageView *topImage;
@@ -51,11 +54,7 @@
 /** 最后一条新闻的提示 */
 @property (strong, nonatomic) UILabel *lastLabel;
 
-/** 载入上一条新闻的头部视图 */
-@property (strong, nonatomic) XHBNewsHeadView *headView;
 
-/** 载入下一条新闻的脚部视图 */
-@property (strong, nonatomic) XHBNewsFootView *footView;
 
 @end
 
@@ -84,9 +83,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
  */
 - (void)dealloc {
     
-    [self.newsWKWebView.scrollView removeObserver:self.headView forKeyPath:@"contentOffset"];
-    [self.newsWKWebView.scrollView removeObserver:self.footView forKeyPath:@"contentOffset"];
-    [self.newsWKWebView.scrollView removeObserver:self.topImage forKeyPath:@"contentOffset"];
+    [self removeWKWebViewObserver];
 }
 
 #pragma mark - 设置视图
@@ -259,7 +256,9 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
 //    __weak typeof(self) weakSelf = self;
     
     /* 拼接新闻请求地址 */
-    NSString *newsURL = [XHBNewsaddress stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.newsId]];
+//    NSString *newsURL = [XHBNewsaddress stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.newsId]];
+    
+    NSString *newsURL = [NSString stringWithFormat:@"http://news-at.zhihu.com/api/4/news/%lu", self.newsId];
     
     //打开网络活动指示器
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -382,6 +381,17 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+
+#pragma mark - 移除监听者
+/**
+ * 移除在 WKWebView 的 scrollView 上的监听者
+ */
+- (void)removeWKWebViewObserver {
+    
+    [self.newsWKWebView.scrollView removeObserver:self.headView forKeyPath:@"contentOffset"];
+    [self.newsWKWebView.scrollView removeObserver:self.footView forKeyPath:@"contentOffset"];
+    [self.newsWKWebView.scrollView removeObserver:self.topImage forKeyPath:@"contentOffset"];
+}
 
 
 #pragma mark - getter
