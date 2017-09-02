@@ -17,9 +17,9 @@
 @property (assign, nonatomic) NSInteger newsId;
 
 /** 首页对象 */
-@property (strong, nonatomic) XHBHomeViewController *homeVC;
+@property (weak, nonatomic) XHBHomeViewController *homeVC;
 
 /** 其他主题日报对象 */
-@property (strong, nonatomic) XHBThemeViewController *themeVC;
+@property (weak, nonatomic) XHBThemeViewController *themeVC;
 
 @end

@@ -35,6 +35,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    
+}
+
 #pragma mark - 一些视图的创建和设置
 /**
  * 设置容器对象的视图

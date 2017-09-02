@@ -83,6 +83,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
  */
 - (void)dealloc {
     
+    //移除添加在 wkwebView 上的监听者
     [self removeWKWebViewObserver];
 }
 
@@ -109,6 +110,8 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     self.newsWKWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 20, screenWidth, screenHeight - self.tabBar.height - 20) configuration:wkConfiguration];
 
     self.newsWKWebView.scrollView.contentOffset = CGPointMake(0, 0);
+    
+    self.newsWKWebView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal;
     
     /* 给 WKWebView 设置委托 */
     self.newsWKWebView.UIDelegate = self;
@@ -140,6 +143,17 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     if (self.newsContent.image) {
         
         self.topImage.newsContent = self.newsContent;
+        
+        [self.view addSubview:self.topImage];
+        
+        //给 topImageView 添加约束
+        [self.topImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.top.equalTo(self.view.mas_top).with.offset(-45);
+            make.left.equalTo(self.view.mas_left);
+            make.width.mas_equalTo(screenWidth);
+            make.height.mas_equalTo(265);
+        }];
     }
     
     if ([self.newsListDelegate respondsToSelector:@selector(isFirstNewsWithNewsId:)]) {
@@ -253,7 +267,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
         
     }];
     
-//    __weak typeof(self) weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     
     /* 拼接新闻请求地址 */
 //    NSString *newsURL = [XHBNewsaddress stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.newsId]];
@@ -271,15 +285,15 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
         //关闭网络活动指示器
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         
-        self.newsContent = [XHBNewsContent mj_objectWithKeyValues:responseObject];
+        weakSelf.newsContent = [XHBNewsContent mj_objectWithKeyValues:responseObject];
         
         //拼接新闻的整个 html
-        self.html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" href=%@></head><body>%@</body></html>", self.newsContent.css[0], self.newsContent.body];
+        weakSelf.html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" href=%@></head><body>%@</body></html>", self.newsContent.css[0], self.newsContent.body];
         
         //设置 webView 的显示样式，并且加载新闻内容
-        [self setupWebView];
+        [weakSelf setupWebView];
         
-        self.newsWKWebView.scrollView.contentOffset = CGPointMake(0, 0);
+        weakSelf.newsWKWebView.scrollView.contentOffset = CGPointMake(0, 0);
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -489,13 +503,14 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     return _headView;
 }
 
+
+#pragma mark - setter
 - (void)setNewsId:(NSInteger)newsId {
     
     _newsId = newsId;
     
     /* 获取网络的新闻内容 */
     [self loadNewsContent];
-    
     
     
 }

@@ -15,7 +15,7 @@
 @property (weak, nonatomic) UIScrollView *scrollView;
 
 /** 传进来的视图, 用不了 weak  */
-@property (strong, nonatomic) UIView *newsContentView;
+@property (weak, nonatomic) UIView *newsContentView;
 
 /** 新闻图片 */
 @property (strong, nonatomic) UIImageView *newsImage;
@@ -36,7 +36,7 @@
  */
 - (void)dealloc {
     
-    [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
+//    [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
 }
 
 
@@ -66,16 +66,16 @@
  */
 - (void)setupView {
     
-    [self.newsContentView addSubview:self];
-
-    //给 topImageView 添加约束
-    [self mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(self.newsContentView.mas_top).with.offset(-45);
-        make.left.equalTo(self.newsContentView.mas_left);
-        make.width.mas_equalTo(screenWidth);
-        make.height.mas_equalTo(265);
-    }];
+//    [self.newsContentView addSubview:self];
+//
+//    //给 topImageView 添加约束
+//    [self mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.equalTo(self.newsContentView.mas_top).with.offset(-45);
+//        make.left.equalTo(self.newsContentView.mas_left);
+//        make.width.mas_equalTo(screenWidth);
+//        make.height.mas_equalTo(265);
+//    }];
     
     //给 topImageView 添加新闻标题和图片来源信息
     [self addSubview:self.newsImage];

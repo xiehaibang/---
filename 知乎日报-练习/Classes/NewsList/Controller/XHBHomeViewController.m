@@ -209,6 +209,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
     }];
     
+    __weak typeof(self) weakSelf = self;
+    
     //打开网络活动指示器
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -221,19 +223,19 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         XHBHomeNews *homeNews = [XHBHomeNews mj_objectWithKeyValues:responseObject];
         
-        self.newsDate = homeNews.date;
+        weakSelf.newsDate = homeNews.date;
         
-        [self.homeNewsItems addObject:homeNews];
+        [weakSelf.homeNewsItems addObject:homeNews];
         
-        self.topNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:homeNews.top_stories];
+        weakSelf.topNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:homeNews.top_stories];
         
-        self.dayNewsId = [self.homeNewsItems valueForKeyPath:@"stories.ID"];
+        weakSelf.dayNewsId = [weakSelf.homeNewsItems valueForKeyPath:@"stories.ID"];
         
         /* 刷新表格 */
-        [self.dayNewsTableView reloadData];
+        [weakSelf.dayNewsTableView reloadData];
         
         //结束刷新
-        [self.refreshView endRefresh];
+        [weakSelf.refreshView endRefresh];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
        
@@ -244,7 +246,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         [SVProgressHUD showErrorWithStatus:@"数据加载失败!"];
         
         //结束刷新
-        [self.refreshView endRefresh];
+        [weakSelf.refreshView endRefresh];
     }];
 }
 
@@ -273,6 +275,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     //访问地址
     NSString *newsURL = [NSString stringWithFormat:@"http://news-at.zhihu.com/api/4/news/before/%@", self.newsDate];
     
+    __weak typeof(self) weakSelf = self;
+    
     //打开网络活动指示器
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -286,20 +290,20 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         self.newsDate = homeNews.date;
         
-        [self.homeNewsItems addObject:homeNews];
+        [weakSelf.homeNewsItems addObject:homeNews];
         
-        self.dayNewsId = [self.homeNewsItems valueForKeyPath:@"stories.ID"];
+        weakSelf.dayNewsId = [weakSelf.homeNewsItems valueForKeyPath:@"stories.ID"];
         
-        [self.dayNewsTableView insertSections:[NSIndexSet indexSetWithIndex:self.homeNewsItems.count - 1] withRowAnimation:UITableViewRowAnimationFade];
+        [weakSelf.dayNewsTableView insertSections:[NSIndexSet indexSetWithIndex:self.homeNewsItems.count - 1] withRowAnimation:UITableViewRowAnimationFade];
         
         /* 刷新表格 */
-        [self.dayNewsTableView reloadData];
+        [weakSelf.dayNewsTableView reloadData];
         
         //加载完毕，设置历史新闻的正在加载的状态为 NO
-        self.isLoading = NO;
+        weakSelf.isLoading = NO;
         
         //结束刷新
-        [self.refreshView endRefresh];
+        [weakSelf.refreshView endRefresh];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -310,7 +314,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         [SVProgressHUD showErrorWithStatus:@"数据加载失败!"];
         
         //结束刷新
-        [self.refreshView endRefresh];
+        [weakSelf.refreshView endRefresh];
     }];
 }
 
