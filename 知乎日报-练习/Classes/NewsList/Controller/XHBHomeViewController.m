@@ -437,7 +437,9 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     //上拉加载以前的数据
     if (offsetY > scrollView.contentSize.height - 1.5 * screenHeight) {
         
-        [self loadHistoryNews];
+        if (self.newsDate) {
+            [self loadHistoryNews];
+        }
     }
     
     if (offsetY <= 0 && offsetY >= -90) {

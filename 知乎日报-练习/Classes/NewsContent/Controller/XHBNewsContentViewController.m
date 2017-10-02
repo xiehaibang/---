@@ -272,7 +272,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     /* 拼接新闻请求地址 */
 //    NSString *newsURL = [XHBNewsaddress stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.newsId]];
     
-    NSString *newsURL = [NSString stringWithFormat:@"http://news-at.zhihu.com/api/4/news/%lu", self.newsId];
+    NSString *newsURL = [NSString stringWithFormat:@"http://news-at.zhihu.com/api/4/news/%lu", (long)self.newsId];
     
     //打开网络活动指示器
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;

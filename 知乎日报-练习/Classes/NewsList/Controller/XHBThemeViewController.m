@@ -107,7 +107,7 @@ static NSString * const dailyAddress = @"http://news-at.zhihu.com/api/4/theme";
     /* 将文章 id 拼接到地址上 */
 //    NSString *articleURL = [dailyAddress stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.ID]];
     
-    NSString *articleURL = [NSString stringWithFormat:@"http://news-at.zhihu.com/api/4/theme/%lu", self.ID];
+    NSString *articleURL = [NSString stringWithFormat:@"http://news-at.zhihu.com/api/4/theme/%lu", (long)self.ID];
     
     //打开网络活动指示器
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
