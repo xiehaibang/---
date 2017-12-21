@@ -21,16 +21,17 @@
 
 @interface XHBCatalogViewController () <UITableViewDelegate, UITableViewDataSource>
 /* 目录表格 */
-@property (weak, nonatomic) IBOutlet UITableView *catalogTableView;
+@property (nonatomic, weak) IBOutlet UITableView *catalogTableView;
 
 /* 菜单栏 */
-@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
+@property (nonatomic, weak) IBOutlet UIView *topMenuView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *topMenuTopConstraint; //菜单栏的顶部约束
 
 /* AFN 请求管理者 */
-@property (strong, nonatomic) AFHTTPSessionManager *manager;
+@property (nonatomic, strong) AFHTTPSessionManager *manager;
 
 /* 日报列表的数组 */
-@property (strong, nonatomic) NSArray *categories;
+@property (nonatomic, strong) NSArray *categories;
 
 @end
 
@@ -72,21 +73,17 @@ static NSString * const XHBCatalogId = @"catalog";
     /* 设置导航栏按钮 */
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Menu_Avatar" title:@"请登录" target:self action:nil];
     
-    //    /* 将方形图片变成圆形图片 */
-    //    CALayer *mask = [CALayer layer];
-    //    mask.contents = (id)[[UIImage imageNamed:@"Field_Avatar_Mask"] CGImage];
-    //
-    //    UIBarButtonItem *barButtonItem = self.navigationItem.leftBarButtonItem;
-    //    barButtonItem.customView.layer.mask = mask;
-    //    barButtonItem.customView.layer.masksToBounds = YES;
-    ////    barButtonItem.customView.layer.cornerRadius = barButtonItem.customView.frame.size.width / 2.0;
-    
     /* 设置tabBar的背景颜色 */
-    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 49)];
+    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 64)];
+    
+    //适配iPhoneX
+    if (iPhoneX) {
+        self.topMenuTopConstraint.constant = kTopHeight;
+    }
     
     backgroundView.backgroundColor = XHBColor(35, 42, 48);
     
-    [self.tabBar insertSubview:backgroundView atIndex:0];
+//    [self.topMenuView insertSubview:backgroundView atIndex:0];
     
 }
 

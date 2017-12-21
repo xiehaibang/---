@@ -14,40 +14,40 @@
 @interface XHBHomeTopView () <UIScrollViewDelegate>
 
 /** 顶部滚动视图 */
-@property (strong, nonatomic) UIScrollView *carouselScroll;
+@property (nonatomic, strong) UIScrollView *carouselScroll;
 
 /** 顶部分屏控件 */
-@property (strong, nonatomic) UIPageControl *pageControl;
+@property (nonatomic, strong) UIPageControl *pageControl;
 
 /** 顶部滚动新闻图片数量 */
-@property (assign, nonatomic) NSInteger imageCount;
+@property (nonatomic, assign) NSInteger imageCount;
 
 /** 顶部滚动新闻当前图片索引 */
-@property (assign, nonatomic) NSInteger currentImageIndex;
+@property (nonatomic, assign) NSInteger currentImageIndex;
 
 /** 顶部滚动新闻的左边图片 */
-@property (strong, nonatomic) UIImageView *leftImageView;
+@property (nonatomic, strong) UIImageView *leftImageView;
 
 /** 顶部滚动新闻的右边图片 */
-@property (strong, nonatomic) UIImageView *rightImageView;
+@property (nonatomic, strong) UIImageView *rightImageView;
 
 /** 顶部滚动新闻的中间图片 */
-@property (strong, nonatomic) UIImageView *centerImageView;
+@property (nonatomic, strong) UIImageView *centerImageView;
 
 /** 顶部滚动新闻的左边图片标题 */
-@property (strong, nonatomic) UILabel *leftImageTitle;
+@property (nonatomic, strong) UILabel *leftImageTitle;
 
 /** 顶部滚动新闻的右边图片标题 */
-@property (strong, nonatomic) UILabel *rightImageTitle;
+@property (nonatomic, strong) UILabel *rightImageTitle;
 
 /** 顶部滚动新闻的中间图片标题 */
-@property (strong, nonatomic) UILabel *centerImageTitle;
+@property (nonatomic, strong) UILabel *centerImageTitle;
 
 /** 顶部新闻对象 */
-@property (strong, nonatomic) XHBDayNews *topDayNews;
+@property (nonatomic, strong) XHBDayNews *topDayNews;
 
 /** 传进来的首页对象 */
-@property (weak, nonatomic) UIView *homeView;
+@property (nonatomic, weak) UIView *homeView;
 
 @end
 
@@ -83,8 +83,8 @@
         
         [self mas_updateConstraints:^(MASConstraintMaker *make) {
             
-            make.top.equalTo(self.homeView.mas_top).with.offset(-45 - 0.5 * offsetY);
-            make.height.mas_equalTo(265 - 0.5 * offsetY);
+            make.top.equalTo(self.homeView.mas_top).with.offset(-kTopImageYValue - 0.5 * offsetY);
+            make.height.mas_equalTo(kTopImageHeight - 0.5 * offsetY);
         }];
         
     }
@@ -93,17 +93,17 @@
     }
     else if (offsetY <= 500) {
         
-        //如果图片视图还没有消失，就让状态栏保持浅色
-        if (offsetY <= 220) {
-            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-        }
-        else {
-            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-        }
+//        //如果图片视图还没有消失，就让状态栏保持浅色
+//        if (offsetY <= 220) {
+//            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+//        }
+//        else {
+//            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+//        }
         
         //让图片视图跟着新闻滚动
         [self mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(-45 - offsetY);
+            make.top.mas_equalTo(-kTopImageYValue - offsetY);
         }];
         
     }
@@ -158,11 +158,11 @@
     [self.carouselScroll mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
         make.width.mas_equalTo(screenWidth);
-        make.height.mas_equalTo(265);
+        make.height.mas_equalTo(kTopImageHeight);
     }];
     
     /* 设置ScrollView的内容视图的大小 */
-    self.carouselScroll.contentSize = CGSizeMake(screenWidth * 3, 265);
+    self.carouselScroll.contentSize = CGSizeMake(screenWidth * 3, kTopImageHeight);
     
     /* 设置内容视图的坐标原点 */
     self.carouselScroll.contentOffset = CGPointMake(screenWidth, 0);
@@ -175,7 +175,7 @@
         make.top.equalTo(self.carouselScroll.mas_top);
         make.bottom.equalTo(self.mas_bottom);
         make.width.mas_equalTo(screenWidth);
-        make.height.mas_equalTo(265);
+        make.height.mas_equalTo(kTopImageHeight);
     }];
     
     self.centerImageView = [[UIImageView alloc] init];
@@ -185,7 +185,7 @@
         make.top.equalTo(self.carouselScroll.mas_top);
         make.bottom.equalTo(self.mas_bottom);
         make.width.mas_equalTo(screenWidth);
-        make.height.mas_equalTo(265);
+        make.height.mas_equalTo(kTopImageHeight);
     }];
     
     self.rightImageView = [[UIImageView alloc] init];
@@ -195,7 +195,7 @@
         make.top.equalTo(self.carouselScroll.mas_top);
         make.bottom.equalTo(self.mas_bottom);
         make.width.mas_equalTo(screenWidth);
-        make.height.mas_equalTo(265);
+        make.height.mas_equalTo(kTopImageHeight);
     }];
     
     //创建点击手势

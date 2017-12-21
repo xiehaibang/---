@@ -48,7 +48,7 @@
     
     XHBNewsTopImageView *topImageView = [[XHBNewsTopImageView alloc] init];
     
-//    topImageView.frame = CGRectMake(0, -45, screenWidth, 265);
+//    topImageView.frame = CGRectMake(0, -kTopImageYValue, screenWidth, 265);
     
     topImageView.scrollView = scrollView;
     topImageView.newsContentView = view;
@@ -65,18 +65,7 @@
  * 设置 topImageView
  */
 - (void)setupView {
-    
-//    [self.newsContentView addSubview:self];
-//
-//    //给 topImageView 添加约束
-//    [self mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.top.equalTo(self.newsContentView.mas_top).with.offset(-45);
-//        make.left.equalTo(self.newsContentView.mas_left);
-//        make.width.mas_equalTo(screenWidth);
-//        make.height.mas_equalTo(265);
-//    }];
-    
+
     //给 topImageView 添加新闻标题和图片来源信息
     [self addSubview:self.newsImage];
     [self addSubview:self.imageTitle];
@@ -121,13 +110,11 @@
     CGFloat offsetY = scrollView.contentOffset.y;
     
     if (offsetY < 0 && offsetY >= -90) {
-        
-        //        self.frame = CGRectMake(0, -45 - 0.5 * offsetY, screenWidth, 265 - 0.5 * offsetY);
-        
+                
         [self mas_updateConstraints:^(MASConstraintMaker *make) {
             
-            make.top.equalTo(self.newsContentView.mas_top).with.offset(-45 - 0.5 * offsetY);
-            make.height.mas_equalTo(265 - 0.5 * offsetY);
+            make.top.equalTo(self.newsContentView.mas_top).with.offset(-kTopImageYValue - 0.5 * offsetY);
+            make.height.mas_equalTo(kTopImageHeight - 0.5 * offsetY);
         }];
         
     }
@@ -145,7 +132,7 @@
         }
         
         //让图片视图跟着新闻滚动
-        self.y = -45 - offsetY;
+        self.y = -kTopImageYValue - offsetY;
         
     }
     

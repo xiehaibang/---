@@ -18,7 +18,6 @@
 #import "XHBSectionHeadView.h"
 #import "XHBSessionManager.h"
 
-
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
 #import <MJExtension/MJExtension.h>
@@ -28,37 +27,38 @@
 @interface XHBHomeViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 /** 今日新闻列表视图 */
-@property (weak, nonatomic) IBOutlet UITableView *dayNewsTableView;
-
-/** AFN 网络请求管理者 */
-@property (strong, nonatomic) AFHTTPSessionManager *manager;
+@property (nonatomic, weak) IBOutlet UITableView *dayNewsTableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewTopConstraint;
 
 /** 新闻的时间 */
-@property (copy, nonatomic) NSString *newsDate;
-
-/** 全部新闻的数组 */
-@property (strong, nonatomic) NSMutableArray *homeNewsItems;
+@property (nonatomic, copy) NSString *newsDate;
 
 /** 今日新闻数组 */
-@property (copy, nonatomic) NSArray *dayNews;
-
-/** 今日新闻的新闻 id 数组 */
-@property (copy, nonatomic) NSMutableArray *dayNewsId;
+@property (nonatomic, copy) NSArray *dayNews;
 
 /** 顶部新闻数组 */
-@property (copy, nonatomic) NSArray *topNews;
+@property (nonatomic, copy) NSArray *topNews;
+
+/** 全部新闻的数组 */
+@property (nonatomic, strong) NSMutableArray *homeNewsItems;
+
+/** 今日新闻的新闻 id 数组 */
+@property (nonatomic, strong) NSMutableArray *dayNewsId;
 
 /** 盖住导航栏的视图 */
-@property (strong, nonatomic) UIView *navBar;
+@property (nonatomic, strong) UIView *navBar;
 
 /** 导航栏的标题 */
-@property (strong, nonatomic) UILabel *navTitle;
+@property (nonatomic, strong) UILabel *navTitle;
+
+/** AFN 网络请求管理者 */
+@property (nonatomic, strong) AFHTTPSessionManager *manager;
 
 /** 刷新控件 */
-@property (strong, nonatomic) XHBRefreshControl *refreshView;
+@property (nonatomic, strong) XHBRefreshControl *refreshView;
 
 /** 历史新闻是否正在加载的状态 */
-@property (assign, nonatomic) BOOL isLoading;
+@property (nonatomic, assign) BOOL isLoading;
 
 @end
 
@@ -69,6 +69,8 @@
 /* 将dayNewsCell的标识符设置为常量 */
 static NSString * const XHBDayNewsCell = @"dayNewsCell";
 
+static NSInteger const XHBNavBarHeight = 35;
+
 #pragma mark - viewController 生命周期
 - (void)viewWillAppear:(BOOL)animated {
     
@@ -76,6 +78,12 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     
     //显示导航栏
     self.navigationController.navigationBarHidden = YES;
+}
+
+//安全区域改变时调用
+- (void)viewSafeAreaInsetsDidChange {
+    [super viewSafeAreaInsetsDidChange];
+
 }
 
 - (void)viewDidLoad {
@@ -109,73 +117,110 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
  */
 - (void)setupView {
     
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    if (@available(iOS 11.0, *)) {
+        self.dayNewsTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
     
     //添加轮播图
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).with.offset(-45);
-        //        make.bottom.equalTo(scrollView.mas_top).with.offset(220);
+        make.top.equalTo(self.view.mas_top).with.offset(-kTopImageYValue);
         make.left.equalTo(self.view.mas_left);
         make.width.mas_equalTo(screenWidth);
-        make.height.mas_equalTo(265);
+        make.height.mas_equalTo(kTopImageHeight);
     }];
+    
+    //添加导航栏
+    [self addNavBar];
+    
+    //设置 tableView
+    [self setupTableView];
+    
+}
+
+/**
+ 添加导航栏
+ */
+- (void)addNavBar {
     
     //添加导航栏视图
     self.navBar = [[UIView alloc] init];
-    self.navBar.backgroundColor = XHBColor(23, 144, 211);
-    self.navBar.alpha = 0;
+    self.navBar.backgroundColor = XHBColorAlpha(23, 144, 211, 0);
+    
     [self.view addSubview:self.navBar];
     [self.navBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top);
-        make.left.equalTo(self.view.mas_left);
-        make.right.equalTo(self.view.mas_right);
+        make.top.mas_equalTo(self.view.mas_top);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.right.mas_equalTo(self.view.mas_right);
         make.width.mas_equalTo(screenWidth);
-        make.height.mas_equalTo(55);
+        make.height.mas_equalTo(kTopHeight);
     }];
     
     //添加导航栏的按钮
     UIButton *navButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                          
+    
     //设置按钮的背景图片
     [navButton setBackgroundImage:[UIImage imageNamed:@"Home_Icon"] forState:UIControlStateNormal];
     [navButton setBackgroundImage:[UIImage imageNamed:@"Home_Icon_Highlight"] forState:UIControlStateHighlighted];
     
     [navButton addTarget:self action:@selector(catalogClick) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:navButton];
+    [self.navBar addSubview:navButton];
     [navButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).with.offset(15);
-        make.top.equalTo(self.view.mas_top).with.offset(25);
         make.width.and.height.mas_equalTo(20);
+        
+        if (iPhoneX) {
+            make.top.mas_equalTo(self.view.mas_top).with.offset(45);
+        }
+        else {
+            make.top.mas_equalTo(self.view.mas_top).with.offset(25);
+        }
     }];
     
     //添加导航栏的标题
     self.navTitle = [[UILabel alloc] init];
     self.navTitle.attributedText = [[NSAttributedString alloc] initWithString:@"今日新闻"
-                                                              attributes:@{
-                                                                            NSFontAttributeName:[UIFont boldSystemFontOfSize:18],
-                                                                            NSForegroundColorAttributeName:[UIColor whiteColor]
-                                                                                              }];
-    [self.view addSubview:self.navTitle];
+                                                                   attributes:@{
+                                                                                NSFontAttributeName:[UIFont boldSystemFontOfSize:18],
+                                                                                NSForegroundColorAttributeName:[UIColor whiteColor]
+                                                                                }];
+    
+    [self.navBar addSubview:self.navTitle];
     [self.navTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(self.view.mas_top).with.offset(25);
+        make.centerX.mas_equalTo(self.navBar.mas_centerX);
+        
+        if (iPhoneX) {
+            make.top.mas_equalTo(self.view.mas_top).with.offset(45);
+        }
+        else {
+            make.top.mas_equalTo(self.view.mas_top).with.offset(25);
+        }
     }];
     
     //添加刷新控件
-    [self.view addSubview:self.refreshView];
+    [self.navBar addSubview:self.refreshView];
     [self.refreshView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.navTitle.mas_centerY);
+        make.centerY.mas_equalTo(self.navTitle.mas_centerY);
         make.width.and.height.mas_equalTo(20);
-        make.right.equalTo(self.navTitle.mas_left).with.offset(-15);
+        make.right.mas_equalTo(self.navTitle.mas_left).with.offset(-15);
     }];
     
+    //刷新的菊花视图
     [self.refreshView.activityView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.refreshView);
         make.width.and.height.equalTo(self.refreshView.mas_width);
     }];
 
+}
+
+/**
+ 初始化 tableView
+ */
+- (void)setupTableView {
     
     /* 为tableView队列中的cell注册类 */
     NSString *className = NSStringFromClass([XHBDayNewsTableViewCell class]);
@@ -186,12 +231,16 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     self.dayNewsTableView.rowHeight = 90;
     
     //给 tableView 添加头部视图
-    self.dayNewsTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 220)];
+    self.dayNewsTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, kTopImageHeight - kTopImageYValue - kStatusBarHeight)];
     
     self.dayNewsTableView.showsVerticalScrollIndicator = NO;
     
-}
+    if (self.tableViewTopConstraint.constant != kStatusBarHeight) {
+        //设置tabView的顶部约束
+        self.tableViewTopConstraint.constant = kStatusBarHeight;
+    }
 
+}
 
 
 #pragma mark - 加载网络数据
@@ -230,6 +279,11 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         weakSelf.topNews = [XHBDayNews mj_objectArrayWithKeyValuesArray:homeNews.top_stories];
         
         weakSelf.dayNewsId = [weakSelf.homeNewsItems valueForKeyPath:@"stories.ID"];
+        
+        //下拉刷新数据以后要将顶部视图的高度恢复原状
+        [weakSelf.topView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(kTopImageHeight);
+        }];
         
         /* 刷新表格 */
         [weakSelf.dayNewsTableView reloadData];
@@ -377,7 +431,7 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
     //tableView displayHeaderView 的方法不会在高度为0的 section 执行，所以不能返回0
-    return section?35:CGFLOAT_MIN;
+    return section ? XHBNavBarHeight : CGFLOAT_MIN;
 }
 
 /**
@@ -402,7 +456,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     if (section == 0) {
         
         [self.navBar mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(55);
+//            make.height.mas_equalTo(55);
+            make.height.mas_equalTo(kStatusBarHeight + XHBNavBarHeight);
         }];
         
         self.navTitle.alpha = 1;
@@ -418,7 +473,8 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
         
         //section 的头部视图在滚动到顶部的时候会悬停在顶部，所以要修改 navBar 的高度并隐藏 navTitle
         [self.navBar mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(20);
+//            make.height.mas_equalTo(20);
+            make.height.mas_equalTo(kStatusBarHeight);
         }];
         
         self.navTitle.alpha = 0;
@@ -443,10 +499,10 @@ static NSString * const XHBDayNewsCell = @"dayNewsCell";
     }
     
     if (offsetY <= 0 && offsetY >= -90) {
-        self.navBar.alpha = 0;
+        self.navBar.backgroundColor = XHBColorAlpha(23, 144, 211, 0);
     }
     else if (offsetY <= 500) {
-        self.navBar.alpha = offsetY/200;
+        self.navBar.backgroundColor = XHBColorAlpha(23, 144, 211, offsetY/200);
     }
 }
 

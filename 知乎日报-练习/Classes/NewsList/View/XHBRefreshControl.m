@@ -11,19 +11,19 @@
 @interface XHBRefreshControl ()
 
 /** 传进来的对象 */
-@property (assign, nonatomic) id target;
+@property (nonatomic, assign) id target;
 
 /** 传进来的方法 */
-@property (assign, nonatomic) SEL action;
+@property (nonatomic, assign) SEL action;
 
 /** 刷新状态 */
-@property (assign, nonatomic) BOOL isRefreshing;
+@property (nonatomic, assign) BOOL isRefreshing;
 
 /** 隐藏状态 */
-@property (assign, nonatomic) BOOL isHidding;
+@property (nonatomic, assign) BOOL isHidding;
 
 /** 被监听滚动视图的偏移值 */
-@property (assign, nonatomic) CGFloat offsetY;
+@property (nonatomic, assign) CGFloat offsetY;
 
 @end
 
@@ -87,11 +87,11 @@
         
         self.isRefreshing = YES;
         
-        //启动菊花动哈
+        //启动菊花动画
         [self.activityView startAnimating];
         
         //用 performSelector: 方法会存在内存泄露的危险，因为编译器不知道该对象能不能响应，如果不能，就是不安全的
-        //所以可以用 methodForSelector: 方法来获取指定方法的函数指针，在传入 receiver 和 selector 调用这个方法
+        //所以可以用 methodForSelector: 方法来获取指定方法的函数指针，再传入 receiver 和 selector 调用这个方法
         ((void (*)(id, SEL))[self.target methodForSelector:self.action])(self.target, self.action);
     }
     

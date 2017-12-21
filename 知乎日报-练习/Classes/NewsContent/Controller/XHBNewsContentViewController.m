@@ -22,37 +22,38 @@
 
 
 
-@interface XHBNewsContentViewController ()<WKUIDelegate, WKNavigationDelegate, UIWebViewDelegate, UITabBarDelegate>
-
-/** 网络请求管理者 */
-@property (strong, nonatomic) AFHTTPSessionManager *manager;
-
-/** 新闻内容对象 */
-@property (strong, nonatomic) XHBNewsContent *newsContent;
-
-/** 新闻内容样式表 */
-@property (strong, nonatomic) NSString *css;
-
-/** 新闻的 html */
-@property (strong, nonatomic) NSString *html;
-
-/** 载入上一条新闻的头部视图 */
-@property (strong, nonatomic) XHBNewsHeadView *headView;
-
-/** 载入下一条新闻的脚部视图 */
-@property (strong, nonatomic) XHBNewsFootView *footView;
-
-/** 新闻头部的图片视图 */
-@property (strong, nonatomic) XHBNewsTopImageView *topImage;
+@interface XHBNewsContentViewController ()<WKUIDelegate, WKNavigationDelegate, UIWebViewDelegate, UITabBarDelegate, UIScrollViewDelegate>
 
 /** UITabBar 控件 */
-@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
+@property (nonatomic, weak) IBOutlet UITabBar *tabBar;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *tabBarHeightConstraint; //tabBar的高度约束
+
+/** 网络请求管理者 */
+@property (nonatomic, strong) AFHTTPSessionManager *manager;
+
+/** 新闻内容对象 */
+@property (nonatomic, strong) XHBNewsContent *newsContent;
+
+/** 新闻内容样式表 */
+@property (nonatomic, strong) NSString *css;
+
+/** 新闻的 html */
+@property (nonatomic, strong) NSString *html;
+
+/** 载入上一条新闻的头部视图 */
+@property (nonatomic, strong) XHBNewsHeadView *headView;
+
+/** 载入下一条新闻的脚部视图 */
+@property (nonatomic, strong) XHBNewsFootView *footView;
+
+/** 新闻头部的图片视图 */
+@property (nonatomic, strong) XHBNewsTopImageView *topImage;
 
 /** 第一条新闻的提示 */
-@property (strong, nonatomic) UILabel *firstLabel;
+@property (nonatomic, strong) UILabel *firstLabel;
 
 /** 最后一条新闻的提示 */
-@property (strong, nonatomic) UILabel *lastLabel;
+@property (nonatomic, strong) UILabel *lastLabel;
 
 
 
@@ -89,6 +90,11 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
 
 #pragma mark - 设置视图
 - (void)setupView {
+    
+    //适配iPhoneX
+    if (iPhoneX) {
+        self.tabBarHeightConstraint.constant = kTabBarHeight;
+    }
 
     //创建 WKWebView 的 Configuration 对象
     WKWebViewConfiguration *wkConfiguration = [[WKWebViewConfiguration alloc] init];
@@ -107,8 +113,8 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     wkConfiguration.userContentController = wkUserContent;
     
     /* 创建一个 WKWebView */
-    self.newsWKWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 20, screenWidth, screenHeight - self.tabBar.height - 20) configuration:wkConfiguration];
-
+    self.newsWKWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, kStatusBarHeight, screenWidth, screenHeight - kTabBarHeight - kStatusBarHeight) configuration:wkConfiguration];
+    
     self.newsWKWebView.scrollView.contentOffset = CGPointMake(0, 0);
     
     self.newsWKWebView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal;
@@ -116,6 +122,8 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
     /* 给 WKWebView 设置委托 */
     self.newsWKWebView.UIDelegate = self;
     self.newsWKWebView.navigationDelegate = self;
+    self.newsWKWebView.scrollView.delegate = self;
+    
 }
 
 /**
@@ -138,7 +146,6 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
  */
 - (void)setupHeadView {
     
-        
     //如果当前新闻有图
     if (self.newsContent.image) {
         
@@ -149,10 +156,10 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
         //给 topImageView 添加约束
         [self.topImage mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            make.top.equalTo(self.view.mas_top).with.offset(-45);
+            make.top.equalTo(self.view.mas_top).with.offset(-kTopImageYValue);
             make.left.equalTo(self.view.mas_left);
             make.width.mas_equalTo(screenWidth);
-            make.height.mas_equalTo(265);
+            make.height.mas_equalTo(kTopImageHeight);
         }];
     }
     
@@ -165,7 +172,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
             
             //给 firstLabel 添加约束
             [self.firstLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.topImage.mas_top).with.offset(20);
+                make.top.equalTo(self.topImage.mas_top).with.offset(kStatusBarHeight);
                 make.centerX.equalTo(self.topImage.mas_centerX);
             }];
             
@@ -188,7 +195,7 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
             
             //给 headView 添加约束
             [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.topImage.mas_top).with.offset(20);
+                make.top.equalTo(self.topImage.mas_top).with.offset(kStatusBarHeight);
                 make.width.mas_equalTo(screenWidth);
                 make.height.mas_equalTo(30);
                 make.centerX.equalTo(self.topImage.mas_centerX);
@@ -322,8 +329,11 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
             //获取上一条新闻 id
             NSInteger previousNewsId = [self.newsListDelegate getPreviousNewsWithNewsId:self.newsId];
             
-            //加载上一条新闻
-            [self.containerDelegate scrollToPreviousViewWithNewsId:previousNewsId];
+            if (previousNewsId != self.newsId) {
+                //加载上一条新闻
+                [self.containerDelegate scrollToPreviousViewWithNewsId:previousNewsId];
+            }
+            
         }
         
     }
@@ -348,6 +358,23 @@ static NSString * const XHBNewsaddress = @"http://news-at.zhihu.com/api/4/news";
             [self.containerDelegate scrollToNextViewWithNewsId:nextNewsId];
         }
         
+    }
+    
+}
+
+
+#pragma mark - UIScrollViewDelegate
+//正在移动时，手指抬起来
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    
+    CGFloat offsetY = scrollView.contentOffset.y;
+    
+    //当手指抬起来时
+    if (offsetY > scrollView.contentSize.height - scrollView.frame.size.height + 60) {
+        [self loadNextNews];
+    }
+    else if (offsetY < -60) {
+        [self loadPreviousNews];
     }
     
 }

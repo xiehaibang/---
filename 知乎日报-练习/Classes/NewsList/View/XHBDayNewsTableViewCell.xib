@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="368" height="86"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="368" height="86"/>
+                <rect key="frame" x="0.0" y="0.0" width="368" height="85.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SR2-AK-WDF">
@@ -30,13 +30,23 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lid-OI-DA9" userLabel="分割线">
+                        <rect key="frame" x="15" y="84.5" width="338" height="1"/>
+                        <color key="backgroundColor" red="0.86666666670000003" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="ki2-NC-2c9"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="lid-OI-DA9" secondAttribute="bottom" id="15i-gf-zam"/>
+                    <constraint firstItem="lid-OI-DA9" firstAttribute="leading" secondItem="JNn-y9-E9h" secondAttribute="leading" id="5Zl-Sm-cgR"/>
                     <constraint firstAttribute="trailing" secondItem="SR2-AK-WDF" secondAttribute="trailing" constant="15" id="RyS-BH-oXS"/>
                     <constraint firstAttribute="bottom" secondItem="SR2-AK-WDF" secondAttribute="bottom" constant="15" id="WFJ-Il-6fN"/>
                     <constraint firstItem="JNn-y9-E9h" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="j8L-vL-isV"/>
                     <constraint firstItem="SR2-AK-WDF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="jeF-Wg-tU5"/>
                     <constraint firstItem="SR2-AK-WDF" firstAttribute="leading" secondItem="JNn-y9-E9h" secondAttribute="trailing" constant="15" id="nEB-oS-o0u"/>
+                    <constraint firstItem="lid-OI-DA9" firstAttribute="trailing" secondItem="SR2-AK-WDF" secondAttribute="trailing" id="ntZ-Hr-8cQ"/>
                     <constraint firstItem="JNn-y9-E9h" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="uYS-fs-SK9"/>
                 </constraints>
             </tableViewCellContentView>

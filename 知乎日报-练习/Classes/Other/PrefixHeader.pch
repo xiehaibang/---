@@ -23,8 +23,31 @@
 /* 颜色设置 */
 #define XHBColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 
+#define XHBColorAlpha(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a) * 1.0]
+
 /* 屏幕宽高 */
 #define screenWidth [UIScreen mainScreen].bounds.size.width
 #define screenHeight [UIScreen mainScreen].bounds.size.height
+
+#define kStatusBarHeight [[UIApplication sharedApplication] statusBarFrame].size.height         //状态栏的高度
+#define kNavBarHeight 44.0                                                                      //导航栏高度
+#define kTabBarHeight ([[UIApplication sharedApplication] statusBarFrame].size.height>20?83:49) //底部工具栏的高度
+#define kTopHeight (kStatusBarHeight + kNavBarHeight)                                           //状态栏 + 导航栏的高度
+
+#define kTopImageHeight (245 + kStatusBarHeight)  //顶部图片视图的高
+#define kTopImageYValue 45 //顶部图片视图的Y坐标的值
+
+//判断iPhoneX
+#define isiPhone (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define iPhoneX [[UIScreen mainScreen] bounds].size.width >= 375.0f && [[UIScreen mainScreen] bounds].size.height >= 812.0f && isiPhone
+
+//打印宏
+#define NSLog(format, ...) do {                                                                                                  \
+                                fprintf(stderr, "~~~~~~~~~~~~~~~~~~~开始~~~~~~~~~~~~~~~~\n");                                     \
+                                fprintf(stderr, "<%s : %d> %s\n",                                                                \
+                                [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, __func__);  \
+                                (NSLog)((format), ##__VA_ARGS__);                                                                \
+                                fprintf(stderr, "~~~~~~~~~~~~~~~~~~~结束~~~~~~~~~~~~~~~~\n");                                     \
+                                } while (0)
 
 #endif /* PrefixHeader_pch */

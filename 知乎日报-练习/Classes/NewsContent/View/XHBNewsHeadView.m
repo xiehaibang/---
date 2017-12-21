@@ -9,24 +9,23 @@
 #import "XHBNewsHeadView.h"
 
 @interface XHBNewsHeadView ()
-
 /** 头部新闻提示信息 */
-@property (strong, nonatomic) UILabel *promptLabel;
+@property (nonatomic, strong) UILabel *promptLabel;
 
 /** 载入上一条新闻是的动画的箭头图片 */
-@property (strong, nonatomic) UIImageView *arrowImage;
-
-/** 传进来的对象 */
-@property (assign, nonatomic) id target;
-
-/** 传进来的需要执行的方法 */
-@property (assign, nonatomic) SEL action;
+@property (nonatomic, strong) UIImageView *arrowImage;
 
 /** 传进来的滚动视图 */
-@property (weak, nonatomic) UIScrollView *scrollView;
+@property (nonatomic, weak) UIScrollView *scrollView;
+
+/** 传进来的对象 */
+@property (nonatomic, assign) id target;
+
+/** 传进来的需要执行的方法 */
+@property (nonatomic, assign) SEL action;
 
 /** 视图是否加载过的布尔值 */
-@property (assign, nonatomic) BOOL isLoaded;
+@property (nonatomic, assign) BOOL isLoaded;
 
 @end
 
@@ -103,16 +102,16 @@
         }];
         
         //如果停止拖拽 scrollView
-        if (!self.scrollView.isDragging && !self.isLoaded) {
-            
-            //用 performSelector: 方法会存在内存泄露的危险，因为编译器不知道该对象能不能响应，如果不能，就是不安全的
-            //所以可以用 methodForSelector: 方法来获取指定方法的函数指针，在传入 receiver 和 selector 调用这个方法
-            ((void (*)(id, SEL))[self.target methodForSelector:self.action])(self.target, self.action);
-            
-            //将视图设置为正在加载，以防止视图被销毁之前，因为 scrollView 的滚动再次加载别的新闻
-            self.isLoaded = YES;
-            
-        }
+//        if (!self.scrollView.isDragging && !self.isLoaded) {
+//
+//            //用 performSelector: 方法会存在内存泄露的危险，因为编译器不知道该对象能不能响应，如果不能，就是不安全的
+//            //所以可以用 methodForSelector: 方法来获取指定方法的函数指针，在传入 receiver 和 selector 调用这个方法
+//            ((void (*)(id, SEL))[self.target methodForSelector:self.action])(self.target, self.action);
+//
+//            //将视图设置为正在加载，以防止视图被销毁之前，因为 scrollView 的滚动再次加载别的新闻
+//            self.isLoaded = YES;
+//
+//        }
     }
     else {
         
@@ -123,6 +122,7 @@
     }
     
 }
+
 
 
 #pragma mark - getter

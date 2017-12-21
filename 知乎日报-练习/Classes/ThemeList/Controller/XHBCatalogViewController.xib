@@ -1,55 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="XHBCatalogViewController">
             <connections>
                 <outlet property="catalogTableView" destination="zgo-p6-0XA" id="OsV-5A-dR5"/>
-                <outlet property="tabBar" destination="eFL-7P-rfP" id="5pW-uc-Q7V"/>
+                <outlet property="topMenuTopConstraint" destination="QF5-cb-DSx" id="OLu-5Q-wiJ"/>
+                <outlet property="topMenuView" destination="IlD-0m-BxC" id="KZY-c0-Tcf"/>
                 <outlet property="view" destination="iN0-l3-epB" id="z5U-lp-lIE"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="230" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFL-7P-rfP">
-                    <rect key="frame" x="0.0" y="64" width="375" height="49"/>
-                    <color key="backgroundColor" red="0.13725490196078433" green="0.16470588235294117" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
-                    <items>
-                        <tabBarItem title="收藏" image="Menu_Icon_Collect" id="Vis-YO-cXA"/>
-                        <tabBarItem title="消息" image="Menu_Icon_Message" id="wca-hS-qss"/>
-                        <tabBarItem title="设置" image="Menu_Icon_Setting" id="a3H-E8-Qle"/>
-                    </items>
-                </tabBar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zgo-p6-0XA">
-                    <rect key="frame" x="0.0" y="128" width="375" height="539"/>
+                    <rect key="frame" x="0.0" y="128" width="230" height="539"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="jFw-gp-GC1"/>
                         <outlet property="delegate" destination="-1" id="WQy-hC-D4s"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IlD-0m-BxC" userLabel="topMenuView">
+                    <rect key="frame" x="0.0" y="64" width="230" height="64"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jvo-0h-7Bx" userLabel="收藏按钮">
+                            <rect key="frame" x="15" y="5" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="JCg-Xk-o8U"/>
+                                <constraint firstAttribute="height" constant="50" id="pRM-XE-SmE"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="-6" maxX="0.0" maxY="6"/>
+                            <state key="normal" image="Menu_Icon_Collect">
+                                <color key="titleColor" red="0.78808718919999998" green="0.78791451450000005" blue="0.80853986739999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="收藏" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nPi-IA-y8C">
+                            <rect key="frame" x="27.5" y="38.5" width="25" height="14.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.50980392156862742" green="0.50980392156862742" blue="0.50980392156862742" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4T-xI-nz0" userLabel="消息按钮">
+                            <rect key="frame" x="80" y="5" width="50" height="50"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="-6" maxX="0.0" maxY="6"/>
+                            <state key="normal" image="Menu_Icon_Message"/>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="消息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JcX-jF-daf">
+                            <rect key="frame" x="92.5" y="38.5" width="25" height="14.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.50980392159999999" green="0.50980392159999999" blue="0.50980392159999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nkP-nf-LiJ" userLabel="设置按钮">
+                            <rect key="frame" x="145" y="5" width="50" height="50"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="-6" maxX="0.0" maxY="6"/>
+                            <state key="normal" image="Menu_Icon_Setting"/>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设置" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k7v-VH-7wP">
+                            <rect key="frame" x="157.5" y="38.5" width="25" height="14.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.50980392159999999" green="0.50980392159999999" blue="0.50980392159999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GMd-cO-rI6" userLabel="分割线">
+                            <rect key="frame" x="0.0" y="63" width="230" height="1"/>
+                            <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="Jwg-zF-Yic"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.13633242249488831" green="0.16434860229492188" blue="0.18936461210250854" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="GMd-cO-rI6" secondAttribute="trailing" id="4lv-83-f1y"/>
+                        <constraint firstItem="GMd-cO-rI6" firstAttribute="top" secondItem="nPi-IA-y8C" secondAttribute="bottom" constant="10" id="5hi-hm-nZ5"/>
+                        <constraint firstItem="c4T-xI-nz0" firstAttribute="leading" secondItem="Jvo-0h-7Bx" secondAttribute="trailing" constant="15" id="637-iH-ZP5"/>
+                        <constraint firstItem="GMd-cO-rI6" firstAttribute="top" secondItem="JcX-jF-daf" secondAttribute="bottom" constant="10" id="8CU-WX-SU1"/>
+                        <constraint firstItem="c4T-xI-nz0" firstAttribute="height" secondItem="Jvo-0h-7Bx" secondAttribute="height" id="H8x-od-nCp"/>
+                        <constraint firstItem="GMd-cO-rI6" firstAttribute="top" secondItem="k7v-VH-7wP" secondAttribute="bottom" constant="10" id="Jq7-G8-as1"/>
+                        <constraint firstItem="Jvo-0h-7Bx" firstAttribute="leading" secondItem="IlD-0m-BxC" secondAttribute="leading" constant="15" id="JqZ-fB-69k"/>
+                        <constraint firstItem="k7v-VH-7wP" firstAttribute="centerX" secondItem="nkP-nf-LiJ" secondAttribute="centerX" id="KkF-wi-mY5"/>
+                        <constraint firstItem="nkP-nf-LiJ" firstAttribute="top" secondItem="IlD-0m-BxC" secondAttribute="top" constant="5" id="Qcv-Ih-uug"/>
+                        <constraint firstItem="nkP-nf-LiJ" firstAttribute="height" secondItem="Jvo-0h-7Bx" secondAttribute="height" id="V5C-Nd-7FU"/>
+                        <constraint firstItem="c4T-xI-nz0" firstAttribute="width" secondItem="Jvo-0h-7Bx" secondAttribute="width" id="X9g-Ju-Zng"/>
+                        <constraint firstItem="JcX-jF-daf" firstAttribute="centerX" secondItem="c4T-xI-nz0" secondAttribute="centerX" id="XWy-s8-dlt"/>
+                        <constraint firstItem="Jvo-0h-7Bx" firstAttribute="top" secondItem="IlD-0m-BxC" secondAttribute="top" constant="5" id="YrO-6A-6Qh"/>
+                        <constraint firstItem="GMd-cO-rI6" firstAttribute="leading" secondItem="IlD-0m-BxC" secondAttribute="leading" id="fPe-Ze-ixd"/>
+                        <constraint firstItem="c4T-xI-nz0" firstAttribute="top" secondItem="IlD-0m-BxC" secondAttribute="top" constant="5" id="foe-i4-43e"/>
+                        <constraint firstItem="nkP-nf-LiJ" firstAttribute="width" secondItem="Jvo-0h-7Bx" secondAttribute="width" id="pop-0P-6DT"/>
+                        <constraint firstAttribute="bottom" secondItem="GMd-cO-rI6" secondAttribute="bottom" id="qPS-Dv-Ukt"/>
+                        <constraint firstItem="nPi-IA-y8C" firstAttribute="centerX" secondItem="Jvo-0h-7Bx" secondAttribute="centerX" id="ueX-Rz-KRS"/>
+                        <constraint firstAttribute="height" constant="64" id="yGq-D7-OG0"/>
+                        <constraint firstItem="nkP-nf-LiJ" firstAttribute="leading" secondItem="c4T-xI-nz0" secondAttribute="trailing" constant="15" id="zY8-9e-43F"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.13725490196078433" green="0.16470588235294117" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="eFL-7P-rfP" secondAttribute="trailing" id="1S9-Cd-mWC"/>
                 <constraint firstItem="zgo-p6-0XA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="2qS-MO-n4w"/>
-                <constraint firstItem="eFL-7P-rfP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="GcL-PU-Dw4"/>
                 <constraint firstAttribute="trailing" secondItem="zgo-p6-0XA" secondAttribute="trailing" id="Jpy-TF-NnU"/>
                 <constraint firstAttribute="bottom" secondItem="zgo-p6-0XA" secondAttribute="bottom" id="Lu8-Gc-Te5"/>
-                <constraint firstItem="eFL-7P-rfP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Sj0-Zg-atG"/>
-                <constraint firstItem="zgo-p6-0XA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="128" id="xit-4e-Bvp"/>
+                <constraint firstItem="IlD-0m-BxC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="QF5-cb-DSx"/>
+                <constraint firstItem="zgo-p6-0XA" firstAttribute="top" secondItem="IlD-0m-BxC" secondAttribute="bottom" id="erx-UJ-0fi"/>
+                <constraint firstAttribute="trailing" secondItem="IlD-0m-BxC" secondAttribute="trailing" id="mSH-4f-tvq"/>
+                <constraint firstItem="IlD-0m-BxC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pho-JD-Dqp"/>
             </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
+        <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFL-7P-rfP">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+            <color key="backgroundColor" red="0.13725490196078433" green="0.16470588235294117" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+            <items>
+                <tabBarItem title="收藏" image="Menu_Icon_Collect" id="Vis-YO-cXA"/>
+                <tabBarItem title="消息" image="Menu_Icon_Message" id="wca-hS-qss"/>
+                <tabBarItem title="设置" image="Menu_Icon_Setting" id="a3H-E8-Qle"/>
+            </items>
+            <point key="canvasLocation" x="-33" y="510"/>
+        </tabBar>
     </objects>
     <resources>
         <image name="Menu_Icon_Collect" width="20" height="20"/>
