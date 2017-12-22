@@ -10,19 +10,19 @@
 
 @interface XHBEditor : NSObject
 
+/** 数据库中的唯一标识符 */
+@property (nonatomic, assign) NSInteger editor_id;
+
 /** 主编的知乎用户主页 */
-@property (strong, nonatomic) NSString *url;
+@property (nonatomic, strong) NSString *url;
 
 /** 主编的个人简介 */
-@property (strong, nonatomic) NSString *bio;
-
-/** 数据库中的唯一标识符 */
-@property (assign, nonatomic) NSInteger editor_id;
+@property (nonatomic, strong) NSString *bio;
 
 /** 主编的头像 */
-@property (strong, nonatomic) NSString *avatar;
+@property (nonatomic, strong) NSString *avatar;
 
 /** 主编的姓名 */
-@property (strong, nonatomic) NSString *name;
+@property (nonatomic, strong) NSString *name;
 
 @end

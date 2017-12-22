@@ -11,30 +11,30 @@
 @interface XHBNewsContent : NSObject
 
 /** HTML 字符串 */
-@property (strong, nonatomic) NSString *body;
+@property (nonatomic, strong) NSString *body;
 
 /** 图片版权信息 */
-@property (strong, nonatomic) NSString *image_source;
+@property (nonatomic, strong) NSString *image_source;
 
 /** 新闻标题 */
-@property (strong, nonatomic) NSString *title;
+@property (nonatomic, strong) NSString *title;
 
 /** 图片地址 */
-@property (strong, nonatomic) NSString *image;
+@property (nonatomic, strong) NSString *image;
 
 /** 分享链接 */
-@property (strong, nonatomic) NSString *share_url;
+@property (nonatomic, strong) NSString *share_url;
 
 /** JS */
-@property (strong, nonatomic) NSString *js;
+@property (nonatomic, strong) NSString *js;
 
 /** 新闻的类型 */
-@property (assign, nonatomic) NSInteger type;
+@property (nonatomic, assign) NSInteger type;
 
 /** 新闻 ID */
-@property (assign, nonatomic) NSInteger ID;
+@property (nonatomic, assign) NSInteger ID;
 
 /** CSS */
-@property (strong, nonatomic) NSArray *css;
+@property (nonatomic, strong) NSArray *css;
 
 @end

@@ -11,24 +11,24 @@
 @interface XHBThemeDaily : NSObject
 
 /** 图形地址 */
-@property (strong, nonatomic) NSArray *images;
+@property (nonatomic, strong) NSArray *images;
 
 /** 消息的标题 */
-@property (strong, nonatomic) NSString *title;
+@property (nonatomic, strong) NSString *title;
 
 /** 主题日报的介绍 */
-@property (strong, nonatomic) NSString *theme_description;
+@property (nonatomic, strong) NSString *theme_description;
 
 /** 主题日报的背景图片 */
-@property (strong, nonatomic) NSString *background;
+@property (nonatomic, strong) NSString *background;
 
 /** 主题日报的名称 */
-@property (strong, nonatomic) NSString *name;
+@property (nonatomic, strong) NSString *name;
 
 /** 背景图片的小图版本 */
-@property (strong, nonatomic) NSString *image;
+@property (nonatomic, strong) NSString *image;
 
 /** 图像的版权信息 */
-@property (strong, nonatomic) NSString *image_source;
+@property (nonatomic, strong) NSString *image_source;
 
 @end

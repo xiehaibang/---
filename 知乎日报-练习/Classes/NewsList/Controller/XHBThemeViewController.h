@@ -12,6 +12,6 @@
 @interface XHBThemeViewController : XHBBaseViewController
 
 /** 主题日报的 id */
-@property (assign, nonatomic) NSInteger ID;
+@property (nonatomic, assign) NSInteger ID;
 
 @end

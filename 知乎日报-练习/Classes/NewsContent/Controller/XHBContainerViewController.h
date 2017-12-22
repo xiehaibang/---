@@ -14,12 +14,12 @@
 @interface XHBContainerViewController : XHBBaseViewController
 
 /** 新闻 id */
-@property (assign, nonatomic) NSInteger newsId;
+@property (nonatomic, assign) NSInteger newsId;
 
 /** 首页对象 */
-@property (weak, nonatomic) XHBHomeViewController *homeVC;
+@property (nonatomic, weak) XHBHomeViewController *homeVC;
 
 /** 其他主题日报对象 */
-@property (weak, nonatomic) XHBThemeViewController *themeVC;
+@property (nonatomic, weak) XHBThemeViewController *themeVC;
 
 @end

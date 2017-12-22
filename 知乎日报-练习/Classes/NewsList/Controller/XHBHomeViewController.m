@@ -24,11 +24,11 @@
 #import "UIImageView+WebCache.h"
 
 
-@interface XHBHomeViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface XHBHomeViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, XHBSlideMenuDelegate>
 
 /** 今日新闻列表视图 */
 @property (nonatomic, weak) IBOutlet UITableView *dayNewsTableView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewTopConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *tableViewTopConstraint;
 
 /** 新闻的时间 */
 @property (nonatomic, copy) NSString *newsDate;
@@ -117,6 +117,9 @@ static NSInteger const XHBNavBarHeight = 35;
  */
 - (void)setupView {
     
+    XHBRootViewController *rootVC = [XHBRootViewController sharedInstance];
+    rootVC.delegate = self;
+    
     if (@available(iOS 11.0, *)) {
         self.dayNewsTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
@@ -162,10 +165,12 @@ static NSInteger const XHBNavBarHeight = 35;
     //添加导航栏的按钮
     UIButton *navButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
+    //扩大按钮的响应范围
+    [navButton setEnlargeEdge:24];
+    
     //设置按钮的背景图片
     [navButton setBackgroundImage:[UIImage imageNamed:@"Home_Icon"] forState:UIControlStateNormal];
     [navButton setBackgroundImage:[UIImage imageNamed:@"Home_Icon_Highlight"] forState:UIControlStateHighlighted];
-    
     [navButton addTarget:self action:@selector(catalogClick) forControlEvents:UIControlEventTouchUpInside];
     
     [self.navBar addSubview:navButton];
@@ -526,6 +531,28 @@ static NSInteger const XHBNavBarHeight = 35;
 }
 
 
+#pragma mark - XHBSlideMenuDelegate
+- (void)menuStatusChangedWithStatus:(XHBMenuStatus)status {
+    
+    switch (status) {
+        case XHBMenuStatusDisplay:{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //因为代理方法是在动画的block里面调用的，所以要回到主线程调用这条语句
+                self.topView.carouselScroll.userInteractionEnabled = NO;
+            });
+            break;
+        }
+        case XHBMenuStatusHidden: {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.topView.carouselScroll.userInteractionEnabled = YES;
+            });
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 
 #pragma mark - XHBNewsContentControllerDelegate
 /**
@@ -615,7 +642,6 @@ static NSInteger const XHBNavBarHeight = 35;
     [rootVC navigationButton];
     
 }
-
 
 
 #pragma mark - setter

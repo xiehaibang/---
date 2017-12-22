@@ -14,9 +14,9 @@
 @interface XHBDayNewsTableViewCell : UITableViewCell
 
 /** 今日日报对象 */
-@property (strong, nonatomic) XHBDayNews *dayNewsItem;
+@property (nonatomic, strong) XHBDayNews *dayNewsItem;
 
 /** 主题日报对象 */
-@property (strong, nonatomic) XHBThemeDaily *themeDailyItem;
+@property (nonatomic, strong) XHBThemeDaily *themeDailyItem;
 
 @end

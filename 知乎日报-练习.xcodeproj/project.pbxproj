@@ -49,6 +49,9 @@
 		17B0E7E21ED85C8D00B89E4B /* XHBThemeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17B0E7E01ED85C8D00B89E4B /* XHBThemeViewController.m */; };
 		17B0E7E31ED85C8D00B89E4B /* XHBThemeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17B0E7E11ED85C8D00B89E4B /* XHBThemeViewController.xib */; };
 		5A9BC05AA5AF9F7B76E7D1F6 /* Pods________.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A85BB835C13A4286867FB30C /* Pods________.framework */; };
+		B2190F2D1FECB20D0091E945 /* XHBHomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2190F2C1FECB20D0091E945 /* XHBHomeView.m */; };
+		B2190F301FECBAB30091E945 /* UIButton+XHBClickRange.m in Sources */ = {isa = PBXBuildFile; fileRef = B2190F2F1FECBAB30091E945 /* UIButton+XHBClickRange.m */; };
+		B22AF0F31FEBAA33000FA3DC /* XHBMultipleDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B22AF0F21FEBAA33000FA3DC /* XHBMultipleDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,6 +151,12 @@
 		3E840FE32AD827A0B044F7D0 /* Pods-知乎日报-练习.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-知乎日报-练习.release.xcconfig"; path = "Pods/Target Support Files/Pods-知乎日报-练习/Pods-知乎日报-练习.release.xcconfig"; sourceTree = "<group>"; };
 		45BAE40B74C24449811DA1FA /* Pods-知乎日报-练习.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-知乎日报-练习.debug.xcconfig"; path = "Pods/Target Support Files/Pods-知乎日报-练习/Pods-知乎日报-练习.debug.xcconfig"; sourceTree = "<group>"; };
 		A85BB835C13A4286867FB30C /* Pods________.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods________.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2190F2B1FECB20D0091E945 /* XHBHomeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XHBHomeView.h; sourceTree = "<group>"; };
+		B2190F2C1FECB20D0091E945 /* XHBHomeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XHBHomeView.m; sourceTree = "<group>"; };
+		B2190F2E1FECBAB30091E945 /* UIButton+XHBClickRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+XHBClickRange.h"; sourceTree = "<group>"; };
+		B2190F2F1FECBAB30091E945 /* UIButton+XHBClickRange.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+XHBClickRange.m"; sourceTree = "<group>"; };
+		B22AF0F11FEBAA33000FA3DC /* XHBMultipleDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XHBMultipleDelegate.h; sourceTree = "<group>"; };
+		B22AF0F21FEBAA33000FA3DC /* XHBMultipleDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XHBMultipleDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,18 +185,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		173006EC1F1E4105003507FD /* test */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = test;
-			sourceTree = "<group>";
-		};
 		173056F31F4713F000060940 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
 				173056F41F47449600060940 /* XHBSessionManager.h */,
 				173056F51F47449600060940 /* XHBSessionManager.m */,
+				B22AF0F11FEBAA33000FA3DC /* XHBMultipleDelegate.h */,
+				B22AF0F21FEBAA33000FA3DC /* XHBMultipleDelegate.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -262,7 +266,6 @@
 		175617101E6C0BA9002C7BF2 /* 知乎日报-练习 */ = {
 			isa = PBXGroup;
 			children = (
-				173006EC1F1E4105003507FD /* test */,
 				1768E9E81E73FCA8000E7520 /* Classes */,
 				175617111E6C0BA9002C7BF2 /* Supporting Files */,
 			);
@@ -400,6 +403,8 @@
 				173646991F434F7700DFD681 /* XHBRefreshControl.m */,
 				173646A11F4592CA00DFD681 /* XHBSectionHeadView.h */,
 				173646A21F4592CA00DFD681 /* XHBSectionHeadView.m */,
+				B2190F2B1FECB20D0091E945 /* XHBHomeView.h */,
+				B2190F2C1FECB20D0091E945 /* XHBHomeView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -427,6 +432,8 @@
 				1731180F1F3952FE00EB73E3 /* UIView+XHBExtension.m */,
 				17769C571E753844006CC28A /* UIBarButtonItem+XHBExtension.h */,
 				17769C581E753844006CC28A /* UIBarButtonItem+XHBExtension.m */,
+				B2190F2E1FECBAB30091E945 /* UIButton+XHBClickRange.h */,
+				B2190F2F1FECBAB30091E945 /* UIButton+XHBClickRange.m */,
 			);
 			name = Category;
 			path = ../Other/Category;
@@ -544,7 +551,7 @@
 				TargetAttributes = {
 					1756170D1E6C0BA9002C7BF2 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = XF5LMZ7DL8;
+						DevelopmentTeam = 5S88GBJPG8;
 						ProvisioningStyle = Automatic;
 					};
 					175617261E6C0BA9002C7BF2 = {
@@ -680,7 +687,9 @@
 				173F6AEA1EA5C7DF00C96ED0 /* XHBDayNews.m in Sources */,
 				17769C591E753844006CC28A /* UIBarButtonItem+XHBExtension.m in Sources */,
 				173825441EDD50D300DB633C /* XHBBaseViewController.m in Sources */,
+				B2190F301FECBAB30091E945 /* UIButton+XHBClickRange.m in Sources */,
 				1768EA061E73FCA8000E7520 /* XHBHomeViewController.m in Sources */,
+				B2190F2D1FECB20D0091E945 /* XHBHomeView.m in Sources */,
 				17382D721F34867A00B5CF27 /* XHBNewsContentViewController.m in Sources */,
 				173056F61F47449600060940 /* XHBSessionManager.m in Sources */,
 				173DB5951EAE2BA000120899 /* Foundation+Log.m in Sources */,
@@ -695,6 +704,7 @@
 				179785511F1941DC00B82C3A /* XHBScreenShotBackView.m in Sources */,
 				171DAD171F3B636900308F4D /* XHBNewsTopImageView.m in Sources */,
 				1768EA0C1E73FCA8000E7520 /* main.m in Sources */,
+				B22AF0F31FEBAA33000FA3DC /* XHBMultipleDelegate.m in Sources */,
 				173646A31F4592CA00DFD681 /* XHBSectionHeadView.m in Sources */,
 				1768EA0A1E73FCA8000E7520 /* XHBRootViewController.m in Sources */,
 			);
@@ -851,7 +861,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				DEVELOPMENT_TEAM = XF5LMZ7DL8;
+				DEVELOPMENT_TEAM = 5S88GBJPG8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "知乎日报-练习/Classes/Other/PrefixHeader.pch";
 				INFOPLIST_FILE = "知乎日报-练习/Info.plist";
@@ -880,7 +890,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				DEVELOPMENT_TEAM = XF5LMZ7DL8;
+				DEVELOPMENT_TEAM = 5S88GBJPG8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "知乎日报-练习/Classes/Other/PrefixHeader.pch";
 				INFOPLIST_FILE = "知乎日报-练习/Info.plist";

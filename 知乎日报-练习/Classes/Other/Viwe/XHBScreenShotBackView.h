@@ -11,8 +11,8 @@
 @interface XHBScreenShotBackView : UIView
 
 /** 屏幕快照的图片 */
-@property (strong, nonatomic) UIImageView *imageView;
+@property (nonatomic, strong) UIImageView *imageView;
 
 /** 遮罩视图 */
-@property (strong, nonatomic) UIView *maskView;
+@property (nonatomic, strong) UIView *maskView;
 @end

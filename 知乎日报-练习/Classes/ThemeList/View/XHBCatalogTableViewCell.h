@@ -13,7 +13,7 @@
 @interface XHBCatalogTableViewCell : UITableViewCell
 
 /* 主题日报对象 */
-@property (strong, nonatomic) XHBNewCatalog *categoryItem;
+@property (nonatomic, strong) XHBNewCatalog *categoryItem;
 
 /**
  * 设置首页 cell

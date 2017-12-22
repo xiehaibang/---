@@ -11,18 +11,18 @@
 @interface XHBNewCatalog : NSObject
 
 /* 日报编号 */
-@property (assign, nonatomic) NSInteger ID;
+@property (nonatomic, assign) NSInteger ID;
 
 /* 日报名称 */
-@property (strong, nonatomic) NSString *name;
+@property (nonatomic, strong) NSString *name;
 
 /* 颜色 */
-@property (assign, nonatomic) NSInteger color;
+@property (nonatomic, assign) NSInteger color;
 
 /* 日报描述 */
-@property (strong, nonatomic, readonly) NSString *dailyDescription;
+@property (nonatomic, readonly, strong) NSString *dailyDescription;
 
 /* 缩略图 */
-@property (strong, nonatomic) NSString *thumbnail;
+@property (nonatomic, strong) NSString *thumbnail;
 
 @end

@@ -11,12 +11,12 @@
 @interface XHBHomeNews : NSObject
 
 /** 新闻发布的时间 */
-@property (copy, nonatomic) NSString *date;
+@property (nonatomic, copy) NSString *date;
 
 /** tabelView 的新闻列表 */
-@property (strong, nonatomic) NSArray *stories;
+@property (nonatomic, strong) NSArray *stories;
 
 /** 首页顶部的新闻 */
-@property (strong, nonatomic) NSArray *top_stories;
+@property (nonatomic, strong) NSArray *top_stories;
 
 @end

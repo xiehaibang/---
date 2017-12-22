@@ -52,16 +52,16 @@
 @interface XHBNewsContentViewController : XHBBaseViewController
 
 /** 新闻 id */
-@property (assign, nonatomic) NSInteger newsId;
+@property (nonatomic, assign) NSInteger newsId;
 
 /** 指向容器的代理对象 */
-@property (weak, nonatomic) id<XHBNewsContentControllerDelegate> containerDelegate;
+@property (nonatomic, weak) id<XHBNewsContentControllerDelegate> containerDelegate;
 
 /** 指向首页的代理对象 */
-@property (weak, nonatomic) id<XHBNewsContentControllerDelegate> newsListDelegate;
+@property (nonatomic, weak) id<XHBNewsContentControllerDelegate> newsListDelegate;
 
 /** 新闻视图 */
-@property (strong, nonatomic) WKWebView *newsWKWebView;
+@property (nonatomic, strong) WKWebView *newsWKWebView;
 
 
 /**

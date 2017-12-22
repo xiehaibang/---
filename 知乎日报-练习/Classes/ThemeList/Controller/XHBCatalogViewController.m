@@ -19,17 +19,15 @@
 
 #import "AppDelegate.h"
 
-@interface XHBCatalogViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface XHBCatalogViewController () <UITableViewDelegate, UITableViewDataSource, XHBSlideMenuDelegate>
 /* 目录表格 */
 @property (nonatomic, weak) IBOutlet UITableView *catalogTableView;
-
 /* 菜单栏 */
 @property (nonatomic, weak) IBOutlet UIView *topMenuView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *topMenuTopConstraint; //菜单栏的顶部约束
 
 /* AFN 请求管理者 */
 @property (nonatomic, strong) AFHTTPSessionManager *manager;
-
 /* 日报列表的数组 */
 @property (nonatomic, strong) NSArray *categories;
 
@@ -65,6 +63,16 @@ static NSString * const XHBCatalogId = @"catalog";
  */
 - (void)setupView
 {
+    XHBRootViewController *rootVC = [XHBRootViewController sharedInstance];
+    rootVC.delegate = self;
+    
+    if (@available(iOS 11.0, *)) {
+        self.catalogTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
     /* 为队列里的cell注册类 */
     NSString *className = NSStringFromClass([XHBCatalogTableViewCell class]);
     UINib *nib = [UINib nibWithNibName:className bundle:nil];
@@ -72,19 +80,12 @@ static NSString * const XHBCatalogId = @"catalog";
     
     /* 设置导航栏按钮 */
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem initWithImageName:@"Menu_Avatar" title:@"请登录" target:self action:nil];
-    
-    /* 设置tabBar的背景颜色 */
-    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 64)];
-    
+        
     //适配iPhoneX
     if (iPhoneX) {
         self.topMenuTopConstraint.constant = kTopHeight;
     }
-    
-    backgroundView.backgroundColor = XHBColor(35, 42, 48);
-    
-//    [self.topMenuView insertSubview:backgroundView atIndex:0];
-    
+
 }
 
 
@@ -222,6 +223,29 @@ static NSString * const XHBCatalogId = @"catalog";
         
         /* 切换到其他主题日报 */
         [rootVC showOtherCategory];
+    }
+    
+}
+
+#pragma mark - XHBSlideMenuDelegate
+- (void)menuStatusChangedWithStatus:(XHBMenuStatus)status {
+    
+    switch (status) {
+        case XHBMenuStatusDisplay: {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //因为代理方法是在动画的block里面调用的，所以要回到主线程调用这条语句
+                self.catalogTableView.userInteractionEnabled = YES;
+            });
+            break;
+        }
+        case XHBMenuStatusMoving: {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.catalogTableView.userInteractionEnabled = NO;
+            });
+            break;
+        }
+        default:
+            break;
     }
     
 }

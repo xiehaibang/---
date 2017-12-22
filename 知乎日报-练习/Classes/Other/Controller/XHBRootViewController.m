@@ -10,27 +10,28 @@
 #import "XHBCatalogViewController.h"
 #import "XHBNavigationController.h"
 #import "XHBThemeViewController.h"
+#import "XHBMultipleDelegate.h"
 
 @interface XHBRootViewController ()<NSCopying>
 
 /** 其他主题日报对象 */
-@property (strong, nonatomic) XHBThemeViewController *themeVC;
+@property (nonatomic, strong) XHBThemeViewController *themeVC;
+@property (nonatomic, strong) XHBMultipleDelegate *multipleDelegate;
 
 /** 滑动手势对象 */
-@property (strong, nonatomic) UIPanGestureRecognizer *panGR;
-
+@property (nonatomic, strong) UIPanGestureRecognizer *panGR;
 /** 点击手势对象 */
-@property (strong, nonatomic) UITapGestureRecognizer *tapGR;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGR;
 
 @end
-
 
 @implementation XHBRootViewController
 
 #pragma mark - 全局变量
 /* 创建一个全局静态的单例对象 */
 static id sharedInstance = nil;
-
+//滑动菜单动画时间
+static CGFloat const animateDuration = 0.3;
 
 #pragma mark - 创建单例
 /**
@@ -123,7 +124,6 @@ static id sharedInstance = nil;
     /* 创建右边内容模块 */
     self.homeVC = [[XHBHomeViewController alloc] init];
     
-    
     /* 将左边的目录模块加入自定义导航控制器 */
     XHBNavigationController *catalogNav = [[XHBNavigationController alloc] initWithRootViewController:catalogVC];
     
@@ -198,29 +198,27 @@ static id sharedInstance = nil;
         CGRect frame = self.midViewController.view.frame;
         frame.origin.x += offsetX;
         
-        //不让手指拖动的距离大于左边视图的宽度
+        //移动的距离不能大于左边视图的宽度
         if (frame.origin.x > self.leftViewController.view.frame.size.width) {
             frame.origin.x = self.leftViewController.view.frame.size.width;
         }
-        //并且不让手指手指向左拖动
-        else if (frame.origin.x < 0) {
+        else if (frame.origin.x < 0) { //完全隐藏以后不移动
             frame.origin.x = 0;
         }
         
         return frame;
     }
     
-    /* 根据偏移量改变 midViewController 的 view 的水平位置 */
+    /* 根据偏移量改变 leftViewController 的 view 的水平位置 */
     CGRect frame = self.leftViewController.view.frame;
     
     frame.origin.x += offsetX;
     
-    //不让手指拖动的距离大于左边视图的宽度
+    //移动的距离不能大于左边视图的宽度
     if (fabs(frame.origin.x) > self.leftViewController.view.frame.size.width) {
         frame.origin.x = 0 - self.leftViewController.view.frame.size.width;
     }
-    //并且不让手指手指向左拖动
-    else if (frame.origin.x > 0) {
+    else if (frame.origin.x > 0) { //完全显示以后不移动
         frame.origin.x = 0;
     }
     
@@ -232,6 +230,9 @@ static id sharedInstance = nil;
  * 手势拖动的监听方法
  */
 - (void)pan:(UIPanGestureRecognizer *)pan {
+    
+    WeakSelf(weakSelf);
+    
     /* 手势变化状态 */
     if (pan.state == UIGestureRecognizerStateChanged) {
         
@@ -245,6 +246,9 @@ static id sharedInstance = nil;
         
         self.leftViewController.view.frame = [self frameWithOffsetX:offset.x viewController:self.leftViewController];
         
+        self.menuStatus = XHBMenuStatusMoving;
+        
+        [self menuStatusChange];
     }
     /* 手势结束状态 */
     else if (pan.state == UIGestureRecognizerStateEnded) {
@@ -253,36 +257,45 @@ static id sharedInstance = nil;
         CGFloat midViewX = self.midViewController.view.frame.origin.x;
         CGFloat leftViewWidth = self.leftViewController.view.frame.size.width;
         
-        /* 当视图处于小于左边视图宽度一半的位置时，让视图回到原位 */
-        if (midViewX > 0 && midViewX < (leftViewWidth / 2.0)) {
+        /* 当视图处于小于左边视图宽度 1/5 的位置时，让视图回到原位 */
+        if (midViewX > 0 && midViewX < (leftViewWidth / 5.0)) {
             
             //偏移量
             CGFloat offsetX = 0 - midViewX;
             
-            [UIView animateWithDuration:0.5 animations:^{
+            [UIView animateWithDuration:animateDuration animations:^{
+                weakSelf.midViewController.view.frame = [weakSelf frameWithOffsetX:offsetX viewController:weakSelf.midViewController];
                 
-                self.midViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.midViewController];
+                weakSelf.leftViewController.view.frame = [weakSelf frameWithOffsetX:offsetX viewController:weakSelf.leftViewController];
                 
-                self.leftViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.leftViewController];
-                
+                weakSelf.menuStatus = XHBMenuStatusHidden;
+
+            } completion:^(BOOL finished) {
+                [weakSelf menuStatusChange];
             }];
             
         }
         
-        /* 当视图处于大于左边视图宽度一半的位置时，让左边视图全部显示出来 */
-        if (midViewX > (leftViewWidth / 2.0)) {
+        /* 当视图处于大于左边视图宽度 1/5 的位置时，让左边视图全部显示出来 */
+        if (midViewX > (leftViewWidth / 5.0)) {
             
             //偏移量
             CGFloat offsetX = leftViewWidth - midViewX;
             
-            [UIView animateWithDuration:0.5 animations:^{
-                self.midViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.midViewController];
+            [UIView animateWithDuration:animateDuration animations:^{
+                weakSelf.midViewController.view.frame = [weakSelf frameWithOffsetX:offsetX viewController:weakSelf.midViewController];
                 
-                self.leftViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.leftViewController];
+                weakSelf.leftViewController.view.frame = [weakSelf frameWithOffsetX:offsetX viewController:weakSelf.leftViewController];
+                
+                weakSelf.menuStatus = XHBMenuStatusDisplay;
+                
+            } completion:^(BOOL finished) {
+                [weakSelf menuStatusChange];
+                
+                //是否取消touch事件的传递，若为YES，只有tap手势能响应事件
+                weakSelf.tapGR.cancelsTouchesInView = YES;
             }];
-            
-            self.tapGR.cancelsTouchesInView = YES;
-            
+
         }
         
         //启动计时器
@@ -297,6 +310,9 @@ static id sharedInstance = nil;
  * 手势点击的监听方法
  */
 - (void)tap:(UITapGestureRecognizer *)tap {
+    
+    WeakSelf(weakSelf);
+    
     /* 让视图回归原位 */
     //midView 当前的位置
     CGFloat midViewX = self.midViewController.view.frame.origin.x;
@@ -304,13 +320,18 @@ static id sharedInstance = nil;
     //偏移量
     CGFloat offsetX = 0 - midViewX;
     
-    [UIView animateWithDuration:0.5 animations:^{
-        self.midViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.midViewController];
+    [UIView animateWithDuration:animateDuration animations:^{
+        weakSelf.midViewController.view.frame = [weakSelf frameWithOffsetX:offsetX viewController:weakSelf.midViewController];
+        weakSelf.leftViewController.view.frame = [weakSelf frameWithOffsetX:offsetX viewController:weakSelf.leftViewController];
+
+        weakSelf.menuStatus = XHBMenuStatusHidden;
         
-        self.leftViewController.view.frame = [self frameWithOffsetX:offsetX viewController:self.leftViewController];
+    } completion:^(BOOL finished) {
+        [weakSelf menuStatusChange];
     }];
     
     if (midViewX == 0) {
+        //是否取消touch事件的传递，若为YES，只有tap手势能响应事件
         self.tapGR.cancelsTouchesInView = NO;
     }
 }
@@ -320,22 +341,56 @@ static id sharedInstance = nil;
  */
 - (void)navigationButton {
     
+    WeakSelf(weakSelf);
+    
     /* 若导航栏是隐藏的，就将它显示，否则隐藏 */
-    if (self.midViewController.view.frame.origin.x == 0) {
-        [UIView animateWithDuration:1.0 animations:^{
-            self.midViewController.view.frame = [self frameWithOffsetX:230 viewController:self.midViewController];
-            self.leftViewController.view.frame = [self frameWithOffsetX:230 viewController:self.leftViewController];
+    if (self.midViewController.view.frame.origin.x == 0) { //显示
+        
+        [UIView animateWithDuration:animateDuration animations:^{
+            weakSelf.midViewController.view.frame = [weakSelf frameWithOffsetX:230 viewController:weakSelf.midViewController];
+            weakSelf.leftViewController.view.frame = [weakSelf frameWithOffsetX:230 viewController:weakSelf.leftViewController];
+            
+            weakSelf.menuStatus = XHBMenuStatusDisplay;
+
+        } completion:^(BOOL finished) {
+            [weakSelf menuStatusChange];
+            
+            //是否取消touch事件的传递，若为YES，只有tap手势能响应事件
+            weakSelf.tapGR.cancelsTouchesInView = YES;
         }];
     }
-    else {
-        [UIView animateWithDuration:1.0 animations:^{
-            self.midViewController.view.frame = [self frameWithOffsetX:-230 viewController:self.midViewController];
-            self.leftViewController.view.frame = [self frameWithOffsetX:-230 viewController:self.leftViewController];
+    else { //隐藏
+        
+        [UIView animateWithDuration:animateDuration animations:^{
+            weakSelf.midViewController.view.frame = [weakSelf frameWithOffsetX:-230 viewController:weakSelf.midViewController];
+            weakSelf.leftViewController.view.frame = [weakSelf frameWithOffsetX:-230 viewController:weakSelf.leftViewController];
+            
+            weakSelf.menuStatus = XHBMenuStatusHidden;
+            
+        } completion:^(BOOL finished) {
+            [weakSelf menuStatusChange];
+            
+            //是否取消touch事件的传递，若为YES，只有tap手势能响应事件
+            weakSelf.tapGR.cancelsTouchesInView = NO;
         }];
     }
 }
 
-#pragma mark- 切换不同的分类
+
+#pragma mark - 菜单状态
+/**
+ 菜单状态改变
+ */
+- (void)menuStatusChange {
+    
+    [(id<XHBSlideMenuDelegate>)self.multipleDelegate menuStatusChangedWithStatus:self.menuStatus];
+//    if ([self.delegate respondsToSelector:@selector(menuStatusChangedWithStatus:)]) {
+//        [self.delegate menuStatusChangedWithStatus:self.menuStatus];
+//    }
+}
+
+
+#pragma mark - 切换不同的分类
 /**
  * 切换到首页新闻 
  */
@@ -410,6 +465,14 @@ static id sharedInstance = nil;
 }
 
 
+#pragma mark - setter
+- (void)setDelegate:(id<XHBSlideMenuDelegate>)delegate {
+    
+    [self.multipleDelegate addDelegate:delegate];
+    
+    _delegate = delegate;
+}
+
 #pragma mark - 懒加载
 - (XHBHomeViewController *)homeVC {
     
@@ -427,6 +490,15 @@ static id sharedInstance = nil;
     }
     
     return _themeVC;
+}
+
+- (XHBMultipleDelegate *)multipleDelegate {
+    
+    if (!_multipleDelegate) {
+        _multipleDelegate = [[XHBMultipleDelegate alloc] init];
+    }
+    
+    return _multipleDelegate;
 }
 
 @end

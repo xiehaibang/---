@@ -11,10 +11,10 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) UIWindow *window;
 
 /** 屏幕快照视图的对象 */
-@property (strong, nonatomic) XHBScreenShotBackView *screenShotView;
+@property (nonatomic, strong) XHBScreenShotBackView *screenShotView;
 
 @end
 

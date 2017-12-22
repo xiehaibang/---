@@ -11,18 +11,48 @@
 #import "XHBBaseViewController.h"
 #import "XHBHomeViewController.h"
 
+/**
+ 滑动菜单的状态枚举
+
+ - XHBMenuStatusHidden: 隐藏
+ - XHBMenuStatusMoving: 正在移动
+ - XHBMenuStatusDisplay: 显示
+ */
+typedef NS_ENUM(NSInteger, XHBMenuStatus) {
+    
+    XHBMenuStatusHidden,
+    XHBMenuStatusMoving,
+    XHBMenuStatusDisplay
+};
+
+
+@protocol XHBSlideMenuDelegate <NSObject>
+
+@optional
+/**
+ 滑动菜单状态改变时调用
+
+ @param status 滑动菜单的状态
+ */
+- (void)menuStatusChangedWithStatus:(XHBMenuStatus)status;
+
+@end
+
+
 @interface XHBRootViewController : UIViewController
 
 /** 左边视图 */
-@property (strong,nonatomic) XHBBaseViewController *leftViewController;
+@property (nonatomic, strong) XHBBaseViewController *leftViewController;
 /** 中间视图 */
-@property (strong,nonatomic) XHBBaseViewController *midViewController;
-
+@property (nonatomic, strong) XHBBaseViewController *midViewController;
 /** 首页新闻对象 */
-@property (strong, nonatomic) XHBHomeViewController *homeVC;
+@property (nonatomic, strong) XHBHomeViewController *homeVC;
 
+@property (nonatomic, weak) id <XHBSlideMenuDelegate> delegate;
+
+@property (nonatomic, assign) XHBMenuStatus menuStatus;
 /** 主题日报的 id */
-@property (assign, nonatomic) NSInteger ID;
+@property (nonatomic, assign) NSInteger ID;
 
 /** 
  * 初始化方法 

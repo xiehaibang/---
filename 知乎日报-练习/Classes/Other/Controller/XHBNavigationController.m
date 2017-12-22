@@ -17,16 +17,16 @@
 @interface XHBNavigationController ()<UIGestureRecognizerDelegate>
 
 /** 屏幕快照数组 */
-@property (strong, nonatomic) NSMutableArray *screenShotArray;
+@property (nonatomic, strong) NSMutableArray *screenShotArray;
 
 /** 自定义拖动返回手势 */
-@property (strong, nonatomic) UIPanGestureRecognizer *backPanGesture;
+@property (nonatomic, strong) UIPanGestureRecognizer *backPanGesture;
 
 /** 应用的单例 */
-@property (strong, nonatomic) AppDelegate *appdelegate;
+@property (nonatomic, strong) AppDelegate *appdelegate;
 
 /** 中间视图 */
-@property (strong, nonatomic) XHBBaseViewController *midVC;
+@property (nonatomic, strong) XHBBaseViewController *midVC;
 
 @end
 

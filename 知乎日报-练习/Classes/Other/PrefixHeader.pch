@@ -12,10 +12,12 @@
 /* 分类头文件 */
 #import "UIBarButtonItem+XHBExtension.h"
 #import "UIView+XHBExtension.h"
+#import "UIButton+XHBClickRange.h"
 
 //第三方库, autolayout
 #import <Masonry/Masonry.h>
 
+#define WeakSelf(weakSelf) __weak typeof(self) weakSelf = self
 
 /* 打印方法名 */
 #define XHBLogFunc NSLog(@"%s", __func__)
@@ -43,11 +45,11 @@
 
 //打印宏
 #define NSLog(format, ...) do {                                                                                                  \
-                                fprintf(stderr, "~~~~~~~~~~~~~~~~~~~开始~~~~~~~~~~~~~~~~\n");                                     \
+                                fprintf(stderr, "\n~~~~~~~~~~~~~~~~~~~开始~~~~~~~~~~~~~~~~~~~\n");                                     \
                                 fprintf(stderr, "<%s : %d> %s\n",                                                                \
                                 [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, __func__);  \
                                 (NSLog)((format), ##__VA_ARGS__);                                                                \
-                                fprintf(stderr, "~~~~~~~~~~~~~~~~~~~结束~~~~~~~~~~~~~~~~\n");                                     \
+                                fprintf(stderr, "~~~~~~~~~~~~~~~~~~~结束~~~~~~~~~~~~~~~~~~~\n\n");                                     \
                                 } while (0)
 
 #endif /* PrefixHeader_pch */

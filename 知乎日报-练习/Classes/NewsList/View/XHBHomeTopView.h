@@ -14,13 +14,13 @@ typedef void (^actionBlock)(NSInteger newsId);
 @interface XHBHomeTopView : UIView
 
 /** 顶部新闻数组 */
-@property (strong, nonatomic) NSArray *topNews;
-
+@property (nonatomic, strong) NSArray *topNews;
 /** 计时器对象 */
-@property (strong, nonatomic) NSTimer *timer;
-
+@property (nonatomic, strong) NSTimer *timer;
+/** 顶部滚动视图 */
+@property (nonatomic, readonly, strong) UIScrollView *carouselScroll;
 /** 点击事件的 block */
-@property (copy, nonatomic) actionBlock tapActionBlock;
+@property (nonatomic, copy) actionBlock tapActionBlock;
 
 
 /**

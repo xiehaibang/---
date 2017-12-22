@@ -11,10 +11,10 @@
 
 @interface XHBDayNewsTableViewCell ()
 /** 新闻标题 */
-@property (weak, nonatomic) IBOutlet UILabel *dayNewsTitle;
+@property (nonatomic, weak) IBOutlet UILabel *dayNewsTitle;
 
 /** 新闻图片 */
-@property (weak, nonatomic) IBOutlet UIImageView *dayNewsImage;
+@property (nonatomic, weak) IBOutlet UIImageView *dayNewsImage;
 
 
 @end

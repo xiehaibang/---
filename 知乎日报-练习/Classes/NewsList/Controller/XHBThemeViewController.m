@@ -22,19 +22,19 @@
 @interface XHBThemeViewController ()<UITableViewDelegate, UITableViewDataSource, XHBNewsContentControllerDelegate>
 
 /** tableView 对象 */
-@property (weak, nonatomic) IBOutlet UITableView *themeTableView;
+@property (nonatomic, weak) IBOutlet UITableView *themeTableView;
 
 /** 网络请求管理者 */
-@property (strong, nonatomic) AFHTTPSessionManager *manager;
+@property (nonatomic, strong) AFHTTPSessionManager *manager;
 
 /** 主题日报中的文章列表 */
-@property (strong, nonatomic) NSArray *stories;
+@property (nonatomic, strong) NSArray *stories;
 
 /** 新闻的 id 数组 */
-@property (strong, nonatomic) NSArray *newsId;
+@property (nonatomic, strong) NSArray *newsId;
 
 /** 主题日报的编辑『用户推荐日报』中此项的指是一个空数组，在 App 中的主编栏显示为『许多人』，点击后访问该主题日报的介绍页面，请留意） */
-@property (strong, nonatomic) NSArray *editors;
+@property (nonatomic, strong) NSArray *editors;
 
 @end
 

@@ -12,19 +12,19 @@
 @interface XHBNewsTopImageView ()
 
 /** 传进来的滚动视图 */
-@property (weak, nonatomic) UIScrollView *scrollView;
+@property (nonatomic, weak) UIScrollView *scrollView;
 
 /** 传进来的视图, 用不了 weak  */
-@property (weak, nonatomic) UIView *newsContentView;
+@property (nonatomic, weak) UIView *newsContentView;
 
 /** 新闻图片 */
-@property (strong, nonatomic) UIImageView *newsImage;
+@property (nonatomic, strong) UIImageView *newsImage;
 
 /** 新闻图片的标题 */
-@property (strong, nonatomic) UILabel *imageTitle;
+@property (nonatomic, strong) UILabel *imageTitle;
 
 /** 新闻图片的来源信息 */
-@property (strong, nonatomic) UILabel *imageSource;
+@property (nonatomic, strong) UILabel *imageSource;
 
 @end
 

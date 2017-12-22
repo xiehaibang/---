@@ -12,7 +12,7 @@
 @interface XHBNewsTopImageView : UIView
 
 /** 新闻内容对象 */
-@property (strong, nonatomic) XHBNewsContent *newsContent;
+@property (nonatomic, strong) XHBNewsContent *newsContent;
 
 /**
  * 将 XHBNewsTopImageView 固定在传进来的视图上，并且监听传进来的滚动视图的偏移值

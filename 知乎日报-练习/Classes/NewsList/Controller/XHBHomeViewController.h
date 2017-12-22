@@ -14,6 +14,6 @@
 @interface XHBHomeViewController : XHBBaseViewController <XHBNewsContentControllerDelegate>
 
 /** 顶部视图 */
-@property (strong, nonatomic) XHBHomeTopView *topView;
+@property (nonatomic, strong) XHBHomeTopView *topView;
 
 @end

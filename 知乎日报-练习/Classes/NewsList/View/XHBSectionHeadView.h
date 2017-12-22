@@ -11,7 +11,7 @@
 @interface XHBSectionHeadView : UITableViewHeaderFooterView
 
 /** 新闻日期 */
-@property (copy, nonatomic) NSString *date;
+@property (nonatomic, copy) NSString *date;
 
 + (instancetype)getSectionHeadViewWithTableView:(UITableView *)tableView;
 

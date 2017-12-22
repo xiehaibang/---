@@ -10,10 +10,10 @@
 
 @interface XHBCatalogTableViewCell ()
 /** 标题名称 */
-@property (weak, nonatomic) IBOutlet UILabel *dailyNameLabel;
+@property (nonatomic, weak) IBOutlet UILabel *dailyNameLabel;
 
 /** 订阅按钮 */
-@property (weak, nonatomic) IBOutlet UIButton *subscriptionButton;
+@property (nonatomic, weak) IBOutlet UIButton *subscriptionButton;
 
 @end
 

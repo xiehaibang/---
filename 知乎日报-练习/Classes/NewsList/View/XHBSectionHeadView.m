@@ -10,7 +10,7 @@
 
 @interface XHBSectionHeadView ()
 
-@property (strong, nonatomic) UILabel *title;
+@property (nonatomic, strong) UILabel *title;
 
 @end
 

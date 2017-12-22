@@ -11,7 +11,7 @@
 @interface XHBRefreshControl : UIView
 
 /** 刷新动画的菊花组件 */
-@property (strong, nonatomic) UIActivityIndicatorView *activityView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityView;
 
 
 /**
