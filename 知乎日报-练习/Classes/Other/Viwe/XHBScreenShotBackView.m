@@ -8,6 +8,7 @@
 
 #import "XHBScreenShotBackView.h"
 #import "AppDelegate.h"
+#import "XHBRootViewController.h"
 
 #pragma mark - 全局变量
 /* 监听标识,需要 c 语言的类型 */
@@ -27,18 +28,23 @@ static CGFloat maskAlpha = 0.4;
         //设置视图的背景颜色
         self.backgroundColor = [UIColor blackColor];
         
+        XHBRootViewController *rootVC = [XHBRootViewController sharedInstance];
+        
         /* 初始化屏幕快照的图片和遮罩视图 */
-        self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-        self.maskView = [[UIView alloc] initWithFrame:self.bounds];
+//        self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(- rootVC.midViewController.view.width / 2, 0, self.bounds.size.width, self.bounds.size.height)];
+        _maskView = [[UIView alloc] initWithFrame:self.bounds];
         
         /* 设置遮罩视图的背景颜色 */
-        self.maskView.backgroundColor = [UIColor colorWithHue:0 saturation:0 brightness:0 alpha:maskAlpha];
+        _maskView.backgroundColor = [UIColor colorWithHue:0 saturation:0 brightness:0 alpha:maskAlpha];
         
         [self addSubview:self.imageView];
         [self addSubview:self.maskView];
         
         /* 监听 APP 根视图的位移 */
-        [[UIApplication sharedApplication].delegate.window.rootViewController.view addObserver:self forKeyPath:@"transform" options:NSKeyValueObservingOptionNew context:listenViewMove];
+//        [[UIApplication sharedApplication].delegate.window.rootViewController.view addObserver:self forKeyPath:@"transform" options:NSKeyValueObservingOptionNew context:listenViewMove];
+        [rootVC.midViewController.view addObserver:self forKeyPath:@"transform" options:NSKeyValueObservingOptionNew context:listenViewMove];
+
     }
     
     return self;
@@ -72,6 +78,10 @@ static CGFloat maskAlpha = 0.4;
         
         /* 让屏幕快照的缩放随着视图的位移改变 */
 //        self.imageView.transform = CGAffineTransformMakeScale(0.95 + (point.x / screenWidth * 0.05), 0.95 + (point.x / screenWidth * 0.05));
+//        self.imageView.transform = CGAffineTransformTranslate(self.imageView.transform, point.x / 2, 0);
+        
+        //让屏幕快照随着视图的移动改变
+        self.imageView.transform = CGAffineTransformMakeTranslation(point.x / 2, 0);
     }
 }
 

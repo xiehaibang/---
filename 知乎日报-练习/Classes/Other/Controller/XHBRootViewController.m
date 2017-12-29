@@ -146,6 +146,7 @@ static CGFloat const animateDuration = 0.3;
     
     [self addChildViewController:self.midViewController];
     [self.view addSubview:self.midViewController.view];
+    
     [self.midViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
@@ -389,6 +390,23 @@ static CGFloat const animateDuration = 0.3;
 //    }
 }
 
+/**
+ 隐藏菜单
+ */
+- (void)hiddenMenu {
+    
+    WeakSelf(weakSelf);
+    
+    //移动距离
+    CGFloat offsetX = -230;
+    
+    [UIView animateWithDuration:animateDuration animations:^{
+        weakSelf.leftViewController.view.frame = [weakSelf frameWithOffsetX:offsetX viewController:weakSelf.leftViewController];
+        weakSelf.midViewController.view.frame = [weakSelf frameWithOffsetX:offsetX viewController:weakSelf.midViewController];
+    }];
+
+}
+
 
 #pragma mark - 切换不同的分类
 /**
@@ -397,18 +415,14 @@ static CGFloat const animateDuration = 0.3;
 - (void)showHomeCategory {
     
     /* 切换的时候将菜单列表的位置复原 */
-    if (self.leftViewController.view.frame.origin.x == 0) {
-        
-        self.leftViewController.view.frame = [self frameWithOffsetX:-230 viewController:self.leftViewController];
-        
-    }
+    [self hiddenMenu];
     
     /* 移除当前控制器和视图 */
 //    [self.midViewController removeFromParentViewController];
     [self.midViewController.view removeFromSuperview];
     
     /* 创建首页对象 */
-    self.homeVC = [[XHBHomeViewController alloc] init];
+//    self.homeVC = [[XHBHomeViewController alloc] init];
     
     /* 将首页对象设置为导航控制器的根控制器 */
     XHBNavigationController *homeNav = [[XHBNavigationController alloc] initWithRootViewController:self.homeVC];
@@ -432,11 +446,7 @@ static CGFloat const animateDuration = 0.3;
 - (void)showOtherCategory {
     
     /* 切换的时候将菜单列表的位置复原 */
-    if (self.leftViewController.view.frame.origin.x == 0) {
-        
-        self.leftViewController.view.frame = [self frameWithOffsetX:-230 viewController:self.leftViewController];
-        
-    }
+    [self hiddenMenu];
     
 //    [self.midViewController removeFromParentViewController];
     [self.midViewController.view removeFromSuperview];

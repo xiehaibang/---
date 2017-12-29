@@ -12,7 +12,7 @@
 
 /** 屏幕快照的图片 */
 @property (nonatomic, strong) UIImageView *imageView;
-
 /** 遮罩视图 */
 @property (nonatomic, strong) UIView *maskView;
+
 @end
